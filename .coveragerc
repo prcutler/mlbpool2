@@ -1,0 +1,3 @@
+[run]
+source = mlbpool
+omit = mlbpool/test*
