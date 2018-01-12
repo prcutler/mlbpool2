@@ -9,10 +9,16 @@ with open(os.path.join(here, 'CHANGES.txt')) as f:
     CHANGES = f.read()
 
 requires = [
+    'html2text',
+    'logbook',
+    'mailer',
+    'passlib',
     'pyramid',
     'pyramid_chameleon',
     'pyramid_debugtoolbar',
     'pyramid_handlers',
+    'requests',
+    'rollbar',
     'sqlalchemy',
     'waitress',
     ]

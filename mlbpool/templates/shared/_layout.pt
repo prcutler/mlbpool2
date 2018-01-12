@@ -12,8 +12,8 @@
     <title>MLBPool2</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="/static/bower_components/bootstrap-css/css/bootstrap.min.css?cacheId=${view.build_cache_id('/static/bower_components/bootstrap-css/css/bootstrap.min.css')}'"
-      rel="stylesheet">
+    <link href="/static/bower_components/bootstrap-css/css/bootstrap.min.css?cacheId=${view.build_cache_id
+            ('/static/bower_components/bootstrap-css/css/bootstrap.min.css')}'" rel="stylesheet">
 
     <!-- Custom Fonts -->
     <link href="/static/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -31,8 +31,10 @@
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
-    <script src="/mlbpool/static/bower_components/html5shiv/dist/html5shiv.min.js?cacheId=${view.build_cache_id('/static/bower_components/html5shiv/dist/html5shiv.min.js')}"></script>
-    <script src="/mlbpool/static/bower_components/respond/dest/respond.min.js?cacheId=${view.build_cache_id('/static/bower_components/respond/dest/respond.min.js')}"></script>
+    <script src="/mlbpool/static/bower_components/html5shiv/dist/html5shiv.min.js?cacheId=${view.build_cache_id
+            ('/static/bower_components/html5shiv/dist/html5shiv.min.js')}"></script>
+    <script src="/mlbpool/static/bower_components/respond/dest/respond.min.js?cacheId=${view.build_cache_id
+            ('/static/bower_components/respond/dest/respond.min.js')}"></script>
     <![endif]-->
 
 
@@ -48,7 +50,8 @@
         <div class="container topnav">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <button type="button" class="navbar-toggle" data-toggle="collapse"
+                        data-target="#bs-example-navbar-collapse-1">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
@@ -154,8 +157,10 @@
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
 
-<script src="/static/bower_components/jquery/dist/jquery.min.js?cacheId=${view.build_cache_id('/static/bower_components/jquery/dist/jquery.min.js')}"></script>
-<script src="/static/bower_components/bootstrap-css/js/bootstrap.min.js?cacheId=${view.build_cache_id('/static/bower_components/bootstrap-css/js/bootstrap.min.js')}"></script>
+<script src="/static/bower_components/jquery/dist/jquery.min.js?cacheId=${view.build_cache_id
+        ('/static/bower_components/jquery/dist/jquery.min.js')}"></script>
+<script src="/static/bower_components/bootstrap-css/js/bootstrap.min.js?cacheId=${view.build_cache_id
+        ('/static/bower_components/bootstrap-css/js/bootstrap.min.js')}"></script>
 <div metal:define-slot="additional_js"></div>
 
 </body>

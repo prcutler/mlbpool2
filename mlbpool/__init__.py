@@ -1,9 +1,18 @@
 from pyramid.config import Configurator
+import mlbpool.controllers.home_controller as home
+import mlbpool.controllers.account_controller as account
+import mlbpool.controllers.admin_controller as admin
+import mlbpool.controllers.standings_controller as standings
+import mlbpool.controllers.picks_controller as picks
 from mlbpool.data.dbsession import DbSessionFactory
 import os
+import mlbpool
 from mlbpool.services.email_service import EmailService
 from mlbpool.services.email_service import EmailTemplateParser
-from mlbpool.services.log_service import LogService
+# from mlbpool.services.log_service import LogService
+import pkg_resources
+import datetime
+import sys
 
 dev_mode = True
 
@@ -13,7 +22,7 @@ def main(global_config, **settings):
     """
     config = Configurator(settings=settings)
 
-    init_logging(config)  # runs first
+#    init_logging(config)  # runs first
     init_mode(config)
     init_includes(config)
     init_routing(config)
@@ -71,8 +80,8 @@ def init_mode(config):
     global dev_mode
     settings = config.get_settings()
     dev_mode = settings.get('mode') == 'dev'
-    log = LogService.get_startup_log()
-    log.notice('Running in {} mode.'.format('dev' if dev_mode else 'prod'))
+#    log = LogService.get_startup_log()
+#    log.notice('Running in {} mode.'.format('dev' if dev_mode else 'prod'))
 
 
 def init_routing(config):
@@ -100,7 +109,7 @@ def add_controller_routes(config, ctrl, prefix):
 def init_includes(config):
     config.include('pyramid_chameleon')
     config.include('pyramid_handlers')
-    (config.include('rollbar.contrib.pyramid'))
+#    (config.include('rollbar.contrib.pyramid'))
 
 
 # def log_package_versions():
