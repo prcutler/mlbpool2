@@ -10,8 +10,8 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="intro-message">
-                        <h1>NFLPool</h1>
-                        <h2>Fantasy football for the lazy</h2>
+                        <h1>MLBPool2</h1>
+                        <h2>Fantasy baseball for the lazy</h2>
                         <p>
                             <a class="btn btn-primary btn-lg" href="/standings" role="button">Standings</a>
                             <a class="btn btn-primary btn-lg" href="/picks/submit-picks" role="button">Submit Picks</a>
