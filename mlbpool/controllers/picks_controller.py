@@ -5,7 +5,7 @@ from mlbpool.viewmodels.playerpicks_viewmodel import PlayerPicksViewModel
 from mlbpool.data.dbsession import DbSessionFactory
 from mlbpool.data.player_picks import PlayerPicks
 from mlbpool.data.seasoninfo import SeasonInfo
-from mlbpool.data.nflschedule import NFLSchedule
+from mlbpool.data.mlbschedule import NFLSchedule
 from mlbpool.data.account import Account
 import datetime
 

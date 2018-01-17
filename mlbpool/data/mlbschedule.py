@@ -2,11 +2,10 @@ from mlbpool.data.modelbase import SqlAlchemyBase
 import sqlalchemy
 
 
-class NFLSchedule(SqlAlchemyBase):
-    __tablename__ = 'NFLSchedule'
+class MLBSchedule(SqlAlchemyBase):
+    __tablename__ = 'MLBSchedule'
     game_id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True)
-    game_date = sqlalchemy.Column(sqlalchemy.String, index=True)
+    game_date = sqlalchemy.Column(sqlalchemy.String(32), index=True)
     away_team = sqlalchemy.Column(sqlalchemy.Integer)
     home_team = sqlalchemy.Column(sqlalchemy.Integer)
-    week = sqlalchemy.Column(sqlalchemy.Integer, index=True)
     season = sqlalchemy.Column(sqlalchemy.Integer)
