@@ -2,14 +2,14 @@ from mlbpool.data.modelbase import SqlAlchemyBase
 import sqlalchemy
 
 
-class ActiveNFLPlayers(SqlAlchemyBase):
-    __tablename__ = 'ActiveNFLPlayers'
+class ActiveMLBPlayers(SqlAlchemyBase):
+    __tablename__ = 'ActiveMLBPlayers'
     primary_key = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True, index=True)
     season = sqlalchemy.Column(sqlalchemy.Integer)
     team_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey('TeamInfo.team_id'))
-    firstname = sqlalchemy.Column(sqlalchemy.String)
-    lastname = sqlalchemy.Column(sqlalchemy.String)
-    position = sqlalchemy.Column(sqlalchemy.String, index=True)
+    firstname = sqlalchemy.Column(sqlalchemy.String(16))
+    lastname = sqlalchemy.Column(sqlalchemy.String(32))
+    position = sqlalchemy.Column(sqlalchemy.String(8), index=True)
     player_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey('PlayerPicks.player_id'), index=True)
 
 
