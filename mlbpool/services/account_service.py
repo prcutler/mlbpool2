@@ -7,7 +7,7 @@ import mlbpool.data.config as secret
 from mlbpool.data.player_picks import PlayerPicks
 from mlbpool.data.teaminfo import TeamInfo
 from mlbpool.data.picktypes import PickTypes
-from mlbpool.data.conferenceinfo import ConferenceInfo
+from mlbpool.data.leagueinfo import ConferenceInfo
 from mlbpool.data.divisioninfo import DivisionInfo
 from mlbpool.data.activeplayers import ActiveNFLPlayers
 

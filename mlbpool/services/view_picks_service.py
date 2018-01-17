@@ -2,7 +2,7 @@ from mlbpool.data.dbsession import DbSessionFactory
 from mlbpool.data.account import Account
 from mlbpool.data.player_picks import PlayerPicks
 from mlbpool.data.teaminfo import TeamInfo
-from mlbpool.data.conferenceinfo import ConferenceInfo
+from mlbpool.data.leagueinfo import ConferenceInfo
 from mlbpool.data.divisioninfo import DivisionInfo
 from mlbpool.data.activeplayers import ActiveNFLPlayers
 from sqlalchemy import and_

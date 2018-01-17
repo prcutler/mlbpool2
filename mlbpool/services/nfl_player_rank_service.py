@@ -1,6 +1,6 @@
 from mlbpool.data.dbsession import DbSessionFactory
 from mlbpool.data.divisioninfo import DivisionInfo
-from mlbpool.data.conferenceinfo import ConferenceInfo
+from mlbpool.data.leagueinfo import ConferenceInfo
 from mlbpool.data.picktypes import PickTypes
 from mlbpool.data.weekly_nflplayer_stats import WeeklyNFLPlayerStats
 from mlbpool.data.activeplayers import ActiveNFLPlayers

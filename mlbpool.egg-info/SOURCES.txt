@@ -1,8 +1,9 @@
 CHANGES.txt
 MANIFEST.in
 README.txt
+development-example.ini
 development.ini
-production.ini
+production-example.ini
 pytest.ini
 setup.py
 mlbpool/__init__.py
