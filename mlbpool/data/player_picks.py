@@ -5,10 +5,10 @@ import sqlalchemy
 class PlayerPicks(SqlAlchemyBase):
     __tablename__ = 'PlayerPicks'
     pick_id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)
-    user_id = sqlalchemy.Column(sqlalchemy.String, sqlalchemy.ForeignKey('Account.id'))
+    user_id = sqlalchemy.Column(sqlalchemy.String(32), sqlalchemy.ForeignKey('Account.id'))
     season = sqlalchemy.Column(sqlalchemy.Integer, index=True)
     date_submitted = sqlalchemy.Column(sqlalchemy.DATETIME)
-    conf_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey('ConferenceInfo.conf_id'))
+    league_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey('LeagueInfo.conf_id'))
     division_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey('DivisionInfo.division_id'))
     rank = sqlalchemy.Column(sqlalchemy.Integer)
     team_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey('TeamInfo.team_id'))
