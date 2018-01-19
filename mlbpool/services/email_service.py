@@ -60,7 +60,7 @@ class EmailService:
             {'email': email}
 
         )
-        EmailService.send_email(email, 'Welcome to NFLPool', html_body)
+        EmailService.send_email(email, 'Welcome to MLBPool', html_body)
 
     @classmethod
     def send_password_reset_email(cls, email, reset_id):

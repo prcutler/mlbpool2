@@ -3,7 +3,7 @@ import sqlalchemy
 
 
 # Store all individual NFL Player stats in this table
-class WeeklyNFLPlayerStats(SqlAlchemyBase):
+class WeeklyMLBPlayerStats(SqlAlchemyBase):
     __tablename__ = 'WeeklyNFLPlayerStats'
     primary_key = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)
     season = sqlalchemy.Column(sqlalchemy.Integer, index=True)

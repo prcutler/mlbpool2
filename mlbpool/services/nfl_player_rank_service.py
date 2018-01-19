@@ -2,7 +2,7 @@ from mlbpool.data.dbsession import DbSessionFactory
 from mlbpool.data.divisioninfo import DivisionInfo
 from mlbpool.data.leagueinfo import ConferenceInfo
 from mlbpool.data.picktypes import PickTypes
-from mlbpool.data.weekly_nflplayer_stats import WeeklyNFLPlayerStats
+from mlbpool.data.weekly_mlbplayer_stats import WeeklyNFLPlayerStats
 from mlbpool.data.activeplayers import ActiveNFLPlayers
 from mlbpool.data.teaminfo import TeamInfo
 from itertools import groupby
