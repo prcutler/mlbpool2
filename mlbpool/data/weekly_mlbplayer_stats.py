@@ -2,9 +2,9 @@ from mlbpool.data.modelbase import SqlAlchemyBase
 import sqlalchemy
 
 
-# Store all individual NFL Player stats in this table
+# Store all individual MLB Player stats in this table
 class WeeklyMLBPlayerStats(SqlAlchemyBase):
-    __tablename__ = 'WeeklyNFLPlayerStats'
+    __tablename__ = 'WeeklyMLBPlayerStats'
     primary_key = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)
     season = sqlalchemy.Column(sqlalchemy.Integer, index=True)
     week = sqlalchemy.Column(sqlalchemy.Integer, index=True)

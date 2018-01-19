@@ -1,6 +1,6 @@
 from mlbpool.data.dbsession import DbSessionFactory
 import requests
-from mlbpool.data.weekly_mlbplayer_stats import WeeklyNFLPlayerStats
+from mlbpool.data.weekly_mlbplayer_stats import WeeklyMLBPlayerStats
 import mlbpool.data.config as secret
 from requests.auth import HTTPBasicAuth
 from mlbpool.data.seasoninfo import SeasonInfo
