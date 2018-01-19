@@ -1,7 +1,7 @@
 from mlbpool.data.dbsession import DbSessionFactory
 from mlbpool.data.account import Account
 from mlbpool.data.teaminfo import TeamInfo
-from mlbpool.data.activeplayers import ActiveNFLPlayers
+from mlbpool.data.activeplayers import ActiveMLBPlayers
 from mlbpool.data.seasoninfo import SeasonInfo
 from mlbpool.data.player_picks import PlayerPicks
 import datetime

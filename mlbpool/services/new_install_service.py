@@ -4,7 +4,7 @@ import mlbpool.data.config as secret
 from requests.auth import HTTPBasicAuth
 from mlbpool.data.dbsession import DbSessionFactory
 from mlbpool.data.divisioninfo import DivisionInfo
-from mlbpool.data.leagueinfo import ConferenceInfo
+from mlbpool.data.leagueinfo import LeagueInfo
 from mlbpool.data.picktypes import PickTypes
 from mlbpool.data.pick_type_points import PickTypePoints
 
