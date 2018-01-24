@@ -1,6 +1,6 @@
 import requests
 from mlbpool.data.dbsession import DbSessionFactory
-from mlbpool.data.mlbschedule import NFLSchedule
+from mlbpool.data.mlbschedule import MLBSchedule
 import mlbpool.data.config as secret
 from requests.auth import HTTPBasicAuth
 from mlbpool.data.seasoninfo import SeasonInfo
