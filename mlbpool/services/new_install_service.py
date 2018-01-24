@@ -4,7 +4,7 @@ import mlbpool.data.config as secret
 from requests.auth import HTTPBasicAuth
 from mlbpool.data.dbsession import DbSessionFactory
 from mlbpool.data.divisioninfo import DivisionInfo
-from mlbpool.data.leagueinfo import ConferenceInfo
+from mlbpool.data.leagueinfo import LeagueInfo
 from mlbpool.data.picktypes import PickTypes
 from mlbpool.data.pick_type_points import PickTypePoints
 
@@ -15,11 +15,11 @@ class NewInstallService:
     def get_install():
         return []
 
-    '''From MySportsFeeds get the team name, team city, team ID and abbreviation.  Loop through
-    the AFC teams (0 in the API) and NFC (1) in the API.  The Division IDs are self created.  This method
-    will fill the TeamInfo table in the database.'''
     @staticmethod
     def get_team_info():
+        """From MySportsFeeds get the team name, team city, team ID and abbreviation.  Loop through
+        the AFC teams (0 in the API) and NFC (1) in the API.  The Division IDs are self created.  This method
+        will fill the TeamInfo table in the database."""
 
         session = DbSessionFactory.create_session()
 
@@ -27,74 +27,72 @@ class NewInstallService:
         y = 0
 
         response = requests.get(
-            'https://api.mysportsfeeds.com/v1.1/pull/nfl/2016-2017-regular/conference_team_standings.json',
+            'https://api.mysportsfeeds.com/v1.2/pull/mlb/2018-regular/conference_team_standings.json',
             auth=HTTPBasicAuth(secret.msf_username, secret.msf_pw))
 
         data = response.json()
 
         teamlist = data["conferenceteamstandings"]["conference"][0]["teamentry"]
 
-        # Create a loop to extract each team name (AFC first, then NFC)
+        # Create a loop to extract each team name (American League first, then National League)
 
-        for afc_team_list in teamlist:
-            afc_team_name = data["conferenceteamstandings"]["conference"][0]["teamentry"][x]["team"]["Name"]
-            afc_team_city = data["conferenceteamstandings"]["conference"][0]["teamentry"][x]["team"]["City"]
-            afc_team_id = int(data["conferenceteamstandings"]["conference"][0]["teamentry"][x]["team"]["ID"])
-            afc_team_abbr = data["conferenceteamstandings"]["conference"][0]["teamentry"][x]["team"]["Abbreviation"]
+        for al_team_list in teamlist:
+            al_team_name = data["conferenceteamstandings"]["conference"][0]["teamentry"][x]["team"]["Name"]
+            al_team_city = data["conferenceteamstandings"]["conference"][0]["teamentry"][x]["team"]["City"]
+            al_team_id = int(data["conferenceteamstandings"]["conference"][0]["teamentry"][x]["team"]["ID"])
+            al_team_abbr = data["conferenceteamstandings"]["conference"][0]["teamentry"][x]["team"]["Abbreviation"]
 
-            if afc_team_id <= 55:
+            # TODO Figure out what teams are really in what division
+
+            if al_team_id <= 55:
                 division_id = 1
-            elif afc_team_id <= 63:
+            elif al_team_id <= 63:
                 division_id = 2
-            elif afc_team_id <= 71:
-                division_id = 3
             else:
-                division_id = 4
+                division_id = 3
 
             x = x + 1
 
-            team_info = TeamInfo(city=afc_team_city, team_id=afc_team_id, team_abbr=afc_team_abbr,
-                                 name=afc_team_name, conference_id=0, division_id=division_id)
+            team_info = TeamInfo(city=al_team_city, team_id=al_team_id, team_abbr=al_team_abbr,
+                                 name=al_team_name, league_id=0, division_id=division_id)
 
             session.add(team_info)
 
             session.commit()
 
-        for nfc_team_list in teamlist:
-            nfc_team_name = data["conferenceteamstandings"]["conference"][1]["teamentry"][y]["team"]["Name"]
-            nfc_team_city = data["conferenceteamstandings"]["conference"][1]["teamentry"][y]["team"]["City"]
-            nfc_team_id = int(data["conferenceteamstandings"]["conference"][1]["teamentry"][y]["team"]["ID"])
-            nfc_team_abbr = data["conferenceteamstandings"]["conference"][1]["teamentry"][y]["team"]["Abbreviation"]
+        for nl_team_list in teamlist:
+            nl_team_name = data["conferenceteamstandings"]["conference"][1]["teamentry"][y]["team"]["Name"]
+            nl_team_city = data["conferenceteamstandings"]["conference"][1]["teamentry"][y]["team"]["City"]
+            nl_team_id = int(data["conferenceteamstandings"]["conference"][1]["teamentry"][y]["team"]["ID"])
+            nl_team_abbr = data["conferenceteamstandings"]["conference"][1]["teamentry"][y]["team"]["Abbreviation"]
 
-            if nfc_team_id <= 55:
+            # TODO Figure out what teams are really in what division
+
+            if nl_team_id <= 55:
                 division_id = 1
-            elif nfc_team_id <= 63:
+            elif nl_team_id <= 63:
                 division_id = 2
-            elif nfc_team_id <= 71:
-                division_id = 3
             else:
-                division_id = 4
+                division_id = 3
 
             y = y + 1
 
-            team_info = TeamInfo(city=nfc_team_city, team_id=nfc_team_id, team_abbr=nfc_team_abbr,
-                                 name=nfc_team_name, conference_id=1, division_id=division_id)
+            team_info = TeamInfo(city=nl_team_city, team_id=nl_team_id, team_abbr=nl_team_abbr,
+                                 name=nl_team_name, league_id=1, division_id=division_id)
 
             session.add(team_info)
 
             session.commit()
 
-    '''Create the DivisionInfo table with the division IDs and name them to match NFL division names.'''
     @classmethod
     def create_division_info(cls):
-        for x in range(1, 5):
+        """Create the DivisionInfo table with the division IDs and name them to match MLB division names."""
+        for x in range(1, 4):
             division_id = x
             if x == 1:
                 division = 'East'
             elif x == 2:
-                division = 'North'
-            elif x == 3:
-                division = 'South'
+                division = 'Central'
             else:
                 division = 'West'
 
@@ -105,20 +103,20 @@ class NewInstallService:
             session.add(division_info)
             session.commit()
 
-    # Fill out the needed data in the ConferenceInfo table
     @classmethod
-    def create_conference_info(cls):
+    def create_league_info(cls):
+        """Fill out the needed data in the LeagueInfo table"""
         for x in range(1, 3):
             if x == 1:
-                conference_id = 0
-                conference = 'AFC'
+                league_id = 0
+                league = 'AL'
             else:
-                conference_id = 1
-                conference = 'NFC'
+                league_id = 1
+                league = 'NL'
 
             session = DbSessionFactory.create_session()
 
-            conference_info = ConferenceInfo(conference=conference, conf_id=conference_id)
+            conference_info = LeagueInfo(league=league, league_id=league_id)
 
             session.add(conference_info)
             session.commit()
