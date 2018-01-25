@@ -30,3 +30,5 @@ class NewSeasonService:
             update_row.season_start_date = season_start_date
 
             session.commit()
+
+    # TODO Add a method to capture the date of the All-Star game for the new season creation
