@@ -11,7 +11,7 @@ class ActivePlayersService:
     used by mlbpool players to choose from when submitting their picks.  The Try / Except is needed for
     players who may not have a position assigned yet."""
     @classmethod
-    def add_active_nflplayers(cls, season: int, team_id: int, firstname: str, lastname: str,
+    def add_active_mlbplayers(cls, season: int, team_id: int, firstname: str, lastname: str,
                               position: str, player_id: int):
 
         session = DbSessionFactory.create_session()
