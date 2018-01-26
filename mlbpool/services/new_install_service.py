@@ -42,8 +42,6 @@ class NewInstallService:
             al_team_id = int(data["conferenceteamstandings"]["conference"][0]["teamentry"][x]["team"]["ID"])
             al_team_abbr = data["conferenceteamstandings"]["conference"][0]["teamentry"][x]["team"]["Abbreviation"]
 
-            # TODO Figure out what teams are really in what division
-
             if al_team_id <= 115:
                 division_id = 1
             elif al_team_id <= 120:
@@ -65,8 +63,6 @@ class NewInstallService:
             nl_team_city = data["conferenceteamstandings"]["conference"][1]["teamentry"][y]["team"]["City"]
             nl_team_id = int(data["conferenceteamstandings"]["conference"][1]["teamentry"][y]["team"]["ID"])
             nl_team_abbr = data["conferenceteamstandings"]["conference"][1]["teamentry"][y]["team"]["Abbreviation"]
-
-            # TODO Figure out what teams are really in what division
 
             if nl_team_id <= 130:
                 division_id = 1
@@ -164,7 +160,7 @@ class NewInstallService:
             """Assign the value of team standings picks"""
             pick_type_id = x
             if x == 1:
-                for y in range(1, 5):
+                for y in range(1, 6):
                     # TODO Check this range
                     place = y
 
@@ -172,7 +168,7 @@ class NewInstallService:
                         points = 50
                     elif y == 2:
                         points = 30
-                    elif y == 4:
+                    elif y == 5:
                         points = 20
                     else:
                         points = 0
@@ -207,7 +203,7 @@ class NewInstallService:
                     session.commit()
 
             elif x == 9:
-                """Assign the points value for the wildcard pick for each league"""
+                """Assign the points value for the wildcard picks for each league"""
                 place = 1
                 points = 10
                 session = DbSessionFactory.create_session()
