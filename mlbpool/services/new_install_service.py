@@ -181,18 +181,24 @@ class NewInstallService:
 
             elif x == 3:
 
-                # TODO Need 1st and last place for win total for each league
+                # TODO Check with Kelly that this is correct
 
+                place = 1
                 points = 10
 
-                pick_type_points = PickTypePoints(pick_type_id=pick_type_id, points=points)
+                pick_type_points = PickTypePoints(pick_type_id=pick_type_id, place=place, points=points)
                 session.add(pick_type_points)
                 session.commit()
 
-            elif 4 < x < 9:
-                """Assign the value of individual MLB player picks such as home runs or pitcher wins"""
+                place = 15
+                points = 10
 
-                # TODO Pick type 4 is showing as 1000 points(!?)
+                pick_type_points = PickTypePoints(pick_type_id=pick_type_id, place=place, points=points)
+                session.add(pick_type_points)
+                session.commit()
+
+            elif 3 < x < 9:
+                """Assign the value of individual MLB player picks such as home runs or pitcher wins"""
 
                 for y in range(1, 4):
                     place = y
@@ -211,13 +217,15 @@ class NewInstallService:
 
             elif x == 9:
                 """Assign the points value for the wildcard picks for each league"""
-                place = 1
-                points = 10
-                session = DbSessionFactory.create_session()
+                for y in range(1, 3):
+                    place = y
+                    points = 10
 
-                pick_type_points = PickTypePoints(pick_type_id=pick_type_id, place=place, points=points)
-                session.add(pick_type_points)
-                session.commit()
+                    session = DbSessionFactory.create_session()
+
+                    pick_type_points = PickTypePoints(pick_type_id=pick_type_id, place=place, points=points)
+                    session.add(pick_type_points)
+                    session.commit()
 
             else:
                 """Assign the Twins wins tiebreaker points value"""
