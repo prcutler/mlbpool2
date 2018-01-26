@@ -44,9 +44,9 @@ class NewInstallService:
 
             # TODO Figure out what teams are really in what division
 
-            if al_team_id <= 55:
+            if al_team_id <= 115:
                 division_id = 1
-            elif al_team_id <= 63:
+            elif al_team_id <= 120:
                 division_id = 2
             else:
                 division_id = 3
@@ -68,9 +68,9 @@ class NewInstallService:
 
             # TODO Figure out what teams are really in what division
 
-            if nl_team_id <= 55:
+            if nl_team_id <= 130:
                 division_id = 1
-            elif nl_team_id <= 63:
+            elif nl_team_id <= 135:
                 division_id = 2
             else:
                 division_id = 3
