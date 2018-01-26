@@ -112,23 +112,23 @@ class NewInstallService:
 
             session = DbSessionFactory.create_session()
 
-            conference_info = LeagueInfo(league=league, league_id=league_id)
+            league_info = LeagueInfo(league=league, league_id=league_id)
 
-            session.add(conference_info)
+            session.add(league_info)
             session.commit()
 
     @classmethod
     def create_pick_types(cls):
         """Create the pick types used for when a user submits picks, displays their picks and for calculating
-            player scores.  Type 2 and 3 not used at this time, instead player stats have their own type
+            player scores.  Type 2 not used at this time, instead player stats have their own type
             (home runs, batting average, pitcher wins, etc.)"""
         for x in range(1, 11):
             if x == 1:
                 name = 'team'
             elif x == 2:
-                name = 'player'
-            elif x == 3:
                 name = 'unused'
+            elif x == 3:
+                name = 'team_wins'
             elif x == 4:
                 name = "home_runs"
             elif x == 5:
@@ -149,9 +149,6 @@ class NewInstallService:
             pick_type_info = PickTypes(name=name)
             session.add(pick_type_info)
             session.commit()
-
-    '''Create the points for each pick type for first, second or third place if applicable.  Used for calculating
-    player scores.  Type 2 is not used at this time, instead player stats have their own type (passing, etc.)'''
 
     @staticmethod
     def create_pick_type_points():
@@ -183,10 +180,20 @@ class NewInstallService:
                 continue
 
             elif x == 3:
-                continue
+
+                # TODO Need 1st and last place for win total for each league
+
+                points = 10
+
+                pick_type_points = PickTypePoints(pick_type_id=pick_type_id, points=points)
+                session.add(pick_type_points)
+                session.commit()
 
             elif 4 < x < 9:
                 """Assign the value of individual MLB player picks such as home runs or pitcher wins"""
+
+                # TODO Pick type 4 is showing as 1000 points(!?)
+
                 for y in range(1, 4):
                     place = y
                     if y == 1:

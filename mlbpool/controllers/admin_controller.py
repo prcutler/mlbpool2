@@ -58,7 +58,7 @@ class AdminController(BaseController):
         # Insert team info
         NewInstallService.get_team_info()
         NewInstallService.create_division_info()
-        NewInstallService.create_conference_info()
+        NewInstallService.create_league_info()
         NewInstallService.create_pick_types()
         NewInstallService.create_pick_type_points()
 
@@ -116,7 +116,7 @@ class AdminController(BaseController):
         vm.from_dict(self.request.POST)
 
         # Insert NFLPlayer info
-        active_players = ActivePlayersService.add_active_nflplayers(vm.firstname, vm.lastname, vm.player_id,
+        active_players = ActivePlayersService.add_active_mlbplayers(vm.firstname, vm.lastname, vm.player_id,
                                                                     vm.team_id, vm.position, vm.season)
 
         # redirect
@@ -196,7 +196,6 @@ class AdminController(BaseController):
         StandingsService.update_player_pick_points()
         StandingsService.update_team_pick_points()
 
-
         # redirect
         self.redirect('/admin')
 
@@ -223,8 +222,8 @@ class AdminController(BaseController):
         vm.from_dict(self.request.POST)
 
         # Find all unique picks for each player
-        #team type picks
-        picktype=1
+        # team type picks
+        picktype = 1
         conf = 0
         div = 1
 
@@ -257,7 +256,6 @@ class AdminController(BaseController):
             if conf > 1:
                 picktype += 1
                 conf = 0
-
 
         # redirect
         self.redirect('/admin')
