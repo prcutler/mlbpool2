@@ -11,10 +11,6 @@ class HomeController(BaseController):
     def about(self):
         return {}
 
-    @pyramid_handlers.action(renderer='templates/home/contact.pt')
-    def contact(self):
-        return {}
-
     @pyramid_handlers.action(renderer='templates/home/credits.pt')
     def credits(self):
         return {}
