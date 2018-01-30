@@ -8,4 +8,4 @@ class PickTypePoints(SqlAlchemyBase):
     primary_key = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)
     pick_type_id = sqlalchemy.Column(sqlalchemy.Integer)
     place = sqlalchemy.Column(sqlalchemy.Integer)
-    points = sqlalchemy.Column(sqlalchemy.Integer)
+    points = sqlalchemy.Column(sqlalchemy.Float)

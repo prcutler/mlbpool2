@@ -12,6 +12,6 @@ class PlayerPicks(SqlAlchemyBase):
     division_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey('DivisionInfo.division_id'))
     rank = sqlalchemy.Column(sqlalchemy.Integer)
     team_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey('TeamInfo.team_id'))
-    multiplier = sqlalchemy.Column(sqlalchemy.Integer, default=1)
+    multiplier = sqlalchemy.Column(sqlalchemy.Float, default=1)
     player_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey('ActiveMLBPlayers.player_id'))
     pick_type = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey('PickTypes.pick_type_id'))

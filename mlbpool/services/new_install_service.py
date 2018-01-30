@@ -136,7 +136,7 @@ class NewInstallService:
             elif x == 6:
                 name = "RBI"
             elif x == 7:
-                name = "wins"
+                name = "pitcher_wins"
             elif x == 8:
                 name = "ERA"
             elif x == 9:
