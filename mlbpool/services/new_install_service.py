@@ -159,7 +159,7 @@ class NewInstallService:
             if x == 1:
                 for y in range(1, 6):
                     # TODO Check this range
-                    place = y
+                    rank = y
 
                     if y == 1:
                         points = 50
@@ -172,7 +172,7 @@ class NewInstallService:
 
                     if points != 0:
                         session = DbSessionFactory.create_session()
-                        pick_type_points = PickTypePoints(pick_type_id=pick_type_id, place=place, points=points)
+                        pick_type_points = PickTypePoints(pick_type_id=pick_type_id, rank=rank, points=points)
                         session.add(pick_type_points)
                         session.commit()
 
@@ -183,17 +183,17 @@ class NewInstallService:
 
                 # TODO Check with Kelly that this is correct
 
-                place = 1
+                rank = 1
                 points = 10
 
-                pick_type_points = PickTypePoints(pick_type_id=pick_type_id, place=place, points=points)
+                pick_type_points = PickTypePoints(pick_type_id=pick_type_id, rank=rank, points=points)
                 session.add(pick_type_points)
                 session.commit()
 
-                place = 15
+                rank = 15
                 points = 10
 
-                pick_type_points = PickTypePoints(pick_type_id=pick_type_id, place=place, points=points)
+                pick_type_points = PickTypePoints(pick_type_id=pick_type_id, rank=rank, points=points)
                 session.add(pick_type_points)
                 session.commit()
 
@@ -201,7 +201,7 @@ class NewInstallService:
                 """Assign the value of individual MLB player picks such as home runs or pitcher wins"""
 
                 for y in range(1, 4):
-                    place = y
+                    rank = y
                     if y == 1:
                         points = 30
                     elif y == 2:
@@ -211,29 +211,29 @@ class NewInstallService:
 
                     session = DbSessionFactory.create_session()
 
-                    pick_type_points = PickTypePoints(pick_type_id=pick_type_id, place=place, points=points)
+                    pick_type_points = PickTypePoints(pick_type_id=pick_type_id, rank=rank, points=points)
                     session.add(pick_type_points)
                     session.commit()
 
             elif x == 9:
                 """Assign the points value for the wildcard picks for each league"""
                 for y in range(1, 3):
-                    place = y
+                    rank = y
                     points = 10
 
                     session = DbSessionFactory.create_session()
 
-                    pick_type_points = PickTypePoints(pick_type_id=pick_type_id, place=place, points=points)
+                    pick_type_points = PickTypePoints(pick_type_id=pick_type_id, rank=rank, points=points)
                     session.add(pick_type_points)
                     session.commit()
 
             else:
                 """Assign the Twins wins tiebreaker points value"""
-                place = 1
+                rank = 1
                 points = 1000
                 session = DbSessionFactory.create_session()
 
-                pick_type_points = PickTypePoints(pick_type_id=pick_type_id, place=place, points=points)
+                pick_type_points = PickTypePoints(pick_type_id=pick_type_id, rank=rank, points=points)
                 session.add(pick_type_points)
                 session.commit()
 

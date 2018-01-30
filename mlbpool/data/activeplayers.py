@@ -10,6 +10,6 @@ class ActiveMLBPlayers(SqlAlchemyBase):
     firstname = sqlalchemy.Column(sqlalchemy.String(16))
     lastname = sqlalchemy.Column(sqlalchemy.String(32))
     position = sqlalchemy.Column(sqlalchemy.String(8), index=True)
-    player_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey('PlayerPicks.player_id'), index=True)
+    player_id = sqlalchemy.Column(sqlalchemy.Integer, index=True)
 
 
