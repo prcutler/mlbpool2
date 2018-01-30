@@ -17,6 +17,9 @@
         <input name="season_start_date_input" value="${season_start_date_input}"
                            placeholder="Enter the date of the first game (YYYY-MM-DD)"
                            class="form-control">
+        <input name="season_all_star_date_input" value="${season_all_star_game_date_input}"
+                           placeholder="Enter the date of the All-Star game (YYYY-MM-DD)"
+                           class="form-control">
                     <button type="submit" class="btn btn-success">Go</button>
         </form>
 

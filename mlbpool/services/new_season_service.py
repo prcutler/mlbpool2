@@ -11,7 +11,7 @@ class NewSeasonService:
     in the database.  This is used to for the MySportsFeeds API to get the correct year of stats needed.'''
     # TODO Add logging
     @classmethod
-    def create_season(cls, season, season_start_date):
+    def create_season(cls, season, season_start_date, all_star_game_date):
         session = DbSessionFactory.create_session()
         season_row = session.query(SeasonInfo)
 
@@ -20,6 +20,8 @@ class NewSeasonService:
             new_season = SeasonInfo()
             new_season.current_season = season
             new_season.season_start_date = season_start_date
+            new_season.all_star_game_date = all_star_game_date
+            print(season, season_start_date, all_star_game_date)
             session.add(new_season)
             session.commit()
         else:
@@ -28,7 +30,7 @@ class NewSeasonService:
             update_row = session.query(SeasonInfo).filter(SeasonInfo.id == '1').first()
             update_row.current_season = season
             update_row.season_start_date = season_start_date
+            update_row.all_star_game_date = all_star_game_date
 
             session.commit()
 
-    # TODO Add a method to capture the date of the All-Star game for the new season creation

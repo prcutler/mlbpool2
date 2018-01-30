@@ -1,7 +1,7 @@
 from mlbpool.viewmodels.viewmodelbase import ViewModelBase
 
 
-class UpdateNFLPlayersViewModel(ViewModelBase):
+class UpdateMLBPlayersViewModel(ViewModelBase):
     def __init__(self):
         self.firstname = None
         self.lastname = None

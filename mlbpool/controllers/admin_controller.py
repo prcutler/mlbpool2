@@ -2,7 +2,7 @@ import pyramid_handlers
 from mlbpool.controllers.base_controller import BaseController
 from mlbpool.viewmodels.newinstallviewmodel import NewInstallViewModel
 from mlbpool.viewmodels.newseasonviewmodel import NewSeasonViewModel
-from mlbpool.viewmodels.update_nflplayers_viewmodel import UpdateNFLPlayersViewModel
+from mlbpool.viewmodels.update_mlbplayers_viewmodel import UpdateMLBPlayersViewModel
 from mlbpool.services.new_install_service import NewInstallService
 from mlbpool.services.new_season_service import NewSeasonService
 from mlbpool.services.activeplayers_service import ActivePlayersService
@@ -86,15 +86,16 @@ class AdminController(BaseController):
         vm.from_dict(self.request.POST)
 
         # Insert NFLPlayer info
-        new_season_input = NewSeasonService.create_season(vm.new_season_input, vm.season_start_date_input)
+        new_season_input = NewSeasonService.create_season(vm.new_season_input, vm.season_start_date_input,
+                                                          vm.season_all_star_game_date_input)
 
         # redirect
-        self.redirect('/admin/update_nflplayers')
+        self.redirect('/admin/update_mlbplayers')
 
-    @pyramid_handlers.action(renderer='templates/admin/update_nflplayers.pt',
+    @pyramid_handlers.action(renderer='templates/admin/update_mlbplayers.pt',
                              request_method='GET',
-                             name='update_nflplayers')
-    def update_nfl_players(self):
+                             name='update_mlbplayers')
+    def update_mlb_players(self):
         session = DbSessionFactory.create_session()
         su__query = session.query(Account.id).filter(Account.is_super_user == 1)\
             .filter(Account.id == self.logged_in_user_id).first()
@@ -103,17 +104,17 @@ class AdminController(BaseController):
             print("You must be an administrator to view this page")
             self.redirect('/home')
 
-        vm = UpdateNFLPlayersViewModel()
+        vm = UpdateMLBPlayersViewModel()
         return vm.to_dict()
 
-    @pyramid_handlers.action(renderer='templates/admin/update_nflplayers.pt',
+    @pyramid_handlers.action(renderer='templates/admin/update_mlbplayers.pt',
                              request_method='POST',
-                             name='update_nflplayers')
-    def update_nfl_players_post(self):
-        vm = UpdateNFLPlayersViewModel()
+                             name='update_mlbplayers')
+    def update_mlb_players_post(self):
+        vm = UpdateMLBPlayersViewModel()
         vm.from_dict(self.request.POST)
 
-        # Insert NFLPlayer info
+        # Insert MLBPlayer info
         active_players = ActivePlayersService.add_active_mlbplayers(vm.firstname, vm.lastname, vm.player_id,
                                                                     vm.team_id, vm.position, vm.season)
 
