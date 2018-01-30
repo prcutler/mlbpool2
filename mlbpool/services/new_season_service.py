@@ -21,7 +21,6 @@ class NewSeasonService:
             new_season.current_season = season
             new_season.season_start_date = season_start_date
             new_season.all_star_game_date = all_star_game_date
-            print(season, season_start_date, all_star_game_date)
             session.add(new_season)
             session.commit()
         else:
