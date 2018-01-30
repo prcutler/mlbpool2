@@ -5,7 +5,6 @@ from mlbpool.viewmodels.playerpicks_viewmodel import PlayerPicksViewModel
 from mlbpool.data.dbsession import DbSessionFactory
 from mlbpool.data.player_picks import PlayerPicks
 from mlbpool.data.seasoninfo import SeasonInfo
-from mlbpool.data.mlbschedule import MLBSchedule
 from mlbpool.data.account import Account
 import datetime
 
@@ -47,6 +46,8 @@ class PicksController(BaseController):
         if not self.logged_in_user_id:
             print("Cannot view picks page, you must be logged in")
             self.redirect('/account/signin')
+
+        # TODO Re-write this to use the SeasonInfo table instead of MLBSchedule table
 
         dt = datetime.datetime.now()
 

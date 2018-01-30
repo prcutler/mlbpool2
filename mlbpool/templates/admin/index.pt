@@ -50,8 +50,6 @@
                             <ul>
                             <li><a href="/admin/new_install">New installation</a> (create team lists, division lists,
                             conference list, and pick types).</li>
-                            <li><a href="/admin/update_nflschedule">Import the NFL Schedule for the new season.</a>
-                            </li>
                             <li><a href="/admin/update_nflplayers">Update all active NFL Players</a></li>
                             </ul>
 

@@ -6,8 +6,6 @@ from mlbpool.viewmodels.update_nflplayers_viewmodel import UpdateNFLPlayersViewM
 from mlbpool.services.new_install_service import NewInstallService
 from mlbpool.services.new_season_service import NewSeasonService
 from mlbpool.services.activeplayers_service import ActivePlayersService
-from mlbpool.viewmodels.update_nflschedule_viewmodel import UpdateNFLScheduleViewModel
-from mlbpool.services.update_nflschedule_service import UpdateScheduleService
 from mlbpool.data.account import Account
 from mlbpool.data.dbsession import DbSessionFactory
 from mlbpool.services.admin_service import AccountService
@@ -120,36 +118,7 @@ class AdminController(BaseController):
                                                                     vm.team_id, vm.position, vm.season)
 
         # redirect
-        self.redirect('/admin/update_nflschedule')
-
-    @pyramid_handlers.action(renderer='templates/admin/update_nflschedule.pt',
-                             request_method='GET',
-                             name='update_nflschedule')
-    def update_nfl_schedule(self):
-        session = DbSessionFactory.create_session()
-        su__query = session.query(Account.id).filter(Account.is_super_user == 1)\
-            .filter(Account.id == self.logged_in_user_id).first()
-
-        if su__query is None:
-            print("You must be an administrator to view this page")
-            self.redirect('/home')
-
-        vm = UpdateNFLScheduleViewModel()
-        return vm.to_dict()
-
-    @pyramid_handlers.action(renderer='templates/admin/update_nflschedule.pt',
-                             request_method='POST',
-                             name='update_nflschedule')
-    def update_nfl_schedule_post(self):
-        vm = UpdateNFLScheduleViewModel()
-        vm.from_dict(self.request.POST)
-
-        # Insert NFL Schedule
-        update_nflschedule = UpdateScheduleService.update_nflschedule(vm.game_id, vm.game_date, vm.away_team,
-                                                                      vm.home_team, vm.week, vm.season)
-
-        # redirect
-        self.redirect('/admin')
+        self.redirect('/admin/')
 
     @pyramid_handlers.action(renderer='templates/admin/account-list.pt',
                              request_method='GET',
