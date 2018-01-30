@@ -11,8 +11,6 @@ import mlbpool.data.seasoninfo
 # noinspection PyUnresolvedReferences
 import mlbpool.data.player_picks
 # noinspection PyUnresolvedReferences
-import mlbpool.data.points
-# noinspection PyUnresolvedReferences
 import mlbpool.data.teaminfo
 # noinspection PyUnresolvedReferences
 import mlbpool.data.passwordreset
