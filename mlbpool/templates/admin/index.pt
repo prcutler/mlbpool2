@@ -8,9 +8,9 @@
                 <div class="col-md-6">
 
 
-                    <h1>NFLPool Administration</h1>
+                    <h1>MLBPool2 Administration</h1>
 
-                    <p>Welcome to the administration panel for NFLPool.  You can create a new installation
+                    <p>Welcome to the administration panel for MLBPool2.  You can create a new installation
                     or add a new season.</p>
 
                     <h2>Account Management</h2>
@@ -36,7 +36,7 @@
                             <ul>
                             <li>
                             <a href="/admin/new_season">Click here</a> to update the season and
-                            <a href="/admin/update_nflplayers">add all active NFL players</a> to this season.
+                            <a href="/admin/update_nflplayers">add all active MLB players</a> to this season.
                             </li>
                             </ul>
                         </p>
@@ -49,8 +49,8 @@
                         </p>
                             <ul>
                             <li><a href="/admin/new_install">New installation</a> (create team lists, division lists,
-                            conference list, and pick types).</li>
-                            <li><a href="/admin/update_nflplayers">Update all active NFL Players</a></li>
+                            league list, and pick types).</li>
+                            <li><a href="/admin/update_nflplayers">Update all active MLB Players</a></li>
                             </ul>
 
                 </div>
