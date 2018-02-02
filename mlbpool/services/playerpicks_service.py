@@ -75,20 +75,20 @@ class PlayerPicksService:
         return int_list
 
     @staticmethod
-    def get_afc_wildcard():
+    def get_al_wildcard():
         session = DbSessionFactory.create_session()
 
-        afc_wildcard_list = session.query(TeamInfo).filter(TeamInfo.league_id == 0).order_by(TeamInfo.name).all()
+        al_wildcard_list = session.query(TeamInfo).filter(TeamInfo.league_id == 0).order_by(TeamInfo.name).all()
 
-        return afc_wildcard_list
+        return al_wildcard_list
 
     @staticmethod
-    def get_nfc_wildcard():
+    def get_nl_wildcard():
         session = DbSessionFactory.create_session()
 
-        nfc_wildcard_list = session.query(TeamInfo).filter(TeamInfo.league_id == 1).order_by(TeamInfo.name).all()
+        nl_wildcard_list = session.query(TeamInfo).filter(TeamInfo.league_id == 1).order_by(TeamInfo.name).all()
 
-        return nfc_wildcard_list
+        return nl_wildcard_list
 
     @staticmethod
     def get_all_teams():

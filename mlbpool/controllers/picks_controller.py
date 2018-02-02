@@ -90,23 +90,20 @@ class PicksController(BaseController):
             nl_central_list = PlayerPicksService.get_team_list(1, 2)
             nl_west_list = PlayerPicksService.get_team_list(1, 3)
 
-            afc_qb_list = PlayerPicksService.get_player_list(0, 'QB')
-            nfc_qb_list = PlayerPicksService.get_player_list(1, 'QB')
-            afc_rb_list = PlayerPicksService.get_player_list(0, 'RB')
-            nfc_rb_list = PlayerPicksService.get_player_list(1, 'RB')
-            afc_rec_list = PlayerPicksService.get_rec_list(0, 'WR', 'TE')
-            nfc_rec_list = PlayerPicksService.get_rec_list(1, 'WR', 'TE')
-            afc_sacks_list = PlayerPicksService.get_sacks\
-                (0, 'DE', 'DT', 'ILB', 'LB', 'MLB', 'NT', 'OLB')
-            nfc_sacks_list = PlayerPicksService.get_sacks\
-                (1, 'DE', 'DT', 'ILB', 'LB', 'MLB', 'NT', 'OLB')
-            afc_int_list = PlayerPicksService.get_int\
-                (0, 'CB', 'DB', 'FS', 'SS', 'MLB', 'LB', 'OLB', 'ILB')
-            nfc_int_list = PlayerPicksService.get_int\
-                (1, 'CB', 'DB', 'FS', 'SS', 'MLB', 'LB', 'OLB', 'ILB')
-            afc_wildcard_list = PlayerPicksService.get_afc_wildcard()
-            nfc_wildcard_list = PlayerPicksService.get_nfc_wildcard()
-            all_team_list = PlayerPicksService.get_all_teams()
+            # TODO Can I pass something like =! P?
+            # List of all hitting positions (excluding pitchers)
+            al_hitter_list = PlayerPicksService.get_player_list(0, TBD)
+            nl_hitter_list = PlayerPicksService.get_player_list(0, TBD)
+
+            # List of all Pitchers
+            al_pitcher_list = PlayerPicksService.get_player_list(0, 'P')
+            nl_pitcher_list = PlayerPicksService.get_player_list(0, 'P')
+
+            # List of all teams to pick the Wild Card from each league
+            al_wildcard_list = PlayerPicksService.get_al_wildcard()
+            nl_wildcard_list = PlayerPicksService.get_nl_wildcard()
+
+            # TODO Write the Twins wins service
 
             # Get the user ID
             user_id = self.logged_in_user_id
@@ -135,9 +132,8 @@ class PicksController(BaseController):
                 'nfc_sacks_list': nfc_sacks_list,
                 'afc_int_list': afc_int_list,
                 'nfc_int_list': nfc_int_list,
-                'afc_wildcard_list': afc_wildcard_list,
-                'nfc_wildcard_list': nfc_wildcard_list,
-                'all_team_list': all_team_list
+                'al_wildcard_list': al_wildcard_list,
+                'nl_wildcard_list': nl_wildcard_list,
             }
 
         else:
