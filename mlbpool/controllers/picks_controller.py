@@ -82,14 +82,14 @@ class PicksController(BaseController):
         if user_query is None:
 
             # Data / Service access
-            afc_east_list = PlayerPicksService.get_team_list(0, 1)
-            afc_north_list = PlayerPicksService.get_team_list(0, 2)
-            afc_south_list = PlayerPicksService.get_team_list(0, 3)
-            afc_west_list = PlayerPicksService.get_team_list(0, 4)
-            nfc_east_list = PlayerPicksService.get_team_list(1, 1)
-            nfc_north_list = PlayerPicksService.get_team_list(1, 2)
-            nfc_south_list = PlayerPicksService.get_team_list(1, 3)
-            nfc_west_list = PlayerPicksService.get_team_list(1, 4)
+            al_east_list = PlayerPicksService.get_team_list(0, 1)
+            al_central_list = PlayerPicksService.get_team_list(0, 2)
+            al_west_list = PlayerPicksService.get_team_list(0, 3)
+            
+            nl_east_list = PlayerPicksService.get_team_list(1, 1)
+            nl_central_list = PlayerPicksService.get_team_list(1, 2)
+            nl_west_list = PlayerPicksService.get_team_list(1, 3)
+
             afc_qb_list = PlayerPicksService.get_player_list(0, 'QB')
             nfc_qb_list = PlayerPicksService.get_player_list(1, 'QB')
             afc_rb_list = PlayerPicksService.get_player_list(0, 'RB')
@@ -119,14 +119,12 @@ class PicksController(BaseController):
                 'season': season,
                 'user_id': user_id,
                 'first_name': first_name,
-                'afc_east': afc_east_list,
-                'afc_north': afc_north_list,
-                'afc_south': afc_south_list,
-                'afc_west': afc_west_list,
-                'nfc_east': nfc_east_list,
-                'nfc_north': nfc_north_list,
-                'nfc_south': nfc_south_list,
-                'nfc_west': nfc_west_list,
+                'al_east': al_east_list,
+                'al_central': al_central_list,
+                'al_west': al_west_list,
+                'nl_east': nl_east_list,
+                'nl_central': nl_central_list,
+                'nl_west': nl_west_list,
                 'afc_qb_list': afc_qb_list,
                 'nfc_qb_list': nfc_qb_list,
                 'afc_rb_list': afc_rb_list,

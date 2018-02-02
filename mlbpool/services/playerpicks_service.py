@@ -7,7 +7,7 @@ from mlbpool.data.player_picks import PlayerPicks
 import datetime
 
 
-# Need to create a dictionary with team_id : conference / division
+# Need to create a dictionary with team_id : league / division
 class PlayerPicksService:
     @staticmethod
     def get_team_list(league_id, division_id):
