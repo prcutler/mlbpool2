@@ -22,6 +22,8 @@ class PlayerPicksService:
     def get_player_list(league_id, position):
         session = DbSessionFactory.create_session()
 
+        # TODO Player list will be huge - need to add the team to the query to display on the picks page
+
         player_list = session.query(ActiveMLBPlayers.player_id, ActiveMLBPlayers.firstname, ActiveMLBPlayers.lastname).\
             join(TeamInfo, ActiveMLBPlayers.team_id == TeamInfo.team_id) \
             .filter(TeamInfo.league_id == league_id) \
