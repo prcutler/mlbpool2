@@ -47,16 +47,16 @@ class PicksController(BaseController):
             print("Cannot view picks page, you must be logged in")
             self.redirect('/account/signin')
 
-        # TODO Re-write this to use the SeasonInfo table instead of MLBSchedule table
-
         dt = datetime.datetime.now()
 
         session = DbSessionFactory.create_session()
         season_row = session.query(SeasonInfo.current_season).filter(SeasonInfo.id == '1').first()
         season = season_row.current_season
 
-        first_game = session.query(NFLSchedule.game_date).filter(NFLSchedule.season == season)\
-            .filter(NFLSchedule.game_date).order_by(NFLSchedule.game_date).first()
+        first_game = session.query(MLBSchedule.game_date).filter(SeasonInfo.current_season == season)\
+            .filter(SeasonInfo.season_start_date).first()
+
+        # TODO Refactor this to use Maya datetimes
 
         string_date = first_game[0] + ' 21:59'
         first_game_time = datetime.datetime.strptime(string_date, "%Y-%m-%d %H:%M")
@@ -182,7 +182,6 @@ class PicksController(BaseController):
                                                            vm.afc_pf_pick, vm.nfc_pf_pick,
                                                            vm.specialteams_td_pick,
                                                            vm.user_id)
-
 
         # Log that a user submitted picks
         self.log.notice("Picks submitted by {}.".format(self.logged_in_user.email))
