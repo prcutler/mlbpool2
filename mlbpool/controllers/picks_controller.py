@@ -53,7 +53,7 @@ class PicksController(BaseController):
         season_row = session.query(SeasonInfo.current_season).filter(SeasonInfo.id == '1').first()
         season = season_row.current_season
 
-        first_game = session.query(MLBSchedule.game_date).filter(SeasonInfo.current_season == season)\
+        first_game = session.query(SeasonInfo.season_start_date).filter(SeasonInfo.current_season == season)\
             .filter(SeasonInfo.season_start_date).first()
 
         # TODO Refactor this to use Maya datetimes
@@ -82,13 +82,13 @@ class PicksController(BaseController):
         if user_query is None:
 
             # Data / Service access
-            al_east_list = PlayerPicksService.get_team_list(0, 1)
-            al_central_list = PlayerPicksService.get_team_list(0, 2)
-            al_west_list = PlayerPicksService.get_team_list(0, 3)
+            al_east_list = PlayerPicksService.get_division_team_list(0, 1)
+            al_central_list = PlayerPicksService.get_division_team_list(0, 2)
+            al_west_list = PlayerPicksService.get_division_team_list(0, 3)
             
-            nl_east_list = PlayerPicksService.get_team_list(1, 1)
-            nl_central_list = PlayerPicksService.get_team_list(1, 2)
-            nl_west_list = PlayerPicksService.get_team_list(1, 3)
+            nl_east_list = PlayerPicksService.get_division_team_list(1, 1)
+            nl_central_list = PlayerPicksService.get_division_team_list(1, 2)
+            nl_west_list = PlayerPicksService.get_division_team_list(1, 3)
 
             # TODO Can I pass something like =! P?
             # List of all hitting positions (excluding pitchers)

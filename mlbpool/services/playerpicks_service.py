@@ -7,16 +7,18 @@ from mlbpool.data.player_picks import PlayerPicks
 import datetime
 
 
-# Need to create a dictionary with team_id : league / division
 class PlayerPicksService:
+    """This class displays all of the drop down menus for the different picks pool players can make in
+    submit_picks.pt"""
     @staticmethod
-    def get_team_list(league_id, division_id):
+    def get_division_team_list(league_id, division_id):
+        """Get a list of the five teams in a specific division in one of the two leagues (AL or NL)"""
         session = DbSessionFactory.create_session()
 
-        team_list = session.query(TeamInfo).filter(TeamInfo.league_id == league_id)\
+        division_team_list = session.query(TeamInfo).filter(TeamInfo.league_id == league_id)\
             .filter(TeamInfo.division_id == division_id).order_by(TeamInfo.name).all()
 
-        return team_list
+        return division_team_list
 
     @staticmethod
     def get_player_list(league_id, position):
