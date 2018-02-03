@@ -92,12 +92,21 @@ class PicksController(BaseController):
 
             # TODO Can I pass something like =! P?
             # List of all hitting positions (excluding pitchers)
-            al_hitter_list = PlayerPicksService.get_player_list(0, TBD)
-            nl_hitter_list = PlayerPicksService.get_player_list(0, TBD)
+            al_hr_list = PlayerPicksService.get_hitter_list(0, 'P')
+            nl_hr_list = PlayerPicksService.get_hitter_list(1, 'P')
+
+            al_rbi_list = PlayerPicksService.get_hitter_list(0, 'P')
+            nl_rbi_list = PlayerPicksService.get_hitter_list(1, 'P')
+            
+            al_ba_list = PlayerPicksService.get_hitter_list(0, 'P')
+            nl_ba_list = PlayerPicksService.get_hitter_list(1, 'P')
 
             # List of all Pitchers
-            al_pitcher_list = PlayerPicksService.get_player_list(0, 'P')
-            nl_pitcher_list = PlayerPicksService.get_player_list(0, 'P')
+            al_p_wins_list = PlayerPicksService.get_pitcher_list(0, 'P')
+            nl_p_wins_list = PlayerPicksService.get_pitcher_list(1, 'P')
+            
+            al_era_list = PlayerPicksService.get_pitcher_list(0, 'P')
+            nl_era_list = PlayerPicksService.get_pitcher_list(1, 'P')
 
             # List of all teams to pick the Wild Card from each league
             al_wildcard_list = PlayerPicksService.get_al_wildcard()
@@ -122,16 +131,16 @@ class PicksController(BaseController):
                 'nl_east': nl_east_list,
                 'nl_central': nl_central_list,
                 'nl_west': nl_west_list,
-                'afc_qb_list': afc_qb_list,
-                'nfc_qb_list': nfc_qb_list,
-                'afc_rb_list': afc_rb_list,
-                'nfc_rb_list': nfc_rb_list,
-                'afc_rec_list': afc_rec_list,
-                'nfc_rec_list': nfc_rec_list,
-                'afc_sacks_list': afc_sacks_list,
-                'nfc_sacks_list': nfc_sacks_list,
-                'afc_int_list': afc_int_list,
-                'nfc_int_list': nfc_int_list,
+                'al_hr_list': al_hr_list,
+                'nl_hr_list': nl_hr_list,
+                'al_rbi_list': al_rbi_list,
+                'nl_rbi_list': nl_rbi_list,
+                'al_ba_list': al_ba_list,
+                'nl_ba_list': nl_ba_list,
+                'al_p_wins_list': al_p_wins_list,
+                'nl_p_wins_list': nl_p_wins_list,
+                'al_era_list': al_era_list,
+                'nl_era_list': nl_era_list,
                 'al_wildcard_list': al_wildcard_list,
                 'nl_wildcard_list': nl_wildcard_list,
             }

@@ -21,10 +21,23 @@ class PlayerPicksService:
         return division_team_list
 
     @staticmethod
-    def get_player_list(league_id, position):
+    def get_hitter_list(league_id, position):
         session = DbSessionFactory.create_session()
 
         # TODO Player list will be huge - need to add the team to the query to display on the picks page
+
+        player_list = session.query(ActiveMLBPlayers.player_id, ActiveMLBPlayers.firstname, ActiveMLBPlayers.lastname).\
+            join(TeamInfo, ActiveMLBPlayers.team_id == TeamInfo.team_id) \
+            .filter(TeamInfo.league_id == league_id) \
+            .filter(ActiveMLBPlayers.position != position) \
+            .filter(ActiveMLBPlayers.season == SeasonInfo.current_season) \
+            .order_by(ActiveMLBPlayers.lastname).all()
+
+        return player_list
+
+    @staticmethod
+    def get_pitcher_list(league_id, position):
+        session = DbSessionFactory.create_session()
 
         player_list = session.query(ActiveMLBPlayers.player_id, ActiveMLBPlayers.firstname, ActiveMLBPlayers.lastname).\
             join(TeamInfo, ActiveMLBPlayers.team_id == TeamInfo.team_id) \
@@ -34,49 +47,6 @@ class PlayerPicksService:
             .order_by(ActiveMLBPlayers.lastname).all()
 
         return player_list
-
-    @staticmethod
-    def get_rec_list(league_id, wr, te):
-        session = DbSessionFactory.create_session()
-
-        player_list = session.query(ActiveMLBPlayers.player_id, ActiveMLBPlayers.firstname, ActiveMLBPlayers.lastname).\
-            join(TeamInfo, ActiveMLBPlayers.team_id == TeamInfo.team_id) \
-            .filter(TeamInfo.league_id == league_id) \
-            .filter(ActiveMLBPlayers.position.in_([wr, te])) \
-            .filter(ActiveMLBPlayers.season == SeasonInfo.current_season) \
-            .order_by(ActiveMLBPlayers.lastname).all()
-
-        return player_list
-
-    @staticmethod
-    # Get list of sack leaders
-    def get_sacks(league_id, de, dt, ilb, lb, mlb, nt, olb):
-        session = DbSessionFactory.create_session()
-
-        sacks_list = session.query(ActiveMLBPlayers.player_id, ActiveMLBPlayers.firstname,
-                                       ActiveMLBPlayers.lastname). \
-            join(TeamInfo, ActiveMLBPlayers.team_id == TeamInfo.team_id) \
-            .filter(TeamInfo.league_id == league_id) \
-            .filter(ActiveMLBPlayers.position.in_([de, dt, ilb, lb, mlb, nt, olb])) \
-            .filter(ActiveMLBPlayers.season == SeasonInfo.current_season) \
-            .order_by(ActiveMLBPlayers.lastname).all()
-
-        return sacks_list
-
-    @staticmethod
-    # Get list of interception leaders
-    def get_int(league_id, cb, db, fs, ss, mlb, lb, olb, ilb):
-        session = DbSessionFactory.create_session()
-
-        int_list = session.query(ActiveMLBPlayers.player_id, ActiveMLBPlayers.firstname,
-                                       ActiveMLBPlayers.lastname). \
-            join(TeamInfo, ActiveMLBPlayers.team_id == TeamInfo.team_id) \
-            .filter(TeamInfo.league_id == league_id) \
-            .filter(ActiveMLBPlayers.position.in_([cb, db, fs, ss, mlb, lb, olb, ilb])) \
-            .filter(ActiveMLBPlayers.season == SeasonInfo.current_season) \
-            .order_by(ActiveMLBPlayers.lastname).all()
-
-        return int_list
 
     @staticmethod
     def get_al_wildcard():
@@ -93,14 +63,6 @@ class PlayerPicksService:
         nl_wildcard_list = session.query(TeamInfo).filter(TeamInfo.league_id == 1).order_by(TeamInfo.name).all()
 
         return nl_wildcard_list
-
-    @staticmethod
-    def get_all_teams():
-        session = DbSessionFactory.create_session()
-
-        all_team_list = session.query(TeamInfo).filter(TeamInfo.team_id).order_by(TeamInfo.name).all()
-
-        return all_team_list
 
     @staticmethod
     def get_current_season():
