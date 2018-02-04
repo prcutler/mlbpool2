@@ -53,8 +53,8 @@ class PicksController(BaseController):
         season_row = session.query(SeasonInfo.current_season).filter(SeasonInfo.id == '1').first()
         season = season_row.current_season
 
-        first_game = session.query(SeasonInfo.season_start_date).filter(SeasonInfo.current_season == season)\
-            .filter(SeasonInfo.season_start_date).first()
+#        first_game = session.query(SeasonInfo.season_start_date).filter(SeasonInfo.current_season == season)\
+#            .filter(SeasonInfo.season_start_date).first()
 
         # TODO Refactor this to use Maya datetimes
 
@@ -74,7 +74,6 @@ class PicksController(BaseController):
         session = DbSessionFactory.create_session()
         season_row = session.query(SeasonInfo.current_season).filter(SeasonInfo.id == '1').first()
         season = season_row.current_season
-        print(season)
 
         user_query = session.query(PlayerPicks.user_id).filter(PlayerPicks.user_id == self.logged_in_user_id)\
             .filter(PlayerPicks.season == season).first()
@@ -92,21 +91,12 @@ class PicksController(BaseController):
 
             # TODO Can I pass something like =! P?
             # List of all hitting positions (excluding pitchers)
-            al_hr_list = PlayerPicksService.get_hitter_list(0, 'P')
-            nl_hr_list = PlayerPicksService.get_hitter_list(1, 'P')
-
-            al_rbi_list = PlayerPicksService.get_hitter_list(0, 'P')
-            nl_rbi_list = PlayerPicksService.get_hitter_list(1, 'P')
-            
-            al_ba_list = PlayerPicksService.get_hitter_list(0, 'P')
-            nl_ba_list = PlayerPicksService.get_hitter_list(1, 'P')
+            al_batter_list = PlayerPicksService.get_hitter_list(0, 'P')
+            nl_batter_list = PlayerPicksService.get_hitter_list(1, 'P')
 
             # List of all Pitchers
-            al_p_wins_list = PlayerPicksService.get_pitcher_list(0, 'P')
-            nl_p_wins_list = PlayerPicksService.get_pitcher_list(1, 'P')
-            
-            al_era_list = PlayerPicksService.get_pitcher_list(0, 'P')
-            nl_era_list = PlayerPicksService.get_pitcher_list(1, 'P')
+            al_pitcher_list = PlayerPicksService.get_pitcher_list(0, 'P')
+            nl_pitcher_list = PlayerPicksService.get_pitcher_list(1, 'P')
 
             # List of all teams to pick the Wild Card from each league
             al_wildcard_list = PlayerPicksService.get_al_wildcard()
@@ -131,16 +121,10 @@ class PicksController(BaseController):
                 'nl_east': nl_east_list,
                 'nl_central': nl_central_list,
                 'nl_west': nl_west_list,
-                'al_hr_list': al_hr_list,
-                'nl_hr_list': nl_hr_list,
-                'al_rbi_list': al_rbi_list,
-                'nl_rbi_list': nl_rbi_list,
-                'al_ba_list': al_ba_list,
-                'nl_ba_list': nl_ba_list,
-                'al_p_wins_list': al_p_wins_list,
-                'nl_p_wins_list': nl_p_wins_list,
-                'al_era_list': al_era_list,
-                'nl_era_list': nl_era_list,
+                'al_hitter_list': al_batter_list,
+                'nl_hitter_list': nl_batter_list,
+                'al_pitcher_list': al_pitcher_list,
+                'nl_pitcher_list': nl_pitcher_list,
                 'al_wildcard_list': al_wildcard_list,
                 'nl_wildcard_list': nl_wildcard_list,
             }
@@ -161,7 +145,7 @@ class PicksController(BaseController):
 
         vm.user_id = self.logged_in_user_id
 
-        player_picks = PlayerPicksService.get_player_picks(vm.afc_east_winner_pick, vm.afc_east_second, 
+        player_picks = PlayerPicksService.get_player_picks(vm.afc_east_winner_pick, vm.afc_east_second,
                                                            vm.afc_east_last,
                                                            vm.afc_north_winner_pick, vm.afc_north_second,
                                                            vm.afc_north_last,
@@ -189,11 +173,11 @@ class PicksController(BaseController):
                                                            vm.user_id)
 
         # Log that a user submitted picks
-        self.log.notice("Picks submitted by {}.".format(self.logged_in_user.email))
+#        self.log.notice("Picks submitted by {}.".format(self.logged_in_user.email))
 
         # redirect
         # TODO: Create review page before database?
-        self.redirect('/picks/completed')
+#        self.redirect('/picks/completed')
 
     @pyramid_handlers.action(renderer='templates/picks/too-late.pt',
                              request_method='GET',

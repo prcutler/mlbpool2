@@ -69,11 +69,11 @@ def init_smtp_mail(config):
 
 
 def init_db(_):
-#    top_folder = os.path.dirname(mlbpool.__file__)
-#    rel_folder = os.path.join('db', 'mlbpooldb.sqlite')
+    top_folder = os.path.dirname(mlbpool.__file__)
+    rel_folder = os.path.join('db', 'mlbpooldb.sqlite')
 
-#    db_file = os.path.join(top_folder, rel_folder)
-    DbSessionFactory.global_init()
+    db_file = os.path.join(top_folder, rel_folder)
+    DbSessionFactory.global_init(db_file)
 
 
 def init_mode(config):

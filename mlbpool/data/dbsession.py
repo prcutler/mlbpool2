@@ -31,14 +31,14 @@ class DbSessionFactory:
 
     # Start a database session at app startup
     @staticmethod
-    def global_init():
- #       if DbSessionFactory.factory:
- #           return
+    def global_init(db_file):
+        if DbSessionFactory.factory:
+            return
 
- #       if not db_file or not db_file.strip():
- #           raise Exception("You must specify a data file.")
+        if not db_file or not db_file.strip():
+            raise Exception("You must specify a data file.")
 
-        conn_str = 'mysql+pymysql://' + config.db_user + ':' + config.db_pw + '@localhost/mlbpooldb'
+        conn_str = 'sqlite:///' + db_file
         print("Connecting to db with conn string: {}".format(conn_str))
 
         engine = sqlalchemy.create_engine(conn_str, echo=False)
