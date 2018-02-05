@@ -24,6 +24,7 @@ import mlbpool.data.divisioninfo
 import mlbpool.data.pick_type_points
 # noinspection PyUnresolvedReferences
 import mlbpool.data.picktypes
+from sqlalchemy.pool import NullPool
 
 
 class DbSessionFactory:
@@ -41,7 +42,7 @@ class DbSessionFactory:
         conn_str = 'mysql+pymysql://' + config.db_user + ':' + config.db_pw + '@localhost/mlbpooldb'
         print("Connecting to db with conn string: {}".format(conn_str))
 
-        engine = sqlalchemy.create_engine(conn_str, echo=True, max_overflow=-1)
+        engine = sqlalchemy.create_engine(conn_str, poolclass=NullPool, echo=False)
 
         SqlAlchemyBase.metadata.create_all(engine)
         DbSessionFactory.factory = sqlalchemy.orm.sessionmaker(bind=engine)
