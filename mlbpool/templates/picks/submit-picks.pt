@@ -21,11 +21,11 @@
                         <option tal:repeat="a al_east" value="${a.team_id}">${a.name}</option>
                         </select><br>
                         <p>American League East Second Place</p>
-                        <select class="form-control" name="al_east_second">
+                        <select class="form-control" name="al_east_second_pick">
                         <option tal:repeat="a al_east" value="${a.team_id}">${a.name}</option>
                         </select><br>
                         <p>American League East Last Place</p>
-                        <select class="form-control" name="al_east_last">
+                        <select class="form-control" name="al_east_last_pick">
                         <option tal:repeat="a al_east" value="${a.team_id}">${a.name}</option>
                         </select><br>
                         <p>American League Central Winner</p>
@@ -33,11 +33,11 @@
                         <option tal:repeat="a al_central" value="${a.team_id}">${a.name}</option>
                         </select><br>
                         <p>American League Central Second Place</p>
-                        <select class="form-control" name="al_central_second">
+                        <select class="form-control" name="al_central_second_pick">
                         <option tal:repeat="a al_central" value="${a.team_id}">${a.name}</option>
                         </select><br>
                         <p>American League Central Last Place</p>
-                        <select class="form-control" name="al_central_last">
+                        <select class="form-control" name="al_central_last_pick">
                         <option tal:repeat="a al_central" value="${a.team_id}">${a.name}</option>
                         </select><br>
                         <p>American League West Winner</p>
@@ -45,11 +45,11 @@
                         <option tal:repeat="a al_west" value="${a.team_id}">${a.name}</option>
                         </select><br>
                         <p>American League West Second Place</p>
-                        <select class="form-control" name="al_west_second">
+                        <select class="form-control" name="al_west_second_pick">
                         <option tal:repeat="a al_west" value="${a.team_id}">${a.name}</option>
                         </select><br>
                         <p>American League West Last Place</p>
-                        <select class="form-control" name="al_west_last">
+                        <select class="form-control" name="al_west_last_pick">
                         <option tal:repeat="a al_west" value="${a.team_id}">${a.name}</option>
                         </select><br>
 
@@ -69,11 +69,11 @@
                         <option tal:repeat="a nl_east" value="${a.team_id}">${a.name}</option>
                         </select><br>
                         <p>National League East Second Place</p>
-                        <select class="form-control" name="nl_east_second">
+                        <select class="form-control" name="nl_east_second_pick">
                         <option tal:repeat="a nl_east" value="${a.team_id}">${a.name}</option>
                         </select><br>
                         <p>National League East Last Place</p>
-                        <select class="form-control" name="nl_east_last">
+                        <select class="form-control" name="nl_east_last_pick">
                         <option tal:repeat="a nl_east" value="${a.team_id}">${a.name}</option>
                         </select><br>
                         <p>National League Central Winner</p>
@@ -81,11 +81,11 @@
                         <option tal:repeat="a nl_central" value="${a.team_id}">${a.name}</option>
                         </select><br>
                         <p>National League Central Second Place</p>
-                        <select class="form-control" name="nl_central_second">
+                        <select class="form-control" name="nl_central_second_pick">
                         <option tal:repeat="a nl_central" value="${a.team_id}">${a.name}</option>
                         </select><br>
                         <p>National League Central Last Place</p>
-                        <select class="form-control" name="nl_central_last">
+                        <select class="form-control" name="nl_central_last_pick">
                         <option tal:repeat="a nl_central" value="${a.team_id}">${a.name}</option>
                         </select><br>
                         <p>National League West Winner</p>
@@ -93,11 +93,11 @@
                         <option tal:repeat="a nl_west" value="${a.team_id}">${a.name}</option>
                         </select><br>
                         <p>National League West Second Place</p>
-                        <select class="form-control" name="nl_west_second">
+                        <select class="form-control" name="nl_west_second_pick">
                         <option tal:repeat="a nl_west" value="${a.team_id}">${a.name}</option>
                         </select><br>
                         <p>National League West Last Place</p>
-                        <select class="form-control" name="nl_west_last">
+                        <select class="form-control" name="nl_west_last_pick">
                         <option tal:repeat="a nl_west" value="${a.team_id}">${a.name}</option>
                         </select><br>
 
