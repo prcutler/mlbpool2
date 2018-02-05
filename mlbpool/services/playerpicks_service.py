@@ -1,5 +1,4 @@
 from mlbpool.data.dbsession import DbSessionFactory
-from mlbpool.data.account import Account
 from mlbpool.data.teaminfo import TeamInfo
 from mlbpool.data.activeplayers import ActiveMLBPlayers
 from mlbpool.data.seasoninfo import SeasonInfo
@@ -76,22 +75,21 @@ class PlayerPicksService:
         return season
 
     @classmethod
-    def get_player_picks(cls, afc_east_winner_pick: int, afc_east_second: int, afc_east_last: int,
-                         afc_north_winner_pick: int, afc_north_second: int, afc_north_last: int,
-                         afc_south_winner_pick: int, afc_south_second: int, afc_south_last: int,
-                         afc_west_winner_pick: int, afc_west_second: int, afc_west_last: int,
-                         nfc_east_winner_pick: int, nfc_east_second: int, nfc_east_last: int,
-                         nfc_north_winner_pick: int, nfc_north_second: int, nfc_north_last: int,
-                         nfc_south_winner_pick: int, nfc_south_second: int, nfc_south_last: int,
-                         nfc_west_winner_pick: int, nfc_west_second: int, nfc_west_last: int,
-                         afc_qb_pick: int, nfc_qb_pick: int, afc_rb_pick: int, nfc_rb_pick: int,
-                         afc_rec_pick: int, nfc_rec_pick: int,
-                         afc_sacks_pick: int, nfc_sacks_pick: int,
-                         afc_int_pick: int, nfc_int_pick: int,
-                         afc_wildcard1_pick: int, afc_wildcard2_pick: int,
-                         nfc_wildcard1_pick: int, nfc_wildcard2_pick: int,
-                         afc_pf_pick: int, nfc_pf_pick: int,
-                         specialteams_td_pick: int,
+    def get_player_picks(cls, al_east_winner_pick: int, al_east_second: int, al_east_last: int,
+                         al_central_winner_pick: int, al_central_second: int, al_central_last: int,
+                         al_west_winner_pick: int, al_west_second: int, al_west_last: int,
+                         nl_east_winner_pick: int, nl_east_second: int, nl_east_last: int,
+                         nl_central_winner_pick: int, nl_central_second: int, nl_central_last: int,
+                         nl_west_winner_pick: int, nl_west_second: int, nl_west_last: int,
+                         al_hr_pick: int, nl_hr_pick: int, al_rbi_pick: int, nl_rbi_pick: int,
+                         al_ba_pick: int, nl_ba_pick: int,
+                         al_p_wins_pick: int, nl_p_wins_pick: int,
+                         al_era_pick: int, nl_era_pick: int,
+                         al_wildcard1_pick: int, al_wildcard2_pick: int,
+                         nl_wildcard1_pick: int, nl_wildcard2_pick: int,
+                         al_wins_pick: int, nl_wins_pick: int,
+                         al_losses_pick: int, nl_losses_pick: int,
+                         twins_wins_pick: int,
                          user_id: str):
         session = DbSessionFactory.create_session()
         season_row = session.query(SeasonInfo.current_season).filter(SeasonInfo.id == 1).first()
@@ -99,217 +97,163 @@ class PlayerPicksService:
 
         dt = datetime.datetime.now()
 
-        #        player_picks = PlayerPicks(date_submitted=dt, user_id=user_id, afc_east_first=afc_east_winner_pick,
-        #                                   afc_east_second=afc_east_second, afc_east_last=afc_east_last,
-        #                                   afc_north_first=afc_north_winner_pick, afc_north_second=afc_north_second,
-        #                                   afc_north_last=afc_north_last,
-        #                                   afc_south_first=afc_south_winner_pick, afc_south_second=afc_south_second,
-        #                                   afc_south_last=afc_south_last,
-        #                                   afc_west_first=afc_west_winner_pick, afc_west_second=afc_west_second,
-        #                                   afc_west_last=afc_west_last,
-        #                                   nfc_east_first=nfc_east_winner_pick,
-        #                                   nfc_east_second=nfc_east_second, nfc_east_last=nfc_east_last,
-        #                                   nfc_north_first=nfc_north_winner_pick, nfc_north_second=nfc_north_second,
-        #                                   nfc_north_last=nfc_north_last,
-        #                                   nfc_south_first=nfc_south_winner_pick, nfc_south_second=nfc_south_second,
-        #                                   nfc_south_last=nfc_south_last,
-        #                                   nfc_west_first=nfc_west_winner_pick,
-        #                                   nfc_west_second=nfc_west_second,
-        #                                   nfc_west_last=nfc_west_last,
-        #                                   afc_passing_pick=afc_qb_pick,
-        #                                   nfc_passing_pick=nfc_qb_pick,
-        #                                   afc_rushing_pick=afc_rb_pick,
-        #                                   nfc_rushing_pick=nfc_rb_pick,
-        #                                   afc_receiving_pick=afc_rec_pick,
-        #                                   nfc_receiving_pick=nfc_rec_pick,
-        #                                   afc_sacks_pick=afc_sacks_pick,
-        #                                   nfc_sacks_pick=nfc_sacks_pick,
-        #                                   afc_int_pick=afc_int_pick,
-        #                                   nfc_int_pick=nfc_int_pick,
-        #                                   afc_wildcard1=afc_wildcard1_pick, afc_wildcard2=afc_wildcard2_pick,
-        #                                   nfc_wildcard2=nfc_wildcard2_pick, nfc_wildcard1=nfc_wildcard1_pick,
-        #                                   afc_pf=afc_pf_pick, nfc_pf=nfc_pf_pick,
-        #                                   specialteams_td=specialteams_td_pick,
-
-        #                                  season=season)
-
-        #        session.add(player_picks)
-
-        #        session.commit()
-
-        # new stuff here --------------------
         # Add AFC team picks
-        afc_east_winner_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=0, division_id=1,
-                                         rank=1, team_id=afc_east_winner_pick, pick_type=1)
-        session.add(afc_east_winner_db)
-        afc_east_second_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=0, division_id=1,
-                                         rank=2, team_id=afc_east_second, pick_type=1)
-        session.add(afc_east_second_db)
+        al_east_winner_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=0, division_id=1,
+                                         rank=1, team_id=al_east_winner_pick, pick_type=1)
+        session.add(al_east_winner_db)
+        al_east_second_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=0, division_id=1,
+                                         rank=2, team_id=al_east_second, pick_type=1)
+        session.add(al_east_second_db)
 
-        afc_east_last_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=0, division_id=1,
-                                       rank=4, team_id=afc_east_last, pick_type=1)
+        al_east_last_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=0, division_id=1,
+                                       rank=4, team_id=al_east_last, pick_type=1)
 
-        session.add(afc_east_last_db)
+        session.add(al_east_last_db)
 
-        afc_north_winner_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=0, division_id=2,
-                                          rank=1, team_id=afc_north_winner_pick, pick_type=1)
-        session.add(afc_north_winner_db)
-        afc_north_second_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=0, division_id=2,
-                                          rank=2, team_id=afc_north_second, pick_type=1)
-        session.add(afc_north_second_db)
+        al_central_winner_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=0, division_id=2,
+                                          rank=1, team_id=al_central_winner_pick, pick_type=1)
+        session.add(al_central_winner_db)
+        al_central_second_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=0, division_id=2,
+                                          rank=2, team_id=al_central_second, pick_type=1)
+        session.add(al_central_second_db)
 
-        afc_north_last_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=0, division_id=2,
-                                        rank=4, team_id=afc_north_last, pick_type=1)
+        al_central_last_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=0, division_id=2,
+                                        rank=4, team_id=al_central_last, pick_type=1)
 
-        session.add(afc_north_last_db)
+        session.add(al_central_last_db)
 
-        afc_south_winner_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=0, division_id=3,
-                                          rank=1, team_id=afc_south_winner_pick, pick_type=1)
-        session.add(afc_south_winner_db)
-        afc_south_second_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=0, division_id=3,
-                                          rank=2, team_id=afc_south_second, pick_type=1)
-        session.add(afc_south_second_db)
+        al_west_winner_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=0, division_id=4,
+                                         rank=1, team_id=al_west_winner_pick, pick_type=1)
+        session.add(al_west_winner_db)
+        al_west_second_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=0, division_id=4,
+                                         rank=2, team_id=al_west_second, pick_type=1)
+        session.add(al_west_second_db)
 
-        afc_south_last_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=0, division_id=3,
-                                        rank=4, team_id=afc_south_last, pick_type=1)
+        al_west_last_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=0, division_id=4,
+                                       rank=4, team_id=al_west_last, pick_type=1)
 
-        session.add(afc_south_last_db)
+        session.add(al_west_last_db)
 
-        afc_west_winner_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=0, division_id=4,
-                                         rank=1, team_id=afc_west_winner_pick, pick_type=1)
-        session.add(afc_west_winner_db)
-        afc_west_second_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=0, division_id=4,
-                                         rank=2, team_id=afc_west_second, pick_type=1)
-        session.add(afc_west_second_db)
+        # Add al team picks
+        nl_east_winner_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=1, division_id=1,
+                                         rank=1, team_id=nl_east_winner_pick, pick_type=1)
+        session.add(nl_east_winner_db)
+        nl_east_second_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=1, division_id=1,
+                                         rank=2, team_id=nl_east_second, pick_type=1)
+        session.add(nl_east_second_db)
 
-        afc_west_last_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=0, division_id=4,
-                                       rank=4, team_id=afc_west_last, pick_type=1)
+        nl_east_last_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=1, division_id=1,
+                                       rank=4, team_id=nl_east_last, pick_type=1)
 
-        session.add(afc_west_last_db)
+        session.add(nl_east_last_db)
 
-        # Add AFC team picks
-        nfc_east_winner_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=1, division_id=1,
-                                         rank=1, team_id=nfc_east_winner_pick, pick_type=1)
-        session.add(nfc_east_winner_db)
-        nfc_east_second_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=1, division_id=1,
-                                         rank=2, team_id=nfc_east_second, pick_type=1)
-        session.add(nfc_east_second_db)
+        nl_central_winner_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=1, division_id=2,
+                                          rank=1, team_id=nl_central_winner_pick, pick_type=1)
+        session.add(nl_central_winner_db)
+        nl_central_second_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=1, division_id=2,
+                                          rank=2, team_id=nl_central_second, pick_type=1)
+        session.add(nl_central_second_db)
 
-        nfc_east_last_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=1, division_id=1,
-                                       rank=4, team_id=nfc_east_last, pick_type=1)
+        nl_central_last_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=1, division_id=2,
+                                        rank=4, team_id=nl_central_last, pick_type=1)
 
-        session.add(nfc_east_last_db)
+        session.add(nl_central_last_db)
 
-        nfc_north_winner_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=1, division_id=2,
-                                          rank=1, team_id=nfc_north_winner_pick, pick_type=1)
-        session.add(nfc_north_winner_db)
-        nfc_north_second_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=1, division_id=2,
-                                          rank=2, team_id=nfc_north_second, pick_type=1)
-        session.add(nfc_north_second_db)
+        nl_west_winner_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=1, division_id=4,
+                                         rank=1, team_id=nl_west_winner_pick, pick_type=1)
+        session.add(nl_west_winner_db)
+        nl_west_second_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=1, division_id=4,
+                                         rank=2, team_id=nl_west_second, pick_type=1)
+        session.add(nl_west_second_db)
 
-        nfc_north_last_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=1, division_id=2,
-                                        rank=4, team_id=nfc_north_last, pick_type=1)
+        nl_west_last_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=1, division_id=4,
+                                       rank=4, team_id=nl_west_last, pick_type=1)
 
-        session.add(nfc_north_last_db)
+        session.add(nl_west_last_db)
 
-        nfc_south_winner_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=1, division_id=3,
-                                          rank=1, team_id=nfc_south_winner_pick, pick_type=1)
-        session.add(nfc_south_winner_db)
-        nfc_south_second_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=1, division_id=3,
-                                          rank=2, team_id=nfc_south_second, pick_type=1)
-        session.add(nfc_south_second_db)
+        # Add al Player Picks
 
-        nfc_south_last_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=1, division_id=3,
-                                        rank=4, team_id=nfc_south_last, pick_type=1)
-
-        session.add(nfc_south_last_db)
-
-        nfc_west_winner_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=1, division_id=4,
-                                         rank=1, team_id=nfc_west_winner_pick, pick_type=1)
-        session.add(nfc_west_winner_db)
-        nfc_west_second_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=1, division_id=4,
-                                         rank=2, team_id=nfc_west_second, pick_type=1)
-        session.add(nfc_west_second_db)
-
-        nfc_west_last_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=1, division_id=4,
-                                       rank=4, team_id=nfc_west_last, pick_type=1)
-
-        session.add(nfc_west_last_db)
-
-        # Add AFC Player Picks
-
-        afc_passing_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, player_id=afc_qb_pick,
+        al_hr_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, player_id=al_hr_pick,
                                      pick_type=4, league_id=0)
-        session.add(afc_passing_db)
+        session.add(al_hr_db)
 
-        afc_rushing_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, player_id=afc_rb_pick,
+        al_rbi_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, player_id=al_rbi_pick,
                                      pick_type=5, league_id=0)
-        session.add(afc_rushing_db)
+        session.add(al_rbi_db)
 
-        afc_receiving_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, player_id=afc_rec_pick,
+        al_ba_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, player_id=al_ba_pick,
                                        pick_type=6, league_id=0)
-        session.add(afc_receiving_db)
+        session.add(al_ba_db)
 
-        afc_sacks_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, player_id=afc_sacks_pick,
+        al_p_wins_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, player_id=al_p_wins_pick,
                                    pick_type=7, league_id=0)
-        session.add(afc_sacks_db)
+        session.add(al_p_wins_db)
 
-        afc_int_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, player_id=afc_int_pick,
+        al_era_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, player_id=al_era_pick,
                                  pick_type=8, league_id=0)
-        session.add(afc_int_db)
+        session.add(al_era_db)
 
-        # Add NFC Player Picks
+        # Add nl Player Picks
 
-        nfc_passing_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, player_id=nfc_qb_pick,
+        nl_hr_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, player_id=nl_hr_pick,
                                      pick_type=4, league_id=1)
-        session.add(nfc_passing_db)
+        session.add(nl_hr_db)
 
-        nfc_rushing_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, player_id=nfc_rb_pick,
+        nl_rbi_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, player_id=nl_rbi_pick,
                                      pick_type=5, league_id=1)
-        session.add(nfc_rushing_db)
+        session.add(nl_rbi_db)
 
-        nfc_receiving_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, player_id=nfc_rec_pick,
+        nl_ba_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, player_id=nl_ba_pick,
                                        pick_type=6, league_id=1)
-        session.add(nfc_receiving_db)
+        session.add(nl_ba_db)
 
-        nfc_sacks_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, player_id=nfc_sacks_pick,
+        nl_p_wins_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, player_id=nl_p_wins_pick,
                                    pick_type=7, league_id=1)
-        session.add(nfc_sacks_db)
+        session.add(nl_p_wins_db)
 
-        nfc_int_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, player_id=nfc_int_pick,
+        nl_era_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, player_id=nl_era_pick,
                                  pick_type=8, league_id=1)
-        session.add(nfc_int_db)
+        session.add(nl_era_db)
 
         # Add the wildcard picks
-        afc_wildcard1_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, team_id=afc_wildcard1_pick,
+        al_wildcard1_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, team_id=al_wildcard1_pick,
                                        pick_type=9, league_id=0)
-        session.add(afc_wildcard1_db)
+        session.add(al_wildcard1_db)
 
-        afc_wildcard2_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, team_id=afc_wildcard2_pick,
+        al_wildcard2_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, team_id=al_wildcard2_pick,
                                        pick_type=9, league_id=0)
-        session.add(afc_wildcard2_db)
+        session.add(al_wildcard2_db)
 
-        nfc_wildcard1_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, team_id=nfc_wildcard1_pick,
+        nl_wildcard1_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, team_id=nl_wildcard1_pick,
                                        pick_type=9, league_id=1)
-        session.add(nfc_wildcard1_db)
+        session.add(nl_wildcard1_db)
 
-        nfc_wildcard2_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, team_id=nfc_wildcard2_pick,
+        nl_wildcard2_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, team_id=nl_wildcard2_pick,
                                        pick_type=9, league_id=1)
-        session.add(nfc_wildcard2_db)
+        session.add(nl_wildcard2_db)
 
-        # Add the Points For picks
-        afc_pf_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, team_id=afc_pf_pick,
+        # Add the Most Wins 
+        al_wins_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, team_id=al_wins_pick,
                                 pick_type=3, league_id=0)
-        session.add(afc_pf_db)
+        session.add(al_wins_db)
 
-        nfc_pf_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, team_id=nfc_wildcard2_pick,
+        nl_wins_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, team_id=nl_wins_pick,
                                 pick_type=3, league_id=1)
-        session.add(nfc_pf_db)
+        session.add(nl_wins_db)
+
+        # Add the Most Lossess
+        al_losses_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, team_id=al_losses_pick,
+                                pick_type=3, league_id=0)
+        session.add(al_losses_db)
+
+        nl_losses_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, team_id=nl_losses_pick,
+                                pick_type=3, league_id=1)
+        session.add(nl_losses_db)
 
         # Add the tiebreaker
-        specialteams_tiebreaker_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt,
-                                                 team_id=specialteams_td_pick, pick_type=10)
-        session.add(specialteams_tiebreaker_db)
+        twins_wins_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, twins_wins=twins_wins_pick,
+                                    pick_type=10)
+        session.add(twins_wins_db)
         session.commit()
 
 

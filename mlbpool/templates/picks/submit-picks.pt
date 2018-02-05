@@ -187,7 +187,7 @@
                         <h3>Tiebreaker</h3>
                         <p>How many wins will the Minnesota Twins finish with?</p>
                         <select class="form-control" name="twins_wins_pick">
-                            <option tal:repeat="a twins_wins_pick_list" value="${range(0, 163)}">${a} </option>
+                            <option tal:repeat="a twins_wins_pick_list" value="${a}">${a} </option>
                         </select>
                         <br>
 
