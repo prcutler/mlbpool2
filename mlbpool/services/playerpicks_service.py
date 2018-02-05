@@ -41,7 +41,8 @@ class PlayerPicksService:
     def get_pitcher_list(league_id, position):
         session = DbSessionFactory.create_session()
 
-        player_list = session.query(ActiveMLBPlayers.player_id, ActiveMLBPlayers.firstname, ActiveMLBPlayers.lastname). \
+        player_list = session.query(ActiveMLBPlayers.player_id, ActiveMLBPlayers.firstname, ActiveMLBPlayers.lastname,
+                                    ActiveMLBPlayers.position, TeamInfo.team_abbr). \
             join(TeamInfo, ActiveMLBPlayers.team_id == TeamInfo.team_id) \
             .filter(TeamInfo.league_id == league_id) \
             .filter(ActiveMLBPlayers.position == position) \
