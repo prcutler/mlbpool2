@@ -89,8 +89,7 @@ class PicksController(BaseController):
             nl_central_list = PlayerPicksService.get_division_team_list(1, 2)
             nl_west_list = PlayerPicksService.get_division_team_list(1, 3)
 
-            # TODO Can I pass something like =! P?
-            # List of all hitting positions (excluding pitchers)
+            # Pass the P as the pitcher position and the query to get the list != P
             al_batter_list = PlayerPicksService.get_hitter_list(0, 'P')
             nl_batter_list = PlayerPicksService.get_hitter_list(1, 'P')
 
@@ -102,7 +101,9 @@ class PicksController(BaseController):
             al_wildcard_list = PlayerPicksService.get_al_wildcard()
             nl_wildcard_list = PlayerPicksService.get_nl_wildcard()
 
-            # TODO Write the Twins wins service
+            # Create a range of 0-162 for players to pick how many wins the Twins will finish with
+            twins_wins_pick_list = list(range(0, 163))
+            print(twins_wins_pick_list)
 
             # Get the user ID
             user_id = self.logged_in_user_id
@@ -127,6 +128,7 @@ class PicksController(BaseController):
                 'nl_pitcher_list': nl_pitcher_list,
                 'al_wildcard_list': al_wildcard_list,
                 'nl_wildcard_list': nl_wildcard_list,
+                'twins_wins_pick_list': twins_wins_pick_list
             }
 
         else:
