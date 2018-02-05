@@ -176,7 +176,7 @@ class PicksController(BaseController):
 
     # redirect
     # TODO: Create review page before database?
-    #        self.redirect('/picks/completed')
+        self.redirect('/picks/completed')
 
     @pyramid_handlers.action(renderer='templates/picks/too-late.pt',
                              request_method='GET',
