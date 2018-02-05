@@ -19,7 +19,6 @@ class PlayerPicksService:
         division_team_list = session.query(TeamInfo).filter(TeamInfo.league_id == league_id) \
             .filter(TeamInfo.division_id == division_id).order_by(TeamInfo.name).all()
 
-        print(division_team_list)
         return division_team_list
 
     @staticmethod
@@ -28,7 +27,8 @@ class PlayerPicksService:
 
         # TODO Player list will be huge - need to add the team to the query to display on the picks page
 
-        player_list = session.query(ActiveMLBPlayers.player_id, ActiveMLBPlayers.firstname, ActiveMLBPlayers.lastname). \
+        player_list = session.query(ActiveMLBPlayers.player_id, ActiveMLBPlayers.firstname, ActiveMLBPlayers.lastname,
+                                    ActiveMLBPlayers.position, TeamInfo.team_abbr). \
             join(TeamInfo, ActiveMLBPlayers.team_id == TeamInfo.team_id) \
             .filter(TeamInfo.league_id == league_id) \
             .filter(ActiveMLBPlayers.position != position) \
@@ -36,7 +36,6 @@ class PlayerPicksService:
             .order_by(ActiveMLBPlayers.lastname).all()
 
         return player_list
-
 
     @staticmethod
     def get_pitcher_list(league_id, position):

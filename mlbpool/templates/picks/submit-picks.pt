@@ -112,7 +112,8 @@
                         <h3>American League Individual Leaders</h3>
                         <p>Home Runs</p>
                         <select class="form-control" name="al_hr_pick">
-                        <option tal:repeat="a al_hitter_list" value="${a.player_id}">${a.firstname} ${a.lastname}</option>
+                        <option tal:repeat="a al_hitter_list" value="${a.player_id}">${a.firstname} ${a.lastname}
+                            ${a.position} ${a.team_abbr}</option>
                         </select><br>
                         <p>Batting Average</p>
                         <select class="form-control" name="al_ba_pick">
