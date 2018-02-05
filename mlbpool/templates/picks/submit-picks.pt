@@ -10,11 +10,11 @@
 
                     <h1>Make your picks for the ${season} season.</h1>
 
-                    <h2>Hi, ${first_name}! </h2>
+                   <h2>Hi, ${first_name}! </h2>
 
                     <form class="form-horizontal" action="" method="POST">
                     <div class="form-group">
-                        <h3>American League Division Winners, Second Place and Last Place</h3>
+                        <h3>American League Division Picks</h3>
                         <p>American League East Winner</p>
                         <select name="al_east_winner_pick"
                                 class="form-control" id="al_east_winner_pick">
@@ -61,7 +61,7 @@
                         <option tal:repeat="a al_wildcard_list" value="${a.team_id}">${a.name}</option>
                         </select><br>
 
-                        <h3>National League Division Winners, Second Place and Last Place</h3>
+                        <h3>National League Division Picks</h3>
 
                         <p>National League East Winner</p>
                         <select name="nl_east_winner_pick"
@@ -100,7 +100,7 @@
                         <select class="form-control" name="nl_west_last">
                         <option tal:repeat="a nl_west" value="${a.team_id}">${a.name}</option>
                         </select><br>
-                        
+
                         <h3>National League Wildcard Playoff Teams</h3>
                         <select class="form-control" name="nl_wildcard1_pick">
                         <option tal:repeat="a nl_wildcard_list" value="${a.team_id}">${a.name}</option>
@@ -111,23 +111,23 @@
 
                         <h3>American League Individual Leaders</h3>
                         <p>Home Runs</p>
-                        <select class="form-control" name="al_hitter_pick">
+                        <select class="form-control" name="al_hr_pick">
                         <option tal:repeat="a al_hitter_list" value="${a.player_id}">${a.firstname} ${a.lastname}</option>
                         </select><br>
                         <p>Batting Average</p>
-                        <select class="form-control" name="al_hitter_pick">
+                        <select class="form-control" name="al_ba_pick">
                         <option tal:repeat="a al_hitter_list" value="${a.player_id}">${a.firstname} ${a.lastname}</option>
                         </select><br>
                         <p>RBIs</p>
-                        <select class="form-control" name="al_hitter_pick">
+                        <select class="form-control" name="al_rbi_pick">
                         <option tal:repeat="a al_hitter_list" value="${a.player_id}">${a.firstname} ${a.lastname}</option>
                         </select><br>
                         <p>Wins (pitcher)</p>
-                        <select class="form-control" name="al_pitcher_pick">
+                        <select class="form-control" name="al_p_wins_pick">
                         <option tal:repeat="a al_pitcher_list" value="${a.player_id}">${a.firstname} ${a.lastname}</option>
                         </select><br>
                         <p>ERA</p>
-                        <select class="form-control" name="al_pitcher_pick">
+                        <select class="form-control" name="al_p_era_pick">
                         <option tal:repeat="a al_pitcher_list" value="${a.player_id}">${a.firstname} ${a.lastname}</option>
                         </select><br>
 
@@ -135,23 +135,23 @@
 
                         <h3>National League Individual Leaders</h3>
                         <p>Home Runs</p>
-                        <select class="form-control" name="nl_hitter_pick">
+                        <select class="form-control" name="nl_hr_pick">
                         <option tal:repeat="a nl_hitter_list" value="${a.player_id}">${a.firstname} ${a.lastname}</option>
                         </select><br>
                         <p>Batting Average</p>
-                        <select class="form-control" name="nl_hitter_pick">
+                        <select class="form-control" name="nl_ba_pick">
                         <option tal:repeat="a nl_hitter_list" value="${a.player_id}">${a.firstname} ${a.lastname}</option>
                         </select><br>
                         <p>RBIs</p>
-                        <select class="form-control" name="nl_hitter_pick">
+                        <select class="form-control" name="nl_rbi_pick">
                         <option tal:repeat="a nl_hitter_list" value="${a.player_id}">${a.firstname} ${a.lastname}</option>
                         </select><br>
                         <p>Wins (pitcher)</p>
-                        <select class="form-control" name="nl_pitcher_pick">
+                        <select class="form-control" name="nl_p_wins_pick">
                         <option tal:repeat="a nl_pitcher_list" value="${a.player_id}">${a.firstname} ${a.lastname}</option>
                         </select><br>
                         <p>ERA</p>
-                        <select class="form-control" name="nl_pitcher_pick">
+                        <select class="form-control" name="nl_p_era_pick">
                         <option tal:repeat="a nl_pitcher_list" value="${a.player_id}">${a.firstname} ${a.lastname}</option>
                         </select><br>
 
@@ -173,15 +173,14 @@
                         <option tal:repeat="a nl_wildcard_list" value="${a.team_id}">${a.name}</option>
                         </select><br>
                         <br>
-                        <p>Tiebreaker: How many wins will the Minnesota Twins finish with?</p>
-                        <select class="form-control" name="twins_wins_pick">
-                        <option tal:repeat="a all_team_list" value="${a.team_id}">${a.name}</option>
-                        </select><br>
+
+
 
                         <button type="submit" class="btn-success">Submit Your Picks</button>
                     </div>
                     </form>
                 </div>
+
             </div>
 
         </div>
