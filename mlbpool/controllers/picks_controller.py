@@ -103,7 +103,6 @@ class PicksController(BaseController):
 
             # Create a range of 0-162 for players to pick how many wins the Twins will finish with
             twins_wins_pick_list = list(range(0, 163))
-            print(twins_wins_pick_list)
 
             # Get the user ID
             user_id = self.logged_in_user_id
@@ -147,30 +146,30 @@ class PicksController(BaseController):
 
         vm.user_id = self.logged_in_user_id
 
-        player_picks = PlayerPicksService.get_player_picks(vm.afc_east_winner_pick, vm.afc_east_second,
-                                                           vm.afc_east_last,
-                                                           vm.afc_north_winner_pick, vm.afc_north_second,
-                                                           vm.afc_north_last,
-                                                           vm.afc_south_winner_pick, vm.afc_south_second,
-                                                           vm.afc_south_last,
-                                                           vm.afc_west_winner_pick, vm.afc_west_second,
-                                                           vm.afc_west_last,
-                                                           vm.nfc_east_winner_pick, vm.nfc_east_second,
-                                                           vm.nfc_east_last,
-                                                           vm.nfc_north_winner_pick, vm.nfc_north_second,
-                                                           vm.nfc_north_last,
-                                                           vm.nfc_south_winner_pick, vm.nfc_south_second,
-                                                           vm.nfc_south_last,
-                                                           vm.nfc_west_winner_pick, vm.nfc_west_second,
-                                                           vm.nfc_west_last,
-                                                           vm.afc_qb_pick, vm.nfc_qb_pick,
-                                                           vm.afc_rb_pick, vm.nfc_rb_pick,
-                                                           vm.afc_rec_pick, vm.nfc_rec_pick,
-                                                           vm.afc_sacks_pick, vm.nfc_sacks_pick,
-                                                           vm.afc_int_pick, vm.nfc_int_pick,
-                                                           vm.afc_wildcard1_pick, vm.afc_wildcard2_pick,
-                                                           vm.nfc_wildcard1_pick, vm.nfc_wildcard2_pick,
-                                                           vm.afc_pf_pick, vm.nfc_pf_pick,
+        player_picks = PlayerPicksService.get_player_picks(vm.al_east_winner_pick, vm.al_east_second,
+                                                           vm.al_east_last,
+                                                           vm.al_north_winner_pick, vm.al_north_second,
+                                                           vm.al_north_last,
+                                                           vm.al_south_winner_pick, vm.al_south_second,
+                                                           vm.al_south_last,
+                                                           vm.al_west_winner_pick, vm.al_west_second,
+                                                           vm.al_west_last,
+                                                           vm.nl_east_winner_pick, vm.nl_east_second,
+                                                           vm.nl_east_last,
+                                                           vm.nl_north_winner_pick, vm.nl_north_second,
+                                                           vm.nl_north_last,
+                                                           vm.nl_south_winner_pick, vm.nl_south_second,
+                                                           vm.nl_south_last,
+                                                           vm.nl_west_winner_pick, vm.nl_west_second,
+                                                           vm.nl_west_last,
+                                                           vm.al_qb_pick, vm.nl_qb_pick,
+                                                           vm.al_rb_pick, vm.nl_rb_pick,
+                                                           vm.al_rec_pick, vm.nl_rec_pick,
+                                                           vm.al_sacks_pick, vm.nl_sacks_pick,
+                                                           vm.al_int_pick, vm.nl_int_pick,
+                                                           vm.al_wildcard1_pick, vm.al_wildcard2_pick,
+                                                           vm.nl_wildcard1_pick, vm.nl_wildcard2_pick,
+                                                           vm.al_pf_pick, vm.nl_pf_pick,
                                                            vm.specialteams_td_pick,
                                                            vm.user_id)
 

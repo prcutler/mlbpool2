@@ -189,10 +189,12 @@
                         <select class="form-control" name="twins_wins_pick">
                             <option tal:repeat="a twins_wins_pick_list" value="${range(0, 163)}">${a} </option>
                         </select>
+                        <br>
 
 
-
-
+                        <h3>Submit Your Picks</h3>
+                        <p>Double check your picks!  You can't change them after you submit until the All-Star Break
+                        and any changes then are only worth half the points.</p>
 
                         <button type="submit" class="btn-success">Submit Your Picks</button>
                     </div>
