@@ -37,6 +37,7 @@ class PlayerPicksService:
 
         return player_list
 
+
     @staticmethod
     def get_pitcher_list(league_id, position):
         session = DbSessionFactory.create_session()

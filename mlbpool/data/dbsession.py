@@ -41,7 +41,7 @@ class DbSessionFactory:
         conn_str = 'mysql+pymysql://' + config.db_user + ':' + config.db_pw + '@localhost/mlbpooldb'
         print("Connecting to db with conn string: {}".format(conn_str))
 
-        engine = sqlalchemy.create_engine(conn_str, echo=False)
+        engine = sqlalchemy.create_engine(conn_str, echo=True, max_overflow=-1)
 
         SqlAlchemyBase.metadata.create_all(engine)
         DbSessionFactory.factory = sqlalchemy.orm.sessionmaker(bind=engine)
