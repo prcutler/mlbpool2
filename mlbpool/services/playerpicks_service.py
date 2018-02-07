@@ -255,6 +255,7 @@ class PlayerPicksService:
                                     pick_type=10)
         session.add(twins_wins_db)
         session.commit()
+        session.close()
 
 
 class DisplayPlayerPicks:
@@ -265,8 +266,7 @@ class DisplayPlayerPicks:
         season_row = session.query(SeasonInfo.current_season).filter(SeasonInfo.id == 1).first()
         season = season_row.current_season
 
-        user_query = session.query(PlayerPicks, TeamInfo.name).join(TeamInfo,
-                                                                    PlayerPicks.afc_east_first == TeamInfo.team_id) \
+        user_query = session.query(PlayerPicks, TeamInfo.name).join(TeamInfo, PlayerPicks.team_id == TeamInfo.team_id) \
             .filter(PlayerPicks.user_id == user_id) \
             .filter(PlayerPicks.season == season).all()
 
@@ -274,3 +274,4 @@ class DisplayPlayerPicks:
         #        print(type(user_query[0]))
 
         return user_query
+
