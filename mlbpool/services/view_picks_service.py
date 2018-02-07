@@ -30,14 +30,14 @@ class ViewPicksService:
 
         session = DbSessionFactory.create_session()
 
-        picks_query = session.query(PlayerPicks.pick_type, ConferenceInfo.conference, DivisionInfo.division,
+        picks_query = session.query(PlayerPicks.pick_type, LeagueInfo.league, DivisionInfo.division,
                                     TeamInfo.name, PlayerPicks.rank,
-                                    ActiveNFLPlayers.firstname, ActiveNFLPlayers.lastname, PlayerPicks.multiplier) \
-            .outerjoin(ConferenceInfo)\
+                                    ActiveMLBPlayers.firstname, ActiveMLBPlayers.lastname, PlayerPicks.multiplier) \
+            .outerjoin(LeagueInfo)\
             .outerjoin(DivisionInfo) \
             .outerjoin(TeamInfo)\
-            .outerjoin(ActiveNFLPlayers, and_(PlayerPicks.player_id == ActiveNFLPlayers.player_id,
-                                              PlayerPicks.season == ActiveNFLPlayers.season)).\
+            .outerjoin(ActiveMLBPlayers, and_(PlayerPicks.player_id == ActiveMLBPlayers.player_id,
+                                              PlayerPicks.season == ActiveMLBPlayers.season)).\
             filter(PlayerPicks.user_id == user_id,
                    PlayerPicks.season == season)
 
