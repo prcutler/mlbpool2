@@ -9,7 +9,7 @@ class PlayerPicks(SqlAlchemyBase):
     season = sqlalchemy.Column(sqlalchemy.Integer, index=True)
     date_submitted = sqlalchemy.Column(sqlalchemy.DATETIME)
     league_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey('LeagueInfo.league_id'))
-    division_id = sqlalchemy.Column(sqlalchemy.Integer)
+    division_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey('DivisionInfo.division_id'))
     rank = sqlalchemy.Column(sqlalchemy.Integer)
     team_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey('TeamInfo.team_id'))
     multiplier = sqlalchemy.Column(sqlalchemy.Float, default=1)
