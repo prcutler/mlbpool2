@@ -178,7 +178,7 @@ class PlayerPicksService:
         session.add(al_hr_db)
 
         al_ba_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, player_id=al_ba_pick,
-                                       pick_type=5, league_id=0
+                                       pick_type=5, league_id=0)
         session.add(al_ba_db)
 
         al_rbi_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, player_id=al_rbi_pick,
