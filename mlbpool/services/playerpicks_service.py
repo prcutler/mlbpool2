@@ -122,14 +122,14 @@ class PlayerPicksService:
 
         session.add(al_central_last_db)
 
-        al_west_winner_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=0, division_id=4,
+        al_west_winner_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=0, division_id=3,
                                          rank=1, team_id=al_west_winner_pick, pick_type=1)
         session.add(al_west_winner_db)
-        al_west_second_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=0, division_id=4,
+        al_west_second_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=0, division_id=3,
                                          rank=2, team_id=al_west_second, pick_type=1)
         session.add(al_west_second_db)
 
-        al_west_last_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=0, division_id=4,
+        al_west_last_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=0, division_id=3,
                                        rank=5, team_id=al_west_last, pick_type=1)
 
         session.add(al_west_last_db)
@@ -159,14 +159,14 @@ class PlayerPicksService:
 
         session.add(nl_central_last_db)
 
-        nl_west_winner_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=1, division_id=4,
+        nl_west_winner_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=1, division_id=3,
                                          rank=1, team_id=nl_west_winner_pick, pick_type=1)
         session.add(nl_west_winner_db)
-        nl_west_second_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=1, division_id=4,
+        nl_west_second_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=1, division_id=3,
                                          rank=2, team_id=nl_west_second, pick_type=1)
         session.add(nl_west_second_db)
 
-        nl_west_last_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=1, division_id=4,
+        nl_west_last_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=1, division_id=3,
                                        rank=5, team_id=nl_west_last, pick_type=1)
 
         session.add(nl_west_last_db)
