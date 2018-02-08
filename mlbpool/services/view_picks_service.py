@@ -32,7 +32,8 @@ class ViewPicksService:
 
         picks_query = session.query(PlayerPicks.pick_type, LeagueInfo.league, DivisionInfo.division,
                                     TeamInfo.name, PlayerPicks.rank,
-                                    ActiveMLBPlayers.firstname, ActiveMLBPlayers.lastname, PlayerPicks.multiplier) \
+                                    ActiveMLBPlayers.firstname, ActiveMLBPlayers.lastname, PlayerPicks.multiplier,
+                                    PlayerPicks.twins_wins) \
             .outerjoin(LeagueInfo)\
             .outerjoin(TeamInfo)\
             .outerjoin(ActiveMLBPlayers, and_(PlayerPicks.player_id == ActiveMLBPlayers.player_id,
