@@ -34,7 +34,6 @@ class ViewPicksService:
                                     TeamInfo.name, PlayerPicks.rank,
                                     ActiveMLBPlayers.firstname, ActiveMLBPlayers.lastname, PlayerPicks.multiplier) \
             .outerjoin(LeagueInfo)\
-            .outerjoin(DivisionInfo) \
             .outerjoin(TeamInfo)\
             .outerjoin(ActiveMLBPlayers, and_(PlayerPicks.player_id == ActiveMLBPlayers.player_id,
                                               PlayerPicks.season == ActiveMLBPlayers.season)).\
