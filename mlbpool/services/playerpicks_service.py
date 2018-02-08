@@ -177,13 +177,13 @@ class PlayerPicksService:
                                      pick_type=4, league_id=0)
         session.add(al_hr_db)
 
-        al_rbi_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, player_id=al_rbi_pick,
-                                     pick_type=5, league_id=0)
-        session.add(al_rbi_db)
-
         al_ba_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, player_id=al_ba_pick,
-                                       pick_type=6, league_id=0)
+                                       pick_type=5, league_id=0
         session.add(al_ba_db)
+
+        al_rbi_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, player_id=al_rbi_pick,
+                                     pick_type=6, league_id=0)
+        session.add(al_rbi_db)
 
         al_p_wins_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, player_id=al_p_wins_pick,
                                    pick_type=7, league_id=0)
@@ -199,13 +199,13 @@ class PlayerPicksService:
                                      pick_type=4, league_id=1)
         session.add(nl_hr_db)
 
-        nl_rbi_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, player_id=nl_rbi_pick,
-                                     pick_type=5, league_id=1)
-        session.add(nl_rbi_db)
-
         nl_ba_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, player_id=nl_ba_pick,
-                                       pick_type=6, league_id=1)
+                                       pick_type=5, league_id=1)
         session.add(nl_ba_db)
+
+        nl_rbi_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, player_id=nl_rbi_pick,
+                                     pick_type=6, league_id=1)
+        session.add(nl_rbi_db)
 
         nl_p_wins_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, player_id=nl_p_wins_pick,
                                    pick_type=7, league_id=1)
