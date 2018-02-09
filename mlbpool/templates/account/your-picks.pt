@@ -42,6 +42,15 @@
                                   <td tal:condition="(p.multiplier==2)" tal:content="string:Yes"></td>
                               </tr>
 
+                               <tr tal:case="2">
+                                  <td tal:content="string:${p.league} Most losses"></td>
+                                  <td tal:content="string:${p.name}"></td>
+                                  <td tal:condition="string:${p.changed==1}" tal:content="string:Yes"></td>
+                                  <td tal:condition="string:${p.changed==0}" tal:content="string:No"></td>
+                                  <td tal:condition="(p.multiplier==1)" tal:content="string:No"></td>
+                                  <td tal:condition="(p.multiplier==2)" tal:content="string:Yes"></td>
+                              </tr>
+
                             <tr tal:case="4">
                                 <td tal:content="string:${p.league} Home Runs"></td>
                                 <td tal:content="string:${p.firstname} ${p.lastname}"></td>
@@ -93,7 +102,7 @@
                                 <td tal:condition="(p.multiplier==2)" tal:content="string:Yes"></td>
                             </tr>
                             <tr tal:case="10">
-                                <td tal:content="string:Tiebreaker"></td>
+                                <td tal:content="string:Tiebreaker (Twins Wins)"></td>
                                 <td tal:content="string: ${p.twins_wins}"></td>
                                 <td tal:condition="string:${p.changed==1}" tal:content="string:Yes"></td>
                                 <td tal:condition="string:${p.changed==0}" tal:content="string:No"></td>

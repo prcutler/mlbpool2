@@ -126,7 +126,7 @@ class NewInstallService:
             if x == 1:
                 name = 'team'
             elif x == 2:
-                name = 'unused'
+                name = 'team_losses'
             elif x == 3:
                 name = 'team_wins'
             elif x == 4:
@@ -177,20 +177,21 @@ class NewInstallService:
                         session.commit()
 
             elif x == 2:
-                continue
+                """For pick type 2, assign to 1 team in each league who has the most losses.  Out of the 15 teams
+                in each league, their rank would be 15th and assign rank == 15."""
 
-            elif x == 3:
-
-                # TODO Check with Kelly that this is correct
-
-                rank = 1
+                rank = 15
                 points = 10
 
                 pick_type_points = PickTypePoints(pick_type_id=pick_type_id, rank=rank, points=points)
                 session.add(pick_type_points)
                 session.commit()
 
-                rank = 15
+            elif x == 3:
+                """For pick type 3, assign to 1 team in each league who has the most wins.  Out of the 15 teams
+                in each league, their rank would be 1st and assign rank == 1."""
+
+                rank = 1
                 points = 10
 
                 pick_type_points = PickTypePoints(pick_type_id=pick_type_id, rank=rank, points=points)

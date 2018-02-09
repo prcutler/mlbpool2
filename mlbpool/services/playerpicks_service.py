@@ -97,7 +97,7 @@ class PlayerPicksService:
 
         dt = datetime.datetime.now()
 
-        # Add AFC team picks
+        # Add American League team picks
         al_east_winner_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=0, division_id=1,
                                          rank=1, team_id=al_east_winner_pick, pick_type=1)
         session.add(al_east_winner_db)
@@ -134,7 +134,7 @@ class PlayerPicksService:
 
         session.add(al_west_last_db)
 
-        # Add al team picks
+        # Add National League team picks
         nl_east_winner_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=1, division_id=1,
                                          rank=1, team_id=nl_east_winner_pick, pick_type=1)
         session.add(nl_east_winner_db)
@@ -171,7 +171,7 @@ class PlayerPicksService:
 
         session.add(nl_west_last_db)
 
-        # Add al Player Picks
+        # Add American League Player Picks
 
         al_hr_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, player_id=al_hr_pick,
                                      pick_type=4, league_id=0)
@@ -193,7 +193,7 @@ class PlayerPicksService:
                                  pick_type=8, league_id=0)
         session.add(al_era_db)
 
-        # Add nl Player Picks
+        # Add National League Player Picks
 
         nl_hr_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, player_id=nl_hr_pick,
                                      pick_type=4, league_id=1)
@@ -243,11 +243,11 @@ class PlayerPicksService:
 
         # Add the Most Lossess
         al_losses_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, team_id=al_losses_pick,
-                                pick_type=3, league_id=0)
+                                pick_type=2, league_id=0)
         session.add(al_losses_db)
 
         nl_losses_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, team_id=nl_losses_pick,
-                                pick_type=3, league_id=1)
+                                pick_type=2, league_id=1)
         session.add(nl_losses_db)
 
         # Add the tiebreaker
