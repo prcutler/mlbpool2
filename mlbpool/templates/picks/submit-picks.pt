@@ -131,7 +131,7 @@
                             ${a.position} ${a.team_abbr}</option>
                         </select><br>
                         <p>ERA</p>
-                        <select class="form-control" name="al_p_era_pick">
+                        <select class="form-control" name="al_era_pick">
                         <option tal:repeat="a al_pitcher_list" value="${a.player_id}">${a.firstname} ${a.lastname}
                             ${a.position} ${a.team_abbr}</option>
                         </select><br>
@@ -160,7 +160,7 @@
                             ${a.position} ${a.team_abbr}</option>
                         </select><br>
                         <p>ERA</p>
-                        <select class="form-control" name="nl_p_era_pick">
+                        <select class="form-control" name="nl_era_pick">
                         <option tal:repeat="a nl_pitcher_list" value="${a.player_id}">${a.firstname} ${a.lastname}
                             ${a.position} ${a.team_abbr}</option>
                         </select><br>

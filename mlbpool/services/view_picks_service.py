@@ -36,6 +36,7 @@ class ViewPicksService:
                                     PlayerPicks.twins_wins) \
             .outerjoin(LeagueInfo)\
             .outerjoin(TeamInfo)\
+            .outerjoin(DivisionInfo, and_(PlayerPicks.division_id == DivisionInfo.division_id))\
             .outerjoin(ActiveMLBPlayers, and_(PlayerPicks.player_id == ActiveMLBPlayers.player_id,
                                               PlayerPicks.season == ActiveMLBPlayers.season)).\
             filter(PlayerPicks.user_id == user_id,

@@ -16,3 +16,4 @@ class PlayerPicks(SqlAlchemyBase):
     player_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey('ActiveMLBPlayers.player_id'))
     pick_type = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey('PickTypes.pick_type_id'))
     twins_wins = sqlalchemy.Column(sqlalchemy.Integer)
+    changed = sqlalchemy.Column(sqlalchemy.Float, default=1)
