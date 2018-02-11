@@ -328,4 +328,4 @@ class PicksController(BaseController):
     #        self.log.notice("Picks submitted by {}.".format(self.logged_in_user.email))
 
     # redirect
-        self.redirect('/picks/completed')
+        self.redirect('/account')
