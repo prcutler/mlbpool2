@@ -1,6 +1,7 @@
 import pyramid_handlers
 from mlbpool.controllers.base_controller import BaseController
 from mlbpool.services.playerpicks_service import PlayerPicksService
+from mlbpool.services.view_picks_service import ViewPicksService
 from mlbpool.viewmodels.playerpicks_viewmodel import PlayerPicksViewModel
 from mlbpool.data.dbsession import DbSessionFactory
 from mlbpool.data.player_picks import PlayerPicks
@@ -175,7 +176,6 @@ class PicksController(BaseController):
     #        self.log.notice("Picks submitted by {}.".format(self.logged_in_user.email))
 
     # redirect
-    # TODO: Create review page before database?
         self.redirect('/picks/completed')
 
     @pyramid_handlers.action(renderer='templates/picks/too-late.pt',
@@ -192,7 +192,7 @@ class PicksController(BaseController):
 
         return {'season': season}
 
-    # Get player picks for the current season
+    # Change player picks for the current season
     @pyramid_handlers.action(renderer='templates/picks/change-picks.pt',
                              request_method='GET',
                              name='change-picks')
@@ -263,6 +263,9 @@ class PicksController(BaseController):
             .first()
         first_name = get_first_name[0]
 
+        # Get the original picks the player made
+        all_picks = ViewPicksService.display_picks(self.logged_in_user_id, season)
+
         # Return the models
         return {
             'season': season,
@@ -280,7 +283,8 @@ class PicksController(BaseController):
             'nl_pitcher_list': nl_pitcher_list,
             'al_wildcard_list': al_wildcard_list,
             'nl_wildcard_list': nl_wildcard_list,
-            'twins_wins_pick_list': twins_wins_pick_list
+            'twins_wins_pick_list': twins_wins_pick_list,
+            'all_picks': all_picks
         }
 
     # POST /picks/submit_picks
@@ -323,9 +327,9 @@ class PicksController(BaseController):
                                                            vm.twins_wins_pick,
                                                            vm.user_id)
 
-        # Log that a user submitted picks
+        # Log that a user changed picks
 
-    #        self.log.notice("Picks submitted by {}.".format(self.logged_in_user.email))
+    #        self.log.notice("Picks changed by {}.".format(self.logged_in_user.email))
 
     # redirect
         self.redirect('/account')
