@@ -193,8 +193,11 @@
 
 
                         <h3>Submit Your Picks</h3>
-                        <p>Double check your picks!  You can't change them after you submit until the All-Star Break
-                        and any changes then are only worth half the points.</p>
+                        <div class="alert alert-warning" role="alert">If the season has not started yet, you can
+                        change as many picks as you want without penalty after you press submit below.  Visit
+                            the <a href="/account">account page</a> to view your picks or change your picks.
+                        You can only change up to 14 of your picks at the All-Star Break.
+                        These changes will only be worth half points and do qualify for double points if unique.</div>
 
                         <button type="submit" class="btn-success">Submit Your Picks</button>
                     </div>

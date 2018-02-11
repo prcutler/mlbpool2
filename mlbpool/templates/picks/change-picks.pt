@@ -196,9 +196,7 @@
                         <br>
 
 
-                        <h3>Submit Your Picks</h3>
-                        <p>Double check your picks!  You can't change them after you submit until the All-Star Break
-                        and any changes then are only worth half the points.</p>
+                        <h3>Submit Your Changes</h3>
 
                         <button type="submit" class="btn-success">Submit Your Picks</button>
                     </div>
