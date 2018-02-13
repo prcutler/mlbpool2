@@ -147,6 +147,8 @@ class PicksController(BaseController):
 
         vm.user_id = self.logged_in_user_id
 
+        # TODO Write a method to compare the picks made to what's in the db and do a count and then something
+
         player_picks = PlayerPicksService.get_player_picks(vm.al_east_winner_pick, vm.al_east_second_pick,
                                                            vm.al_east_last_pick,
                                                            vm.al_central_winner_pick, vm.al_central_second_pick,
