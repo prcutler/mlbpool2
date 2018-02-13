@@ -306,164 +306,166 @@ class PlayerPicksService:
 
         # Add American League team picks
         al_east_winner_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=0, division_id=1,
-                                        rank=1, team_id=al_east_winner_pick, pick_type=1, changed=0)
+                                        rank=1, team_id=al_east_winner_pick, pick_type=1, changed=0, multipler=0.5)
         session.add(al_east_winner_db)
         al_east_second_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=0, division_id=1,
-                                        rank=2, team_id=al_east_second, pick_type=1, changed=0)
+                                        rank=2, team_id=al_east_second, pick_type=1, changed=0, multipler=0.5)
         session.add(al_east_second_db)
 
         al_east_last_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=0, division_id=1,
-                                      rank=5, team_id=al_east_last, pick_type=1, changed=0)
+                                      rank=5, team_id=al_east_last, pick_type=1, changed=0, multipler=0.5)
 
         session.add(al_east_last_db)
 
         al_central_winner_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=0,
                                            division_id=2,
-                                           rank=1, team_id=al_central_winner_pick, pick_type=1, changed=0)
+                                           rank=1, team_id=al_central_winner_pick, pick_type=1, changed=0,
+                                           multipler = 0.5)
         session.add(al_central_winner_db)
         al_central_second_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=0,
                                            division_id=2,
-                                           rank=2, team_id=al_central_second, pick_type=1, changed=0)
+                                           rank=2, team_id=al_central_second, pick_type=1, changed=0, multipler=0.5)
         session.add(al_central_second_db)
 
         al_central_last_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=0, division_id=2,
-                                         rank=5, team_id=al_central_last, pick_type=1, changed=0)
+                                         rank=5, team_id=al_central_last, pick_type=1, changed=0, multipler=0.5)
 
         session.add(al_central_last_db)
 
         al_west_winner_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=0, division_id=3,
-                                        rank=1, team_id=al_west_winner_pick, pick_type=1, changed=0)
+                                        rank=1, team_id=al_west_winner_pick, pick_type=1, changed=0, multipler=0.5)
         session.add(al_west_winner_db)
         al_west_second_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=0, division_id=3,
-                                        rank=2, team_id=al_west_second, pick_type=1, changed=0)
+                                        rank=2, team_id=al_west_second, pick_type=1, changed=0, multipler=0.5)
         session.add(al_west_second_db)
 
         al_west_last_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=0, division_id=3,
-                                      rank=5, team_id=al_west_last, pick_type=1, changed=0)
+                                      rank=5, team_id=al_west_last, pick_type=1, changed=0, multipler=0.5)
 
         session.add(al_west_last_db)
 
         # Add National League team picks
         nl_east_winner_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=1, division_id=1,
-                                        rank=1, team_id=nl_east_winner_pick, pick_type=1, changed=0)
+                                        rank=1, team_id=nl_east_winner_pick, pick_type=1, changed=0, multipler=0.5)
         session.add(nl_east_winner_db)
         nl_east_second_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=1, division_id=1,
-                                        rank=2, team_id=nl_east_second, pick_type=1, changed=0)
+                                        rank=2, team_id=nl_east_second, pick_type=1, changed=0, multipler=0.5)
         session.add(nl_east_second_db)
 
         nl_east_last_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=1, division_id=1,
-                                      rank=5, team_id=nl_east_last, pick_type=1, changed=0)
+                                      rank=5, team_id=nl_east_last, pick_type=1, changed=0, multipler=0.5)
 
         session.add(nl_east_last_db)
 
         nl_central_winner_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=1,
                                            division_id=2,
-                                           rank=1, team_id=nl_central_winner_pick, pick_type=1, changed=0)
+                                           rank=1, team_id=nl_central_winner_pick, pick_type=1, changed=0,
+                                           multipler=0.5)
         session.add(nl_central_winner_db)
         nl_central_second_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=1,
                                            division_id=2,
-                                           rank=2, team_id=nl_central_second, pick_type=1, changed=0)
+                                           rank=2, team_id=nl_central_second, pick_type=1, changed=0, multipler=0.5)
         session.add(nl_central_second_db)
 
         nl_central_last_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=1, division_id=2,
-                                         rank=5, team_id=nl_central_last, pick_type=1, changed=0)
+                                         rank=5, team_id=nl_central_last, pick_type=1, changed=0, multipler=0.5)
 
         session.add(nl_central_last_db)
 
         nl_west_winner_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=1, division_id=3,
-                                        rank=1, team_id=nl_west_winner_pick, pick_type=1, changed=0)
+                                        rank=1, team_id=nl_west_winner_pick, pick_type=1, changed=0, multipler=0.5)
         session.add(nl_west_winner_db)
         nl_west_second_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=1, division_id=3,
-                                        rank=2, team_id=nl_west_second, pick_type=1, changed=0)
+                                        rank=2, team_id=nl_west_second, pick_type=1, changed=0, multipler=0.5)
         session.add(nl_west_second_db)
 
         nl_west_last_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=1, division_id=3,
-                                      rank=5, team_id=nl_west_last, pick_type=1, changed=0)
+                                      rank=5, team_id=nl_west_last, pick_type=1, changed=0, multipler=0.5)
 
         session.add(nl_west_last_db)
 
         # Add American League Player Picks
 
         al_hr_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, player_id=al_hr_pick,
-                               pick_type=4, league_id=0, changed=0)
+                               pick_type=4, league_id=0, changed=0, multipler=0.5)
         session.add(al_hr_db)
 
         al_ba_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, player_id=al_ba_pick,
-                               pick_type=5, league_id=0, changed=0)
+                               pick_type=5, league_id=0, changed=0, multipler=0.5)
         session.add(al_ba_db)
 
         al_rbi_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, player_id=al_rbi_pick,
-                                pick_type=6, league_id=0, changed=0)
+                                pick_type=6, league_id=0, changed=0, multipler=0.5)
         session.add(al_rbi_db)
 
         al_p_wins_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, player_id=al_p_wins_pick,
-                                   pick_type=7, league_id=0, changed=0)
+                                   pick_type=7, league_id=0, changed=0, multipler=0.5)
         session.add(al_p_wins_db)
 
         al_era_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, player_id=al_era_pick,
-                                pick_type=8, league_id=0, changed=0)
+                                pick_type=8, league_id=0, changed=0, multipler=0.5)
         session.add(al_era_db)
 
         # Add National League Player Picks
 
         nl_hr_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, player_id=nl_hr_pick,
-                               pick_type=4, league_id=1, changed=0)
+                               pick_type=4, league_id=1, changed=0, multipler=0.5)
         session.add(nl_hr_db)
 
         nl_ba_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, player_id=nl_ba_pick,
-                               pick_type=5, league_id=1, changed=0)
+                               pick_type=5, league_id=1, changed=0, multipler=0.5)
         session.add(nl_ba_db)
 
         nl_rbi_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, player_id=nl_rbi_pick,
-                                pick_type=6, league_id=1, changed=0)
+                                pick_type=6, league_id=1, changed=0, multipler=0.5)
         session.add(nl_rbi_db)
 
         nl_p_wins_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, player_id=nl_p_wins_pick,
-                                   pick_type=7, league_id=1, changed=0)
+                                   pick_type=7, league_id=1, changed=0, multipler=0.5)
         session.add(nl_p_wins_db)
 
         nl_era_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, player_id=nl_era_pick,
-                                pick_type=8, league_id=1, changed=0)
+                                pick_type=8, league_id=1, changed=0, multipler=0.5)
         session.add(nl_era_db)
 
         # Add the wildcard picks
         al_wildcard1_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, team_id=al_wildcard1_pick,
-                                      pick_type=9, league_id=0, changed=0)
+                                      pick_type=9, league_id=0, changed=0, multipler=0.5)
         session.add(al_wildcard1_db)
 
         al_wildcard2_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, team_id=al_wildcard2_pick,
-                                      pick_type=9, league_id=0, changed=0)
+                                      pick_type=9, league_id=0, changed=0, multipler=0.5)
         session.add(al_wildcard2_db)
 
         nl_wildcard1_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, team_id=nl_wildcard1_pick,
-                                      pick_type=9, league_id=1, changed=0)
+                                      pick_type=9, league_id=1, changed=0, multipler=0.5)
         session.add(nl_wildcard1_db)
 
         nl_wildcard2_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, team_id=nl_wildcard2_pick,
-                                      pick_type=9, league_id=1, changed=0)
+                                      pick_type=9, league_id=1, changed=0, multipler=0.5)
         session.add(nl_wildcard2_db)
 
         # Add the Most Wins
         al_wins_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, team_id=al_wins_pick,
-                                 pick_type=3, league_id=0, changed=0)
+                                 pick_type=3, league_id=0, changed=0, multipler=0.5)
         session.add(al_wins_db)
 
         nl_wins_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, team_id=nl_wins_pick,
-                                 pick_type=3, league_id=1, changed=0)
+                                 pick_type=3, league_id=1, changed=0, multipler=0.5)
         session.add(nl_wins_db)
 
         # Add the Most Lossess
         al_losses_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, team_id=al_losses_pick,
-                                   pick_type=2, league_id=0, changed=0)
+                                   pick_type=2, league_id=0, changed=0, multipler=0.5)
         session.add(al_losses_db)
 
         nl_losses_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, team_id=nl_losses_pick,
-                                   pick_type=2, league_id=1, changed=0)
+                                   pick_type=2, league_id=1, changed=0, multipler=0.5)
         session.add(nl_losses_db)
 
         # Add the tiebreaker
         twins_wins_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, twins_wins=twins_wins_pick,
-                                    pick_type=10, changed=0)
+                                    pick_type=10, changed=0, multipler=0.5)
         session.add(twins_wins_db)
         session.commit()
         session.close()
