@@ -16,197 +16,123 @@
                         You can only change up to 14 of your picks at the All-Star Break.
                         These changes will only be worth half points and do qualify for double points if unique.</div>
 
-                    <form class="form-horizontal" action="" method="POST">
-                    <div class="form-group">
-                        <h3>American League Division Picks</h3>
-                        <p>American League East Winner</p>
-                        <select name="al_east_winner_pick"
-                                class="form-control" id="al_east_winner_pick">
-                        <option tal:repeat="a al_east" value="${a.team_id}">${a.name}</option>
-                        </select><br>
-                        <p>American League East Second Place</p>
-                        <select class="form-control" name="al_east_second_pick">
-                        <option tal:repeat="a al_east" value="${a.team_id}">${a.name}</option>
-                        </select><br>
-                        <p>American League East Last Place</p>
-                        <select class="form-control" name="al_east_last_pick">
-                        <option tal:repeat="a al_east" value="${a.team_id}">${a.name}</option>
-                        </select><br>
-                        <p>American League Central Winner</p>
-                        <select class="form-control" name="al_central_winner_pick">
-                        <option tal:repeat="a al_central" value="${a.team_id}">${a.name}</option>
-                        </select><br>
-                        <p>American League Central Second Place</p>
-                        <select class="form-control" name="al_central_second_pick">
-                        <option tal:repeat="a al_central" value="${a.team_id}">${a.name}</option>
-                        </select><br>
-                        <p>American League Central Last Place</p>
-                        <select class="form-control" name="al_central_last_pick">
-                        <option tal:repeat="a al_central" value="${a.team_id}">${a.name}</option>
-                        </select><br>
-                        <p>American League West Winner</p>
-                        <select class="form-control" name="al_west_winner_pick">
-                        <option tal:repeat="a al_west" value="${a.team_id}">${a.name}</option>
-                        </select><br>
-                        <p>American League West Second Place</p>
-                        <select class="form-control" name="al_west_second_pick">
-                        <option tal:repeat="a al_west" value="${a.team_id}">${a.name}</option>
-                        </select><br>
-                        <p>American League West Last Place</p>
-                        <select class="form-control" name="al_west_last_pick">
-                        <option tal:repeat="a al_west" value="${a.team_id}">${a.name}</option>
-                        </select><br>
+                        <table class="table table-striped">
+                          <thead>
+                            <tr>
+                                <th>Pick Name</th>
+                                <th>Your Pick</th>
+                                <th>Original Pick</th>
+                                <th>Unique?</th>
+                                <th>Change Pick</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                          <form>
+                           <span tal:repeat="p all_picks" tal:switch="p.pick_type">
+                               <form class="form-horizontal" action="" method="POST">
+                                <div class="form-group">
 
-                        <h3>American League Wildcard Playoff Teams</h3>
-                        <select class="form-control" name="al_wildcard1_pick">
-                        <option tal:repeat="a al_wildcard_list" value="${a.team_id}">${a.name}</option>
-                        </select><br>
-                        <select class="form-control" name="al_wildcard2_pick">
-                        <option tal:repeat="a al_wildcard_list" value="${a.team_id}">${a.name}</option>
-                        </select><br>
+                            <tr tal:case="1">
+                                <td tal:condition="(p.rank==1)" tal:content="string:${p.league} ${p.division} Winner"></td>
+                                <td tal:condition="(p.rank==2)" tal:content="string:${p.league} ${p.division} Second Place"></td>
+                                <td tal:condition="(p.rank==5)" tal:content="string:${p.league} ${p.division} Last Place"></td>
 
-                        <h3>National League Division Picks</h3>
+                                <td tal:content="string:${p.name}"></td>
+                                <td tal:condition="string:${p.changed==1}" tal:content="string:Yes"></td>
+                                <td tal:condition="string:${p.changed==0}" tal:content="string:No"></td>
+                                <td tal:condition="(p.multiplier==1)" tal:content="string:No"></td>
+                                <td tal:condition="(p.multiplier==2)" tal:content="string:Yes"></td>
+                            </tr>
 
-                        <p>National League East Winner</p>
-                        <select name="nl_east_winner_pick"
-                                class="form-control" id="nl_east_winner_pick">
-                        <option tal:repeat="a nl_east" value="${a.team_id}">${a.name}</option>
-                        </select><br>
-                        <p>National League East Second Place</p>
-                        <select class="form-control" name="nl_east_second_pick">
-                        <option tal:repeat="a nl_east" value="${a.team_id}">${a.name}</option>
-                        </select><br>
-                        <p>National League East Last Place</p>
-                        <select class="form-control" name="nl_east_last_pick">
-                        <option tal:repeat="a nl_east" value="${a.team_id}">${a.name}</option>
-                        </select><br>
-                        <p>National League Central Winner</p>
-                        <select class="form-control" name="nl_central_winner_pick">
-                        <option tal:repeat="a nl_central" value="${a.team_id}">${a.name}</option>
-                        </select><br>
-                        <p>National League Central Second Place</p>
-                        <select class="form-control" name="nl_central_second_pick">
-                        <option tal:repeat="a nl_central" value="${a.team_id}">${a.name}</option>
-                        </select><br>
-                        <p>National League Central Last Place</p>
-                        <select class="form-control" name="nl_central_last_pick">
-                        <option tal:repeat="a nl_central" value="${a.team_id}">${a.name}</option>
-                        </select><br>
-                        <p>National League West Winner</p>
-                        <select class="form-control" name="nl_west_winner_pick">
-                        <option tal:repeat="a nl_west" value="${a.team_id}">${a.name}</option>
-                        </select><br>
-                        <p>National League West Second Place</p>
-                        <select class="form-control" name="nl_west_second_pick">
-                        <option tal:repeat="a nl_west" value="${a.team_id}">${a.name}</option>
-                        </select><br>
-                        <p>National League West Last Place</p>
-                        <select class="form-control" name="nl_west_last_pick">
-                        <option tal:repeat="a nl_west" value="${a.team_id}">${a.name}</option>
-                        </select><br>
+                              <tr tal:case="3">
+                                  <td tal:content="string:${p.league} Most wins"></td>
+                                  <td tal:content="string:${p.name}"></td>
+                                  <td tal:condition="string:${p.changed==1}" tal:content="string:Yes"></td>
+                                  <td tal:condition="string:${p.changed==0}" tal:content="string:No"></td>
+                                  <td tal:condition="(p.multiplier==1)" tal:content="string:No"></td>
+                                  <td tal:condition="(p.multiplier==2)" tal:content="string:Yes"></td>
+                              </tr>
 
-                        <h3>National League Wildcard Playoff Teams</h3>
-                        <select class="form-control" name="nl_wildcard1_pick">
-                        <option tal:repeat="a nl_wildcard_list" value="${a.team_id}">${a.name}</option>
-                        </select><br>
-                        <select class="form-control" name="nl_wildcard2_pick">
-                        <option tal:repeat="a nl_wildcard_list" value="${a.team_id}">${a.name}</option>
-                        </select><br>
+                               <tr tal:case="2">
+                                  <td tal:content="string:${p.league} Most losses"></td>
+                                  <td tal:content="string:${p.name}"></td>
+                                  <td tal:condition="string:${p.changed==1}" tal:content="string:Yes"></td>
+                                  <td tal:condition="string:${p.changed==0}" tal:content="string:No"></td>
+                                  <td tal:condition="(p.multiplier==1)" tal:content="string:No"></td>
+                                  <td tal:condition="(p.multiplier==2)" tal:content="string:Yes"></td>
+                              </tr>
 
-                        <h3>American League Individual Leaders</h3>
-                        <p>Home Runs</p>
-                        <select class="form-control" name="al_hr_pick">
-                        <option tal:repeat="a al_hitter_list" value="${a.player_id}">${a.firstname} ${a.lastname}
-                            ${a.position} ${a.team_abbr}</option>
-                        </select><br>
-                        <p>Batting Average</p>
-                        <select class="form-control" name="al_ba_pick">
-                        <option tal:repeat="a al_hitter_list" value="${a.player_id}">${a.firstname} ${a.lastname}
-                            ${a.position} ${a.team_abbr}</option>
-                        </select><br>
-                        <p>RBIs</p>
-                        <select class="form-control" name="al_rbi_pick">
-                        <option tal:repeat="a al_hitter_list" value="${a.player_id}">${a.firstname} ${a.lastname}
-                            ${a.position} ${a.team_abbr}</option>
-                        </select><br>
-                        <p>Wins (pitcher)</p>
-                        <select class="form-control" name="al_p_wins_pick">
-                        <option tal:repeat="a al_pitcher_list" value="${a.player_id}">${a.firstname} ${a.lastname}
-                            ${a.position} ${a.team_abbr}</option>
-                        </select><br>
-                        <p>ERA</p>
-                        <select class="form-control" name="al_era_pick">
-                        <option tal:repeat="a al_pitcher_list" value="${a.player_id}">${a.firstname} ${a.lastname}
-                            ${a.position} ${a.team_abbr}</option>
-                        </select><br>
+                            <tr tal:case="4">
+                                <td tal:content="string:${p.league} Home Runs"></td>
+                                <td tal:content="string:${p.firstname} ${p.lastname}"></td>
+                                <td tal:condition="string:${p.changed==1}" tal:content="string:Yes"></td>
+                                <td tal:condition="string:${p.changed==0}" tal:content="string:No"></td>
+                                <td tal:condition="(p.multiplier==1)" tal:content="string:No"></td>
+                                <td tal:condition="(p.multiplier==2)" tal:content="string:Yes"></td>
 
+                            </tr>
 
+                            <tr tal:case="5">
+                                <td tal:content="string:${p.league} Batting Average"></td>
+                                <td tal:content="string:${p.firstname} ${p.lastname}"></td>
+                                <td tal:condition="string:${p.changed==1}" tal:content="string:Yes"></td>
+                                <td tal:condition="string:${p.changed==0}" tal:content="string:No"></td>
+                                <td tal:condition="(p.multiplier==1)" tal:content="string:No"></td>
+                                <td tal:condition="(p.multiplier==2)" tal:content="string:Yes"></td>
+                            </tr>
+                            <tr tal:case="6">
+                                <td tal:content="string:${p.league} RBIs"></td>
+                                <td tal:content="string:${p.firstname} ${p.lastname}"></td>
+                                <td tal:condition="string:${p.changed==1}" tal:content="string:Yes"></td>
+                                <td tal:condition="string:${p.changed==0}" tal:content="string:No"></td>
+                                <td tal:condition="(p.multiplier==1)" tal:content="string:No"></td>
+                                <td tal:condition="(p.multiplier==2)" tal:content="string:Yes"></td>
+                            </tr>
+                            <tr tal:case="7">
+                                <td tal:content="string:${p.league} Pitcher Wins"></td>
+                                <td tal:content="string:${p.firstname} ${p.lastname}"></td>
+                                <td tal:condition="string:${p.changed==1}" tal:content="string:Yes"></td>
+                                <td tal:condition="string:${p.changed==0}" tal:content="string:No"></td>
+                                <td tal:condition="(p.multiplier==1)" tal:content="string:No"></td>
+                                <td tal:condition="(p.multiplier==2)" tal:content="string:Yes"></td>
+                            </tr>
+                            <tr tal:case="8">
+                                <td tal:content="string:${p.league} ERA"></td>
+                                <td tal:content="string:${p.firstname} ${p.lastname}"></td>
+                                <td tal:condition="string:${p.changed==1}" tal:content="string:Yes"></td>
+                                <td tal:condition="string:${p.changed==0}" tal:content="string:No"></td>
+                                <td tal:condition="(p.multiplier==1)" tal:content="string:No"></td>
+                                <td tal:condition="(p.multiplier==2)" tal:content="string:Yes"></td>
+                            </tr>
+                            <tr tal:case="9">
+                                <td tal:content="string:${p.league} Wildcard"></td>
+                                <td tal:content="string: ${p.name}"></td>
+                                <td tal:condition="string:${p.changed==1}" tal:content="string:Yes"></td>
+                                <td tal:condition="string:${p.changed==0}" tal:content="string:No"></td>
+                                <td tal:condition="(p.multiplier==1)" tal:content="string:No"></td>
+                                <td tal:condition="(p.multiplier==2)" tal:content="string:Yes"></td>
+                            </tr>
+                            <tr tal:case="10">
+                                <td tal:content="string:Tiebreaker (Twins Wins)"></td>
+                                <td tal:content="string: ${p.twins_wins}"></td>
+                                <td tal:condition="string:${p.changed==1}" tal:content="string:Yes"></td>
+                                <td tal:condition="string:${p.changed==0}" tal:content="string:No"></td>
+                                <td tal:condition="(p.multiplier==1)" tal:content="string:No"></td>
+                                <td tal:condition="(p.multiplier==2)" tal:content="string:Yes"></td>
+                            </tr>
+                           </span>
+                          </form>
+                          </tbody>
 
-                        <h3>National League Individual Leaders</h3>
-                        <p>Home Runs</p>
-                        <select class="form-control" name="nl_hr_pick">
-                        <option tal:repeat="a nl_hitter_list" value="${a.player_id}">${a.firstname} ${a.lastname}
-                            ${a.position} ${a.team_abbr}</option>
-                        </select><br>
-                        <p>Batting Average</p>
-                        <select class="form-control" name="nl_ba_pick">
-                        <option tal:repeat="a nl_hitter_list" value="${a.player_id}">${a.firstname} ${a.lastname}
-                            ${a.position} ${a.team_abbr}</option>
-                        </select><br>
-                        <p>RBIs</p>
-                        <select class="form-control" name="nl_rbi_pick">
-                        <option tal:repeat="a nl_hitter_list" value="${a.player_id}">${a.firstname} ${a.lastname}
-                            ${a.position} ${a.team_abbr}</option>
-                        </select><br>
-                        <p>Wins (pitcher)</p>
-                        <select class="form-control" name="nl_p_wins_pick">
-                        <option tal:repeat="a nl_pitcher_list" value="${a.player_id}">${a.firstname} ${a.lastname}
-                            ${a.position} ${a.team_abbr}</option>
-                        </select><br>
-                        <p>ERA</p>
-                        <select class="form-control" name="nl_era_pick">
-                        <option tal:repeat="a nl_pitcher_list" value="${a.player_id}">${a.firstname} ${a.lastname}
-                            ${a.position} ${a.team_abbr}</option>
-                        </select><br>
-
-                        <h3>Other picks</h3>
-                        <p>American League Team with the most wins</p>
-                        <select class="form-control" name="al_wins_pick">
-                        <option tal:repeat="a al_wildcard_list" value="${a.team_id}">${a.name}</option>
-                        </select><br>
-                        <p>American League Team with the most losses</p>
-                        <select class="form-control" name="al_losses_pick">
-                        <option tal:repeat="a al_wildcard_list" value="${a.team_id}">${a.name}</option>
-                        </select><br>
-                        <p>National League Team with the most wins</p>
-                        <select class="form-control" name="nl_wins_pick">
-                        <option tal:repeat="a nl_wildcard_list" value="${a.team_id}">${a.name}</option>
-                        </select><br>
-                        <p>National League Team with the most losses</p>
-                        <select class="form-control" name="nl_losses_pick">
-                        <option tal:repeat="a nl_wildcard_list" value="${a.team_id}">${a.name}</option>
-                        </select><br>
-                        <br>
-
-                        <h3>Tiebreaker</h3>
-                        <p>How many wins will the Minnesota Twins finish with?</p>
-                        <select class="form-control" name="twins_wins_pick">
-                            <option tal:repeat="a twins_wins_pick_list" value="${a}">${a} </option>
-                        </select>
-                        <br>
+                     </table>
 
 
                         <h3>Submit Your Changes</h3>
 
-                        <button type="submit" class="btn-success">Submit Your Picks</button>
-                    </div>
-                    </form>
+                        <button type="submit" class="btn-success">Change Your Picks</button>
+
                 </div>
-
             </div>
-
         </div>
-
     </div>
-
 </div>
