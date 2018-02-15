@@ -22,6 +22,7 @@ class PlayerPicksService:
 
     @staticmethod
     def get_hitter_list(league_id, position):
+        """Get a list of all players who are not pitchers"""
         session = DbSessionFactory.create_session()
 
         player_list = session.query(ActiveMLBPlayers.player_id, ActiveMLBPlayers.firstname, ActiveMLBPlayers.lastname,
@@ -36,6 +37,7 @@ class PlayerPicksService:
 
     @staticmethod
     def get_pitcher_list(league_id, position):
+        """Get a list of all pitchers"""
         session = DbSessionFactory.create_session()
 
         player_list = session.query(ActiveMLBPlayers.player_id, ActiveMLBPlayers.firstname, ActiveMLBPlayers.lastname,
@@ -50,6 +52,7 @@ class PlayerPicksService:
 
     @staticmethod
     def get_al_wildcard():
+        """Get a list of all American League teams for players to choose the wildcard winners"""
         session = DbSessionFactory.create_session()
 
         al_wildcard_list = session.query(TeamInfo).filter(TeamInfo.league_id == 0).order_by(TeamInfo.name).all()
@@ -58,6 +61,7 @@ class PlayerPicksService:
 
     @staticmethod
     def get_nl_wildcard():
+        """Get a list of all National League teams for players to choose the wildcard winners"""
         session = DbSessionFactory.create_session()
 
         nl_wildcard_list = session.query(TeamInfo).filter(TeamInfo.league_id == 1).order_by(TeamInfo.name).all()
@@ -66,6 +70,7 @@ class PlayerPicksService:
 
     @staticmethod
     def get_current_season():
+        """Get the current season from the SeasonInfo table"""
         session = DbSessionFactory.create_session()
         season_row = session.query(SeasonInfo.current_season).filter(SeasonInfo.id == 1).first()
         season = season_row.current_season
@@ -89,6 +94,7 @@ class PlayerPicksService:
                          al_losses_pick: int, nl_losses_pick: int,
                          twins_wins_pick: int,
                          user_id: str):
+        """Get the list of selections from the POST and insert into the database"""
         session = DbSessionFactory.create_session()
         season_row = session.query(SeasonInfo.current_season).filter(SeasonInfo.id == 1).first()
         season = season_row.current_season
