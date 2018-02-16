@@ -411,7 +411,7 @@ class PicksController(BaseController):
         all_picks = ViewPicksService.display_picks(self.logged_in_user_id, season)
 
         # Create the list to allow a user to select if changing a pick
-        change_pick = ["No", "Yes"]
+        change_pick = [0, 1]
 
         # Return the models
         return {
@@ -435,3 +435,49 @@ class PicksController(BaseController):
             'change_pick': change_pick
         }
 
+    # POST /picks/submit_picks
+    @pyramid_handlers.action(renderer='templates/picks/change-picks2.pt',
+                             request_method='POST',
+                             name='change-picks2')
+    def change_player_picks_post(self):
+        vm = PlayerPicksViewModel()
+        vm.from_dict(self.request.POST)
+
+        # TODO Need to get a count that can't be more than 14 when changing picks
+
+        # Pass a player's picks to the service to be inserted in the db
+
+        vm.user_id = self.logged_in_user_id
+
+        # TODO This may need to be a different PlayerPicksService to do a db update
+
+        player_picks = PlayerPicksService.change_player_picks(vm.al_east_winner_pick, vm.al_east_second_pick,
+                                                           vm.al_east_last_pick,
+                                                           vm.al_central_winner_pick, vm.al_central_second_pick,
+                                                           vm.al_central_last_pick,
+                                                           vm.al_west_winner_pick, vm.al_west_second_pick,
+                                                           vm.al_west_last_pick,
+                                                           vm.nl_east_winner_pick, vm.nl_east_second_pick,
+                                                           vm.nl_east_last_pick,
+                                                           vm.nl_central_winner_pick, vm.nl_central_second_pick,
+                                                           vm.nl_central_last_pick,
+                                                           vm.nl_west_winner_pick, vm.nl_west_second_pick,
+                                                           vm.nl_west_last_pick,
+                                                           vm.al_hr_pick, vm.nl_hr_pick,
+                                                           vm.al_rbi_pick, vm.nl_rbi_pick,
+                                                           vm.al_ba_pick, vm.nl_ba_pick,
+                                                           vm.al_p_wins_pick, vm.nl_p_wins_pick,
+                                                           vm.al_era_pick, vm.nl_era_pick,
+                                                           vm.al_wildcard1_pick, vm.al_wildcard2_pick,
+                                                           vm.nl_wildcard1_pick, vm.nl_wildcard2_pick,
+                                                           vm.al_wins_pick, vm.nl_wins_pick,
+                                                           vm.al_losses_pick, vm.nl_losses_pick,
+                                                           vm.change_pick,
+                                                           vm.user_id)
+
+        # Log that a user changed picks
+
+    #        self.log.notice("Picks changed by {}.".format(self.logged_in_user.email))
+
+    # redirect
+        self.redirect('/account')

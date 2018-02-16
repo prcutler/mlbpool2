@@ -44,7 +44,7 @@
                                 <td tal:content="string:${p.name}"></td>
                                 <td tal:condition="(p.multiplier==1)" tal:content="string:No"></td>
                                 <td tal:condition="(p.multiplier==2)" tal:content="string:Yes"></td>
-                                <td> <select name="change_pick" class="form-control" id="change_pick">
+                                <td> <select name="change_al_east_winner_pick" class="form-control" id="change_al_east_winner_pick">
                                     <option tal:repeat="c change_pick" value="${c}">${c}</option></td>
                                 <td tal:condition="(p.league_id==0) and (p.division_id == 1) and (p.rank==1)">
                                     <select name="al_east_winner_pick" class="form-control" id="al_east_winner_pick">

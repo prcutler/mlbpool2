@@ -40,6 +40,8 @@ class PlayerPicksViewModel(ViewModelBase):
         self.al_losses_pick = None
         self.nl_losses_pick = None
         self.twins_wins_pick = None
+        self.change_pick = None
+        self.change_al_east_winner_pick = None
 
     def from_dict(self, data_dict):
         self.al_east_winner_pick = data_dict.get('al_east_winner_pick')
@@ -79,5 +81,7 @@ class PlayerPicksViewModel(ViewModelBase):
         self.al_losses_pick = data_dict.get('al_losses_pick')
         self.nl_losses_pick = data_dict.get('nl_losses_pick')
         self.twins_wins_pick = data_dict.get('twins_wins_pick')
+        self.change_pick = data_dict.get('change_pick')
+        self.change_al_east_winner_pick = data_dict.get('change_al_east_winner_pick')
 
 
