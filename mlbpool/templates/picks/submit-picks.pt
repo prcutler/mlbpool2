@@ -186,6 +186,7 @@
 
                         <h3>Tiebreaker</h3>
                         <p>How many wins will the Minnesota Twins finish with?</p>
+                        <p><b>You cannot make any changes to your tiebreaker pick!</b></p>
                         <select class="form-control" name="twins_wins_pick">
                             <option tal:repeat="a twins_wins_pick_list" value="${a}">${a} </option>
                         </select>
@@ -194,10 +195,10 @@
 
                         <h3>Submit Your Picks</h3>
                         <div class="alert alert-warning" role="alert">If the season has not started yet, you can
-                        change as many picks as you want without penalty after you press submit below.  Visit
-                            the account page after you submit to view your picks or change your picks.
-                        You can only change up to 14 of your picks at the All-Star Break.
-                        These changes will only be worth half points and do qualify for double points if unique.</div>
+                            change as many picks as you want (except the tiebreaker) without penalty after you press
+                            submit below.  Visit the account page after you submit to view your picks or change your
+                            picks.  You can only change up to 14 of your picks at the All-Star Break.  These changes
+                            will only be worth half points and do qualify for double points if unique.</div>
 
                         <button type="submit" class="btn-success">Submit Your Picks</button>
                     </div>
