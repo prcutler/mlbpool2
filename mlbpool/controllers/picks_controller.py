@@ -410,6 +410,9 @@ class PicksController(BaseController):
         # Get the original picks the player made
         all_picks = ViewPicksService.display_picks(self.logged_in_user_id, season)
 
+        # Create the list to allow a user to select if changing a pick
+        change_pick = ["No", "Yes"]
+
         # Return the models
         return {
             'season': season,
@@ -429,5 +432,6 @@ class PicksController(BaseController):
             'nl_wildcard_list': nl_wildcard_list,
             'twins_wins_pick_list': twins_wins_pick_list,
             'all_picks': all_picks,
+            'change_pick': change_pick
         }
 
