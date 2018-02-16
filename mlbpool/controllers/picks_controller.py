@@ -410,6 +410,17 @@ class PicksController(BaseController):
         # Get the original picks the player made
         all_picks = ViewPicksService.display_picks(self.logged_in_user_id, season)
 
+        # Get the AL East division picks
+        al_east_picks = ViewPicksService.al_east_picks(self.logged_in_user_id, season)
+
+        # Get the AL Division winner picks
+        al_division_winner_picks = ViewPicksService.al_division_winner_picks(self.logged_in_user_id, season)
+        print(al_division_winner_picks)
+
+        # Get all division picks
+        division_picks = ViewPicksService.al_division_winner_picks(self.logged_in_user_id, season)
+        print(division_picks)
+
         # Return the models
         return {
             'season': season,
@@ -428,6 +439,9 @@ class PicksController(BaseController):
             'al_wildcard_list': al_wildcard_list,
             'nl_wildcard_list': nl_wildcard_list,
             'twins_wins_pick_list': twins_wins_pick_list,
-            'all_picks': all_picks
+            'all_picks': all_picks,
+            'al_east_picks': al_east_picks,
+            'al_division_winner_picks': al_division_winner_picks,
+            'division_picks': division_picks
         }
 

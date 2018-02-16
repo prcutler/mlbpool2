@@ -27,11 +27,13 @@
                           </thead>
 
                           <tbody>
-                           <span tal:repeat="p all_picks">
+                           <span tal:repeat="p all_picks" tal:switch="p.rank">
 
-                            <tr tal:condition="(p.rank==1, p.league==0, p.division==1)">
-                                <td tal:condition="(p.rank==1, p.league==0, p.division==1)"
-                                         tal:content="string:${p.league} ${p.division} Winner"></td>
+                            <tr tal:case="2">
+                                <td tal:condition="(p.rank==1)" tal:content="string:${p.league} ${p.division} Winner"></td>
+                                <td tal:condition="(p.rank==2)" tal:content="string:${p.league} ${p.division} Second Place"></td>
+                                <td tal:condition="(p.rank==5)" tal:content="string:${p.league} ${p.division} Last Place"></td>
+
 
                                 <td tal:content="string:${p.name}"></td>
                                 <td tal:condition="(p.multiplier==1)" tal:content="string:No"></td>

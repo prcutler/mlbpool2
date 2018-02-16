@@ -74,10 +74,28 @@ class ViewPicksService:
             .outerjoin(LeagueInfo) \
             .outerjoin(TeamInfo) \
             .outerjoin(DivisionInfo, and_(PlayerPicks.division_id == DivisionInfo.division_id)) \
+            .filter(PlayerPicks.user_id == user_id, PlayerPicks.season == season,
+                    PlayerPicks.league_id == 0, DivisionInfo.division_id == 1, PlayerPicks.pick_type == 1)
+
+        print(al_east_picks)
+        return al_east_picks
+
+    @staticmethod
+    def division_picks(user_id, season):
+        """Return all division picks"""
+
+        session = DbSessionFactory.create_session()
+
+        division_picks = session.query(PlayerPicks.pick_type, LeagueInfo.league_id, DivisionInfo.division_id,
+                                       TeamInfo.name, PlayerPicks.rank,
+                                       PlayerPicks.multiplier, PlayerPicks.changed) \
+            .outerjoin(LeagueInfo) \
+            .outerjoin(TeamInfo) \
+            .outerjoin(DivisionInfo, and_(PlayerPicks.division_id == DivisionInfo.division_id)) \
             .outerjoin(ActiveMLBPlayers, and_(PlayerPicks.player_id == ActiveMLBPlayers.player_id,
                                               PlayerPicks.season == ActiveMLBPlayers.season)). \
             filter(PlayerPicks.user_id == user_id, PlayerPicks.season == season,
-                   PlayerPicks.league_id == 0, DivisionInfo.division_id == 1, PlayerPicks.pick_type == 1)
+                   PlayerPicks.pick_type == 1)
 
-        return al_east_picks
+        return division_picks
 
