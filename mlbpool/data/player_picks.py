@@ -17,4 +17,4 @@ class PlayerPicks(SqlAlchemyBase):
     pick_type = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey('PickTypes.pick_type_id'))
     twins_wins = sqlalchemy.Column(sqlalchemy.Integer)
     changed = sqlalchemy.Column(sqlalchemy.Float, default=1)
-    orignal_pick = sqlalchemy.Column(sqlalchemy.Integer)
+    original_pick = sqlalchemy.Column(sqlalchemy.Integer)

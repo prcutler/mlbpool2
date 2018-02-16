@@ -108,7 +108,7 @@ class PlayerPicksService:
         session.add(al_east_winner_db)
         al_east_second_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=0, division_id=1,
                                         rank=2, team_id=al_east_second, pick_type=1,
-                                        original_pick = al_east_second)
+                                        original_pick=al_east_second)
         session.add(al_east_second_db)
 
         al_east_last_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=0, division_id=1,
@@ -119,7 +119,7 @@ class PlayerPicksService:
 
         al_central_winner_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=0, division_id=2,
                                            rank=1, team_id=al_central_winner_pick, pick_type=1,
-                                           original_pick = al_central_winner_pick)
+                                           original_pick=al_central_winner_pick)
         session.add(al_central_winner_db)
         al_central_second_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=0, division_id=2,
                                            rank=2, team_id=al_central_second, pick_type=1,
@@ -134,7 +134,7 @@ class PlayerPicksService:
 
         al_west_winner_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=0, division_id=3,
                                         rank=1, team_id=al_west_winner_pick, pick_type=1,
-                                        original_pick =al_west_winner_pick)
+                                        original_pick=al_west_winner_pick)
         session.add(al_west_winner_db)
         al_west_second_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=0, division_id=3,
                                         rank=2, team_id=al_west_second, pick_type=1,
