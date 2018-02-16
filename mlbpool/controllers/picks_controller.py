@@ -415,11 +415,11 @@ class PicksController(BaseController):
 
         # Get the AL Division winner picks
         al_division_winner_picks = ViewPicksService.al_division_winner_picks(self.logged_in_user_id, season)
-        print(al_division_winner_picks)
+#        print(al_division_winner_picks)
 
         # Get all division picks
         division_picks = ViewPicksService.al_division_winner_picks(self.logged_in_user_id, season)
-        print(division_picks)
+#        print(division_picks)
 
         # Return the models
         return {

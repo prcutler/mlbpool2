@@ -31,7 +31,7 @@ class ViewPicksService:
         session = DbSessionFactory.create_session()
 
         picks_query = session.query(PlayerPicks.pick_type, LeagueInfo.league, DivisionInfo.division,
-                                    TeamInfo.name, PlayerPicks.rank,
+                                    TeamInfo.name, PlayerPicks.rank, DivisionInfo.division_id, LeagueInfo.league_id,
                                     ActiveMLBPlayers.firstname, ActiveMLBPlayers.lastname, PlayerPicks.multiplier,
                                     PlayerPicks.twins_wins, PlayerPicks.changed) \
             .outerjoin(LeagueInfo)\
@@ -51,7 +51,8 @@ class ViewPicksService:
 
         division_winners = session.query(PlayerPicks.pick_type, LeagueInfo.league_id, DivisionInfo.division_id,
                                          TeamInfo.name, PlayerPicks.rank,
-                                         PlayerPicks.multiplier, PlayerPicks.changed) \
+                                         PlayerPicks.multiplier, PlayerPicks.changed,
+                                         DivisionInfo.division, LeagueInfo.league) \
             .outerjoin(LeagueInfo) \
             .outerjoin(TeamInfo) \
             .outerjoin(DivisionInfo, and_(PlayerPicks.division_id == DivisionInfo.division_id)) \
@@ -77,7 +78,7 @@ class ViewPicksService:
             .filter(PlayerPicks.user_id == user_id, PlayerPicks.season == season,
                     PlayerPicks.league_id == 0, DivisionInfo.division_id == 1, PlayerPicks.pick_type == 1)
 
-        print(al_east_picks)
+#        print(al_east_picks)
         return al_east_picks
 
     @staticmethod
@@ -88,7 +89,8 @@ class ViewPicksService:
 
         division_picks = session.query(PlayerPicks.pick_type, LeagueInfo.league_id, DivisionInfo.division_id,
                                        TeamInfo.name, PlayerPicks.rank,
-                                       PlayerPicks.multiplier, PlayerPicks.changed) \
+                                       PlayerPicks.multiplier, PlayerPicks.changed,
+                                       LeagueInfo.league, DivisionInfo.division) \
             .outerjoin(LeagueInfo) \
             .outerjoin(TeamInfo) \
             .outerjoin(DivisionInfo, and_(PlayerPicks.division_id == DivisionInfo.division_id)) \
