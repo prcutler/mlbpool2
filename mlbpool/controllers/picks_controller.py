@@ -440,8 +440,5 @@ class PicksController(BaseController):
             'nl_wildcard_list': nl_wildcard_list,
             'twins_wins_pick_list': twins_wins_pick_list,
             'all_picks': all_picks,
-            'al_east_picks': al_east_picks,
-            'al_division_winner_picks': al_division_winner_picks,
-            'division_picks': division_picks
         }
 
