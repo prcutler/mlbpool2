@@ -13,3 +13,4 @@ class GamedayService:
         season = season_row.current_season
         season_opener_date = session.query(SeasonInfo.season_start_date)
         all_star_game_date = session.query(SeasonInfo.all_star_game_date)
+        tz = pendulum.timezone('America/New_York')
