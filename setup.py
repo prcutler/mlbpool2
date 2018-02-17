@@ -17,6 +17,7 @@ requires = [
     'pyramid_chameleon',
     'pyramid_debugtoolbar',
     'pyramid_handlers',
+    'pendulum',
     'pymysql',
     'requests',
     'rollbar',
