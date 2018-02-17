@@ -25,9 +25,9 @@ def get_update_date():
 
 
 class WeeklyStatsService:
-    # Open a connection to the database to get the current season year from the SeasonInfo table
-    # Get weekly stats for each player for yards (passing, receiving, rushing), sacks and interceptions
-    # TODO: Need to include a date / week field when storing in the database
+    """Open a connection to the database to get the current season year from the SeasonInfo table
+    Get weekly stats for each player for hitting (batting average, home runs and RBIs) and pitching (ERA and
+    wins by pitcher)"""
     @staticmethod
     def get_hitter_stats():
         """Get stats for hitters (home runs, batting average and ERA) from MySportsFeeds and insert into the database"""
