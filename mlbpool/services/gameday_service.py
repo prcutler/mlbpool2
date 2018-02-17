@@ -30,3 +30,4 @@ class GameDayService:
             away_team = first_game["awayTeam"]["Name"]
             home_team = first_game["homeTeam"]["Name"]
 
+            return first_game_date, first_game_time, away_team, home_team
