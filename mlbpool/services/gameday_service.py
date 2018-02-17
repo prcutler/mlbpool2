@@ -3,7 +3,7 @@ from mlbpool.data.seasoninfo import SeasonInfo
 from mlbpool.data.dbsession import DbSessionFactory
 
 
-class GamedayService:
+class GameDayService:
 
     @staticmethod
     def get_season_opener_date:
