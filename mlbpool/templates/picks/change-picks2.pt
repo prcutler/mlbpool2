@@ -46,87 +46,140 @@
 
                                 <td tal:condition="(p.league_id==0) and (p.division_id == 1) and (p.rank==1)">
                                     <select name="al_east_winner_pick" class="form-control" id="al_east_winner_pick">
-                                    <option tal:repeat="a al_east" value="${a.team_id}" selected>${a.name}</option>
+                                        <tal:block tal:repeat="a al_east">
+                                            <option tal:condition="(a.team_id==p.team_id)" value="${a.team_id}" selected >${a.name}</option>
+                                            <option tal:condition="(a.team_id!=p.team_id)" value="${a.team_id}"  >${a.name}</option>
+                                        </tal:block>
                                     </select><br></td>
+
                                 <td tal:condition="(p.league_id==0) and (p.division_id == 1) and (p.rank==2)">
-                                    <select name="al_east_second_pick"
-                                    class="form-control" id="al_east_second_pick">
-                                    <option tal:repeat="a al_east" value="${a.team_id}" selected>${a.name}</option>
+                                    <select name="al_east_second_pick" class="form-control" id="al_east_second_pick">
+                                        <tal:block tal:repeat="a al_east">
+                                            <option tal:condition="(a.team_id==p.team_id)" value="${a.team_id}" selected >${a.name}</option>
+                                            <option tal:condition="(a.team_id!=p.team_id)" value="${a.team_id}"  >${a.name}</option>
+                                        </tal:block>
                                     </select><br></td>
+
                                 <td tal:condition="(p.league_id==0) and (p.division_id == 1) and (p.rank==5)">
-                                    <select name="al_east_last_pick"
-                                    class="form-control" id="al_east_last_pick">
-                                    <option tal:repeat="a al_east" value="${a.team_id}" selected>${a.name}</option>
+                                    <select name="al_east_last_pick" class="form-control" id="al_east_last_pick">
+                                        <tal:block tal:repeat="a al_east">
+                                            <option tal:condition="(a.team_id==p.team_id)" value="${a.team_id}" selected >${a.name}</option>
+                                            <option tal:condition="(a.team_id!=p.team_id)" value="${a.team_id}"  >${a.name}</option>
+                                        </tal:block>
                                     </select><br></td>
+
                                 <td tal:condition="(p.league_id==0) and (p.division_id == 2) and (p.rank==1)">
                                     <select name="al_central_winner_pick" class="form-control" id="al_central_winner_pick">
-                                    <option tal:repeat="a al_central" value="${a.team_id}">${a.name}</option>
+                                        <tal:block tal:repeat="a al_central">
+                                            <option tal:condition="(a.team_id==p.team_id)" value="${a.team_id}" selected >${a.name}</option>
+                                            <option tal:condition="(a.team_id!=p.team_id)" value="${a.team_id}"  >${a.name}</option>
+                                        </tal:block>
                                     </select><br></td>
+
                                 <td tal:condition="(p.league_id==0) and (p.division_id == 2) and (p.rank==2)">
-                                    <select name="al_central_second_pick"
-                                    class="form-control" id="al_central_second_pick">
-                                    <option tal:repeat="a al_central" value="${a.team_id}">${a.name}</option>
+                                    <select name="al_central_second_pick" class="form-control" id="al_central_second_pick">
+                                     <tal:block tal:repeat="a al_central">
+                                            <option tal:condition="(a.team_id==p.team_id)" value="${a.team_id}" selected >${a.name}</option>
+                                            <option tal:condition="(a.team_id!=p.team_id)" value="${a.team_id}"  >${a.name}</option>
+                                        </tal:block>
                                     </select><br></td>
+
                                 <td tal:condition="(p.league_id==0) and (p.division_id == 2) and (p.rank==5)">
                                     <select name="al_central_last_pick"
                                     class="form-control" id="al_central_last_pick">
-                                    <option tal:repeat="a al_central" value="${a.team_id}">${a.name}</option>
+                                    <tal:block tal:repeat="a al_central">
+                                            <option tal:condition="(a.team_id==p.team_id)" value="${a.team_id}" selected >${a.name}</option>
+                                            <option tal:condition="(a.team_id!=p.team_id)" value="${a.team_id}"  >${a.name}</option>
+                                    </tal:block>
                                     </select><br></td>
+
                                 <td tal:condition="(p.league_id==0) and (p.division_id == 3) and (p.rank==1)">
                                     <select name="al_west_winner_pick" class="form-control" id="al_west_winner_pick">
-                                    <option tal:repeat="a al_west" value="${a.team_id}">${a.name}</option>
+                                        <tal:block tal:repeat="a al_west">
+                                            <option tal:condition="(a.team_id==p.team_id)" value="${a.team_id}" selected >${a.name}</option>
+                                            <option tal:condition="(a.team_id!=p.team_id)" value="${a.team_id}"  >${a.name}</option>
+                                        </tal:block>
                                     </select><br></td>
                                 <td tal:condition="(p.league_id==0) and (p.division_id == 3) and (p.rank==2)">
-                                    <select name="al_west_second_pick"
-                                    class="form-control" id="al_west_second_pick">
-                                    <option tal:repeat="a al_west" value="${a.team_id}">${a.name}</option>
+                                    <select name="al_west_second_pick" class="form-control" id="al_west_second_pick">
+                                        <tal:block tal:repeat="a al_west">
+                                            <option tal:condition="(a.team_id==p.team_id)" value="${a.team_id}" selected >${a.name}</option>
+                                            <option tal:condition="(a.team_id!=p.team_id)" value="${a.team_id}"  >${a.name}</option>
+                                        </tal:block>
                                     </select><br></td>
+
                                 <td tal:condition="(p.league_id==0) and (p.division_id == 3) and (p.rank==5)">
-                                    <select name="al_west_last_pick"
-                                    class="form-control" id="al_west_last_pick">
-                                    <option tal:repeat="a al_west" value="${a.team_id}">${a.name}</option>
+                                    <select name="al_west_last_pick" class="form-control" id="al_west_last_pick">
+                                        <tal:block tal:repeat="a al_west">
+                                            <option tal:condition="(a.team_id==p.team_id)" value="${a.team_id}" selected >${a.name}</option>
+                                            <option tal:condition="(a.team_id!=p.team_id)" value="${a.team_id}"  >${a.name}</option>
+                                        </tal:block>
                                     </select><br></td>
                                 <td tal:condition="(p.league_id==1) and (p.division_id == 1) and (p.rank==1)">
                                     <select name="nl_east_winner_pick" class="form-control" id="nl_east_winner_pick">
-                                    <option tal:repeat="a nl_east" value="${a.team_id}">${a.name}</option>
+                                        <tal:block tal:repeat="a nl_east">
+                                            <option tal:condition="(a.team_id==p.team_id)" value="${a.team_id}" selected >${a.name}</option>
+                                            <option tal:condition="(a.team_id!=p.team_id)" value="${a.team_id}"  >${a.name}</option>
+                                        </tal:block>
                                     </select><br></td>
                                 <td tal:condition="(p.league_id==1) and (p.division_id == 1) and (p.rank==2)">
                                     <select name="nl_east_second_pick"
                                     class="form-control" id="nl_east_second_pick">
-                                    <option tal:repeat="a nl_east" value="${a.team_id}">${a.name}</option>
+                                        <tal:block tal:repeat="a nl_east">
+                                            <option tal:condition="(a.team_id==p.team_id)" value="${a.team_id}" selected >${a.name}</option>
+                                            <option tal:condition="(a.team_id!=p.team_id)" value="${a.team_id}"  >${a.name}</option>
+                                        </tal:block>
                                     </select><br></td>
                                 <td tal:condition="(p.league_id==1) and (p.division_id == 1) and (p.rank==5)">
                                     <select name="nl_east_last_pick"
                                     class="form-control" id="nl_east_last_pick">
-                                    <option tal:repeat="a nl_east" value="${a.team_id}">${a.name}</option>
+                                        <tal:block tal:repeat="a nl_east">
+                                            <option tal:condition="(a.team_id==p.team_id)" value="${a.team_id}" selected >${a.name}</option>
+                                            <option tal:condition="(a.team_id!=p.team_id)" value="${a.team_id}"  >${a.name}</option>
+                                        </tal:block>
                                     </select><br></td>
                                 <td tal:condition="(p.league_id==1) and (p.division_id == 2) and (p.rank==1)">
                                     <select name="nl_central_winner_pick" class="form-control" id="nl_central_winner_pick">
-                                    <option tal:repeat="a nl_central" value="${a.team_id}">${a.name}</option>
+                                        <tal:block tal:repeat="a nl_central">
+                                            <option tal:condition="(a.team_id==p.team_id)" value="${a.team_id}" selected >${a.name}</option>
+                                            <option tal:condition="(a.team_id!=p.team_id)" value="${a.team_id}"  >${a.name}</option>
+                                        </tal:block>
                                     </select><br></td>
                                 <td tal:condition="(p.league_id==1) and (p.division_id == 2) and (p.rank==2)">
-                                    <select name="nl_central_second_pick"
-                                    class="form-control" id="nl_central_second_pick">
-                                    <option tal:repeat="a nl_central" value="${a.team_id}">${a.name}</option>
+                                    <select name="nl_central_second_pick" class="form-control" id="nl_central_second_pick">
+                                        <tal:block tal:repeat="a nl_central">
+                                            <option tal:condition="(a.team_id==p.team_id)" value="${a.team_id}" selected >${a.name}</option>
+                                            <option tal:condition="(a.team_id!=p.team_id)" value="${a.team_id}"  >${a.name}</option>
+                                        </tal:block>
                                     </select><br></td>
+
                                 <td tal:condition="(p.league_id==1) and (p.division_id == 2) and (p.rank==5)">
-                                    <select name="nl_central_last_pick"
-                                    class="form-control" id="nl_central_last_pick">
-                                    <option tal:repeat="a nl_central" value="${a.team_id}">${a.name}</option>
+                                    <select name="nl_central_last_pick" class="form-control" id="nl_central_last_pick">
+                                        <tal:block tal:repeat="a nl_central">
+                                            <option tal:condition="(a.team_id==p.team_id)" value="${a.team_id}" selected >${a.name}</option>
+                                            <option tal:condition="(a.team_id!=p.team_id)" value="${a.team_id}"  >${a.name}</option>
+                                        </tal:block>
                                     </select><br></td>
                                 <td tal:condition="(p.league_id==1) and (p.division_id == 3) and (p.rank==1)">
                                     <select name="nl_west_winner_pick" class="form-control" id="nl_west_winner_pick">
-                                    <option tal:repeat="a nl_west" value="${a.team_id}">${a.name}</option>
+                                        <tal:block tal:repeat="a nl_west">
+                                            <option tal:condition="(a.team_id==p.team_id)" value="${a.team_id}" selected >${a.name}</option>
+                                            <option tal:condition="(a.team_id!=p.team_id)" value="${a.team_id}"  >${a.name}</option>
+                                        </tal:block>
                                     </select><br></td>
                                 <td tal:condition="(p.league_id==1) and (p.division_id == 3) and (p.rank==2)">
-                                    <select name="nl_west_second_pick"
-                                    class="form-control" id="nl_west_second_pick">
-                                    <option tal:repeat="a nl_west" value="${a.team_id}">${a.name}</option>
+                                    <select name="nl_west_second_pick" class="form-control" id="nl_west_second_pick">
+                                        <tal:block tal:repeat="a nl_west">
+                                            <option tal:condition="(a.team_id==p.team_id)" value="${a.team_id}" selected >${a.name}</option>
+                                            <option tal:condition="(a.team_id!=p.team_id)" value="${a.team_id}"  >${a.name}</option>
+                                        </tal:block>
                                     </select><br></td>
                                 <td tal:condition="(p.league_id==1) and (p.division_id == 3) and (p.rank==5)">
-                                    <select name="nl_west_last_pick"
-                                    class="form-control" id="nl_west_last_pick">
-                                    <option tal:repeat="a nl_west" value="${a.team_id}">${a.name}</option>
+                                    <select name="nl_west_last_pick" class="form-control" id="nl_west_last_pick">
+                                        <tal:block tal:repeat="a nl_west">
+                                            <option tal:condition="(a.team_id==p.team_id)" value="${a.team_id}" selected >${a.name}</option>
+                                            <option tal:condition="(a.team_id!=p.team_id)" value="${a.team_id}"  >${a.name}</option>
+                                        </tal:block>
                                     </select><br></td>
                             </tr>
 
@@ -135,13 +188,19 @@
                                   <td tal:content="string:${p.name}"></td>
                                   <td tal:condition="(p.multiplier==1)" tal:content="string:No"></td>
                                   <td tal:condition="(p.multiplier==2)" tal:content="string:Yes"></td>
-                                <td tal:condition="(p.league_id == 0)"><select class="form-control"
-                                                                                 name="al_wins_pick">
-                                <option tal:repeat="a al_wildcard_list" value="${a.team_id}">${a.name}</option>
+                                <td tal:condition="(p.league_id == 0)">
+                                    <select class="form-control" name="al_wins_pick">
+                                        <tal:block tal:repeat="a al_wildcard_list">
+                                            <option tal:condition="(a.team_id==p.team_id)" value="${a.team_id}" selected >${a.name}</option>
+                                            <option tal:condition="(a.team_id!=p.team_id)" value="${a.team_id}"  >${a.name}</option>
+                                        </tal:block>
                                     </select><br> </td>
-                                <td tal:condition="(p.league_id == 1)"><select class="form-control"
-                                                                                 name="nl_wins_pick">
-                                    <option tal:repeat="a nl_wildcard_list" value="${a.team_id}">${a.name}</option>
+                                <td tal:condition="(p.league_id == 1)">
+                                    <select class="form-control" name="nl_wins_pick">
+                                        <tal:block tal:repeat="a nl_wildcard_list">
+                                            <option tal:condition="(a.team_id==p.team_id)" value="${a.team_id}" selected >${a.name}</option>
+                                            <option tal:condition="(a.team_id!=p.team_id)" value="${a.team_id}"  >${a.name}</option>
+                                        </tal:block>
                                     </select><br> </td>
                             </tr>
 
@@ -150,14 +209,20 @@
                                   <td tal:content="string:${p.name}"></td>
                                   <td tal:condition="(p.multiplier==1)" tal:content="string:No"></td>
                                   <td tal:condition="(p.multiplier==2)" tal:content="string:Yes"></td>
-                                <td tal:condition="(p.league_id == 0)"><select class="form-control"
-                                                                                 name="al_losses_pick">
-                                    <option tal:repeat="a al_wildcard_list" value="${a.team_id}">${a.name}</option>
+                                <td tal:condition="(p.league_id == 0)">
+                                    <select class="form-control" name="al_losses_pick">
+                                        <tal:block tal:repeat="a al_wildcard_list">
+                                            <option tal:condition="(a.team_id==p.team_id)" value="${a.team_id}" selected >${a.name}</option>
+                                            <option tal:condition="(a.team_id!=p.team_id)" value="${a.team_id}"  >${a.name}</option>
+                                        </tal:block>
                                     </select><br> </td>
-                               <td tal:condition="(p.league_id == 1)"><select class="form-control"
-                                                                                 name="nl_losses_pick">
-                                    <option tal:repeat="a nl_wildcard_list" value="${a.team_id}">${a.name}</option>
-                                    </select><br> </td>
+                               <td tal:condition="(p.league_id == 1)">
+                                   <select class="form-control" name="nl_losses_pick">
+                                       <tal:block tal:repeat="a nl_wildcard_list">
+                                            <option tal:condition="(a.team_id==p.team_id)" value="${a.team_id}" selected >${a.name}</option>
+                                            <option tal:condition="(a.team_id!=p.team_id)" value="${a.team_id}"  >${a.name}</option>
+                                       </tal:block>
+                                   </select><br> </td>
                             </tr>
 
                             <tr tal:case="4">
@@ -165,15 +230,24 @@
                                   <td tal:content="string:${p.firstname} ${p.lastname}"></td>
                                   <td tal:condition="(p.multiplier==1)" tal:content="string:No"></td>
                                   <td tal:condition="(p.multiplier==2)" tal:content="string:Yes"></td>
-                                <td tal:condition="(p.league_id == 0)"><select class="form-control"
-                                                                                 name="al_hr_pick">
-                                    <option tal:repeat="a al_hitter_list" value="${a.player_id}">${a.firstname}
-                                        ${a.lastname} ${a.position} ${a.team_abbr}</option>
+                                <td tal:condition="(p.league_id == 0)">
+                                    <select class="form-control" name="al_hr_pick">
+                                        <tal:block tal:repeat="a al_hitter_list">
+                                            <option tal:condition="(a.player_id==p.player_id)" value="${a.player_id}" selected>${a.firstname}
+                                        ${a.lastname} ${a.position} ${a.team_abbr} </option>
+                                            <option tal:condition="(a.player_id!=p.player_id)" value="${a.player_id}" >${a.firstname}
+                                        ${a.lastname} ${a.position} ${a.team_abbr} </option>
+                                        </tal:block>
                                     </select><br> </td>
-                                  <td tal:condition="(p.league_id == 1)"><select class="form-control"
-                                                                                 name="nl_hr_pick">
-                                    <option tal:repeat="a nl_hitter_list" value="${a.player_id}">${a.firstname}
-                                        ${a.lastname} ${a.position} ${a.team_abbr}</option>
+
+                                <td tal:condition="(p.league_id == 1)">
+                                    <select class="form-control" name="nl_hr_pick">
+                                     <tal:block tal:repeat="a nl_hitter_list">
+                                            <option tal:condition="(a.player_id==p.player_id)" value="${a.player_id}" selected>${a.firstname}
+                                        ${a.lastname} ${a.position} ${a.team_abbr} </option>
+                                            <option tal:condition="(a.player_id!=p.player_id)" value="${a.player_id}" >${a.firstname}
+                                        ${a.lastname} ${a.position} ${a.team_abbr} </option>
+                                        </tal:block>
                                     </select><br> </td>
                             </tr>
 
@@ -182,16 +256,24 @@
                                   <td tal:content="string:${p.firstname} ${p.lastname}"></td>
                                   <td tal:condition="(p.multiplier==1)" tal:content="string:No"></td>
                                   <td tal:condition="(p.multiplier==2)" tal:content="string:Yes"></td>
-                                  <td tal:condition="(p.league_id == 0)"><select class="form-control"
-                                                                                 name="al_ba_pick">
-                                    <option tal:repeat="a al_hitter_list" value="${a.player_id}">${a.firstname}
-                                        ${a.lastname} ${a.position} ${a.team_abbr}</option>
-                                    </select><br> </td>
-                                  <td tal:condition="(p.league_id == 1)"><select class="form-control"
-                                                                                 name="nl_ba_pick">
-                                    <option tal:repeat="a nl_hitter_list" value="${a.player_id}">${a.firstname}
-                                        ${a.lastname} ${a.position} ${a.team_abbr}</option>
-                                    </select><br> </td>
+                                  <td tal:condition="(p.league_id == 0)">
+                                      <select class="form-control" name="al_ba_pick">
+                                        <tal:block tal:repeat="a al_hitter_list">
+                                            <option tal:condition="(a.player_id==p.player_id)" value="${a.player_id}" selected>${a.firstname}
+                                        ${a.lastname} ${a.position} ${a.team_abbr} </option>
+                                            <option tal:condition="(a.player_id!=p.player_id)" value="${a.player_id}" >${a.firstname}
+                                        ${a.lastname} ${a.position} ${a.team_abbr} </option>
+                                        </tal:block>
+                                      </select><br> </td>
+                                  <td tal:condition="(p.league_id == 1)">
+                                      <select class="form-control" name="nl_ba_pick">
+                                        <tal:block tal:repeat="a nl_hitter_list">
+                                            <option tal:condition="(a.player_id==p.player_id)" value="${a.player_id}" selected>${a.firstname}
+                                        ${a.lastname} ${a.position} ${a.team_abbr} </option>
+                                            <option tal:condition="(a.player_id!=p.player_id)" value="${a.player_id}" >${a.firstname}
+                                        ${a.lastname} ${a.position} ${a.team_abbr} </option>
+                                        </tal:block>
+                                      </select><br> </td>
                             </tr>
 
                             <tr tal:case="6">
@@ -199,14 +281,23 @@
                                   <td tal:content="string:${p.firstname} ${p.lastname}"></td>
                                   <td tal:condition="(p.multiplier==1)" tal:content="string:No"></td>
                                   <td tal:condition="(p.multiplier==2)" tal:content="string:Yes"></td>
-                                  <td tal:condition="(p.league_id == 0)"><select class="form-control"
-                                                                                 name="al_rbi_pick">
-                                    <option tal:repeat="a al_hitter_list" value="${a.player_id}">${a.firstname}
-                                        ${a.lastname} ${a.position} ${a.team_abbr}</option></select><br></td>
-                                  <td tal:condition="(p.league_id == 1)"><select class="form-control"
-                                                                                 name="nl_rbi_pick">
-                                    <option tal:repeat="a nl_hitter_list" value="${a.player_id}">${a.firstname}
-                                        ${a.lastname} ${a.position} ${a.team_abbr}</option>
+                                  <td tal:condition="(p.league_id == 0)">
+                                      <select class="form-control" name="al_rbi_pick">
+                                        <tal:block tal:repeat="a al_hitter_list">
+                                            <option tal:condition="(a.player_id==p.player_id)" value="${a.player_id}" selected>${a.firstname}
+                                        ${a.lastname} ${a.position} ${a.team_abbr} </option>
+                                            <option tal:condition="(a.player_id!=p.player_id)" value="${a.player_id}" >${a.firstname}
+                                        ${a.lastname} ${a.position} ${a.team_abbr} </option>
+                                        </tal:block>
+                                    </select><br></td>
+                                  <td tal:condition="(p.league_id == 1)">
+                                      <select class="form-control" name="nl_rbi_pick">
+                                        <tal:block tal:repeat="a nl_hitter_list">
+                                            <option tal:condition="(a.player_id==p.player_id)" value="${a.player_id}" selected>${a.firstname}
+                                        ${a.lastname} ${a.position} ${a.team_abbr} </option>
+                                            <option tal:condition="(a.player_id!=p.player_id)" value="${a.player_id}" >${a.firstname}
+                                        ${a.lastname} ${a.position} ${a.team_abbr} </option>
+                                        </tal:block>
                                     </select><br> </td>
                             </tr>
 
@@ -215,14 +306,23 @@
                                   <td tal:content="string:${p.firstname} ${p.lastname}"></td>
                                   <td tal:condition="(p.multiplier==1)" tal:content="string:No"></td>
                                   <td tal:condition="(p.multiplier==2)" tal:content="string:Yes"></td>
-                                  <td tal:condition="(p.league_id == 0)"><select class="form-control"
-                                                                                 name="al_p_wins_pick">
-                                    <option tal:repeat="a al_pitcher_list" value="${a.player_id}">${a.firstname}
-                                        ${a.lastname} ${a.position} ${a.team_abbr}</option></select><br></td>
-                                  <td tal:condition="(p.league_id == 1)"><select class="form-control"
-                                                                                 name="nl_p_wins_pick">
-                                    <option tal:repeat="a nl_pitcher_list" value="${a.player_id}">${a.firstname}
-                                        ${a.lastname} ${a.position} ${a.team_abbr}</option>
+                                  <td tal:condition="(p.league_id == 0)">
+                                      <select class="form-control" name="al_p_wins_pick">
+                                        <tal:block tal:repeat="a al_pitcher_list">
+                                            <option tal:condition="(a.player_id==p.player_id)" value="${a.player_id}" selected>${a.firstname}
+                                        ${a.lastname} ${a.position} ${a.team_abbr} </option>
+                                            <option tal:condition="(a.player_id!=p.player_id)" value="${a.player_id}" >${a.firstname}
+                                        ${a.lastname} ${a.position} ${a.team_abbr} </option>
+                                        </tal:block>
+                                      </select><br></td>
+                                  <td tal:condition="(p.league_id == 1)">
+                                      <select class="form-control" name="nl_p_wins_pick">
+                                      <tal:block tal:repeat="a nl_pitcher_list">
+                                            <option tal:condition="(a.player_id==p.player_id)" value="${a.player_id}" selected>${a.firstname}
+                                        ${a.lastname} ${a.position} ${a.team_abbr} </option>
+                                            <option tal:condition="(a.player_id!=p.player_id)" value="${a.player_id}" >${a.firstname}
+                                        ${a.lastname} ${a.position} ${a.team_abbr} </option>
+                                        </tal:block>
                                     </select><br> </td>
                             </tr>
 
@@ -233,13 +333,22 @@
                                   <td tal:condition="(p.multiplier==2)" tal:content="string:Yes"></td>
                                   <td tal:condition="(p.league_id == 0)"><select class="form-control"
                                                                                  name="al_era_pick">
-                                    <option tal:repeat="a al_pitcher_list" value="${a.player_id}">${a.firstname}
-                                        ${a.lastname} ${a.position} ${a.team_abbr}</option></select><br></td>
-                                  <td tal:condition="(p.league_id == 1)"><select class="form-control"
-                                                                                 name="nl_era_pick">
-                                    <option tal:repeat="a nl_pitcher_list" value="${a.player_id}">${a.firstname}
-                                        ${a.lastname} ${a.position} ${a.team_abbr}</option>
-                                    </select><br> </td>
+                                   <tal:block tal:repeat="a al_pitcher_list">
+                                       <option tal:condition="(a.player_id==p.player_id)" value="${a.player_id}" selected>${a.firstname}
+                                        ${a.lastname} ${a.position} ${a.team_abbr} </option>
+                                            <option tal:condition="(a.player_id!=p.player_id)" value="${a.player_id}" >${a.firstname}
+                                        ${a.lastname} ${a.position} ${a.team_abbr} </option>
+                                        </tal:block>
+                                  </select><br></td>
+                                  <td tal:condition="(p.league_id == 1)">
+                                      <select class="form-control" name="nl_era_pick">
+                                        <tal:block tal:repeat="a nl_pitcher_list">
+                                            <option tal:condition="(a.player_id==p.player_id)" value="${a.player_id}" selected>${a.firstname}
+                                        ${a.lastname} ${a.position} ${a.team_abbr} </option>
+                                            <option tal:condition="(a.player_id!=p.player_id)" value="${a.player_id}" >${a.firstname}
+                                        ${a.lastname} ${a.position} ${a.team_abbr} </option>
+                                        </tal:block>
+                                      </select><br> </td>
                             </tr>
 
                             <tr tal:case="9">
@@ -247,14 +356,20 @@
                                   <td tal:content="string:${p.name}"></td>
                                   <td tal:condition="(p.multiplier==1)" tal:content="string:No"></td>
                                   <td tal:condition="(p.multiplier==2)" tal:content="string:Yes"></td>
-                                <td tal:condition="(p.league_id == 0)"><select class="form-control"
-                                                                                 name="al_wildcard1_pick">
-                                    <option tal:repeat="a al_wildcard_list" value="${a.team_id}">${a.name}</option>
+                                <td tal:condition="(p.league_id == 0)">
+                                    <select class="form-control" name="al_wildcard1_pick">
+                                        <tal:block tal:repeat="a al_wildcard_list">
+                                            <option tal:condition="(a.team_id==p.team_id)" value="${a.team_id}" selected >${a.name}</option>
+                                            <option tal:condition="(a.team_id!=p.team_id)" value="${a.team_id}"  >${a.name}</option>
+                                        </tal:block>
                                     </select><br> </td>
-                                  <td tal:condition="(p.league_id == 1)"><select class="form-control"
-                                                                                 name="nl_wildcard1_pick">
-                                    <option tal:repeat="a nl_wildcard_list" value="${a.team_id}">${a.name}</option>
-                                    </select><br> </td>
+                                  <td tal:condition="(p.league_id == 1)">
+                                      <select class="form-control" name="nl_wildcard1_pick">
+                                        <tal:block tal:repeat="a nl_wildcard_list">
+                                            <option tal:condition="(a.team_id==p.team_id)" value="${a.team_id}" selected >${a.name}</option>
+                                            <option tal:condition="(a.team_id!=p.team_id)" value="${a.team_id}"  >${a.name}</option>
+                                        </tal:block>
+                                  </select><br> </td>
                             </tr>
 
                            </span>
