@@ -46,17 +46,17 @@
 
                                 <td tal:condition="(p.league_id==0) and (p.division_id == 1) and (p.rank==1)">
                                     <select name="al_east_winner_pick" class="form-control" id="al_east_winner_pick">
-                                    <option tal:repeat="a al_east" value="${a.team_id}">${a.name}</option>
+                                    <option tal:repeat="a al_east" value="${a.team_id}" selected>${a.name}</option>
                                     </select><br></td>
                                 <td tal:condition="(p.league_id==0) and (p.division_id == 1) and (p.rank==2)">
                                     <select name="al_east_second_pick"
                                     class="form-control" id="al_east_second_pick">
-                                    <option tal:repeat="a al_east" value="${a.team_id}">${a.name}</option>
+                                    <option tal:repeat="a al_east" value="${a.team_id}" selected>${a.name}</option>
                                     </select><br></td>
                                 <td tal:condition="(p.league_id==0) and (p.division_id == 1) and (p.rank==5)">
                                     <select name="al_east_last_pick"
                                     class="form-control" id="al_east_last_pick">
-                                    <option tal:repeat="a al_east" value="${a.team_id}">${a.name}</option>
+                                    <option tal:repeat="a al_east" value="${a.team_id}" selected>${a.name}</option>
                                     </select><br></td>
                                 <td tal:condition="(p.league_id==0) and (p.division_id == 2) and (p.rank==1)">
                                     <select name="al_central_winner_pick" class="form-control" id="al_central_winner_pick">
