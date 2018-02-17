@@ -6,7 +6,7 @@ from mlbpool.data.dbsession import DbSessionFactory
 class GameDayService:
 
     @staticmethod
-    def get_season_opener_date:
+    def get_season_opener_info:
         """Get the date of the season opener"""
         session = DbSessionFactory.create_session()
         season_row = session.query(SeasonInfo.current_season).filter(SeasonInfo.id == 1).first()
