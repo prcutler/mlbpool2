@@ -307,7 +307,7 @@ class PlayerPicksService:
         dt = datetime.datetime.now()
 
         # TODO Need to add if / else for Maya datetimes if change is made during the pre-season vs. All-Star Break
-        # TODO How do I account for null values / and not overriding the first choice of the list?
+        # TODO "changed" should only be updated at All-Star Break
 
         # Add American League team picks
 
@@ -315,7 +315,7 @@ class PlayerPicksService:
         print(al_east_winner_pick)
         print(change_al_east_winner_pick)
 
-        if change_al_east_winner_pick == 0:
+        if change_al_east_winner_pick is False:
             pass
         else:
             session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id).filter(PlayerPicks.pick_type == 1).\
