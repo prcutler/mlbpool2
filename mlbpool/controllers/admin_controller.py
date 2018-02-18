@@ -14,6 +14,8 @@ from mlbpool.services.weekly_msf_data import WeeklyStatsService
 from mlbpool.viewmodels.update_unique_picks_viewmodel import UniquePicksViewModel
 from mlbpool.services.unique_picks_service import UniquePicksService
 from mlbpool.services.standings_service import StandingsService
+from mlbpool.services.gameday_service import GameDayService
+from mlbpool.viewmodels.admin_viewmodel import AdminViewModel
 
 
 class AdminController(BaseController):
@@ -27,7 +29,11 @@ class AdminController(BaseController):
             print("You must be an administrator to view this page")
             self.redirect('/home')
 
-        return {}
+        first_game_date = GameDayService.get_season_opener_date()
+        first_game_time = GameDayService.get_season_opener_time()
+        teams = GameDayService.get_season_opener_teams()
+
+        return {'first_game_date': first_game_date, 'first_game_time': first_game_time, 'teams': teams}
 
     # GET /admin/new_install
     @pyramid_handlers.action(renderer='templates/admin/new_install.pt',
