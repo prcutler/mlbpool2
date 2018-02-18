@@ -42,3 +42,4 @@ class ActivePlayersService:
             session.add(active_players)
 
             session.commit()
+            session.close()
