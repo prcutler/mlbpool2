@@ -13,6 +13,8 @@
                     <p>Welcome to the administration panel for MLBPool2.  You can create a new installation
                     or add a new season.</p>
 
+                    <p>The first game is ${teams[0]} at ${teams[1]} on ${first_game_date} at ${first_game_time} EST.</p>
+
                     <h2>Account Management</h2>
                         <ul>
                             <li><a href="/admin/account-list">View all accounts.</a></li>

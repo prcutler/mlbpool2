@@ -20,17 +20,16 @@ class GameDayService:
         tz = pendulum.timezone('America/New_York')
 
         response = requests.get('https://api.mysportsfeeds.com/v1.2/pull/mlb/' + str(season) +
-                                '-regular/full_game_schedule',
+                                '-regular/full_game_schedule.json',
                                 auth=HTTPBasicAuth(config.msf_username, config.msf_pw))
 
         gameday_json = response.json()
-        gameday_data = gameday_json["cumulativeplayerstats"]["playerstatsentry"]
+        gameday_data = gameday_json["fullgameschedule"]["gameentry"][0]
 
         """Get the date of the season opener"""
 
         for gameday_info in gameday_data:
-            first_game = fullgameschedule["gameentry"][0]
-            first_game_date = first_game["date"]
+            first_game_date = gameday_data["date"]
 
             return first_game_date
 
@@ -47,15 +46,14 @@ class GameDayService:
         tz = pendulum.timezone('America/New_York')
 
         response = requests.get('https://api.mysportsfeeds.com/v1.2/pull/mlb/' + str(season) +
-                                '-regular/full_game_schedule',
+                                '-regular/full_game_schedule.json',
                                 auth=HTTPBasicAuth(config.msf_username, config.msf_pw))
 
         gameday_json = response.json()
-        gameday_data = gameday_json["cumulativeplayerstats"]["playerstatsentry"]
+        gameday_data = gameday_json["fullgameschedule"]["gameentry"][0]
 
         for gameday_info in gameday_data:
-            first_game = fullgameschedule["gameentry"][0]
-            first_game_time = first_game["time"]
+            first_game_time = gameday_data["time"]
 
             return first_game_time
 
@@ -72,16 +70,15 @@ class GameDayService:
         tz = pendulum.timezone('America/New_York')
 
         response = requests.get('https://api.mysportsfeeds.com/v1.2/pull/mlb/' + str(season) +
-                                '-regular/full_game_schedule',
+                                '-regular/full_game_schedule.json',
                                 auth=HTTPBasicAuth(config.msf_username, config.msf_pw))
 
         gameday_json = response.json()
-        gameday_data = gameday_json["cumulativeplayerstats"]["playerstatsentry"]
+        gameday_data = gameday_json["fullgameschedule"]["gameentry"][0]
 
         for gameday_info in gameday_data:
-            first_game = fullgameschedule["gameentry"][0]
-            away_team = first_game["awayTeam"]["Name"]
-            home_team = first_game["homeTeam"]["Name"]
+            away_team = gameday_data["awayTeam"]["Name"]
+            home_team = gameday_data["homeTeam"]["Name"]
 
             season_opener_teams = [away_team, home_team]
 
