@@ -38,26 +38,39 @@ class AdminController(BaseController):
         first_name = get_first_name[0]
 
         season_info = session.query(SeasonInfo).all()
+        season_start_query = session.query(SeasonInfo.season_start_date).first()
 
-        season_opener_date = session.query(SeasonInfo.season_start_date).first()
-        season_opener_time = session.query(SeasonInfo.season_start_time).first()
-        print(season_opener_date, season_opener_time)
+        # season_start_query is returned as a tuple and need to get the first part of the tuple:
+        season_opener_date = str(season_start_query[0])
+        print(season_opener_date)
 
+        # Set the timezone we will be working with
         tz = pendulum.timezone('America/New_York')
-        season_start_dt = season_opener_date + season_opener_time[:-2]
-        season_start = parser.parse(season_start_dt)
+
+        # Convert the start date to a string that Pendulum can work with
+        season_start_date_convert = \
+            pendulum.from_format(season_opener_date, '%Y-%m-%d %H:%M:%S', tz).to_datetime_string()
+        print(season_start_date_convert)
+
+        # Use the string above in a Pendulum instance and get the time deltas needed
+        season_start_date = pendulum.parse(season_start_date_convert)
+
         now = pendulum.now(tz=tz)
-        delta = season_start - now
+        print(now)
+        delta = season_start_date - now
         days = delta.days
         hours = delta.hours
         minutes = delta.minutes
+
+        picks_due = season_start_date.to_formatted_date_string()
+        time_due = season_start_date.format('%I:%M %p')
 
 #        days = GameDayService.get_season_opener_time(get_days)
 #        hours = GameDayService.get_season_opener_time(get_hours)
 #        minutes = GameDayService.get_season_opener_time(get_minutes)
 
-        return {'season_info': season_info, 'days': days, 'hours': hours, 'minutes': minutes,
-                'first_name': first_name}
+        return {'picks_due': picks_due, 'time_due': time_due, 'days': days, 'hours': hours, 'minutes': minutes,
+                'first_name': first_name, 'season_info': season_info}
 
     # GET /admin/new_install
     @pyramid_handlers.action(renderer='templates/admin/new_install.pt',

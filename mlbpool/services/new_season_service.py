@@ -37,7 +37,9 @@ class NewSeasonService:
             away_team = gameday_data["awayTeam"]["Name"]
             home_team = gameday_data["homeTeam"]["Name"]
 
-            new_season = SeasonInfo(season_start_date=first_game_date, season_start_time=first_game_time,
+            first_game = first_game_date + "T" + first_game_time[:-2]
+
+            new_season = SeasonInfo(season_start_date=first_game, season_start_time=first_game_time,
                                     home_team=home_team, away_team=away_team, current_season=season,
                                     all_star_game_date=all_star_game_date)
 

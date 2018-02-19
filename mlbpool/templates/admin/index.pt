@@ -15,8 +15,8 @@
                     or add a new season.</p>
 
                     <p tal:repeat="a season_info">The season starts with ${a.away_team} at ${a.home_team}
-                    on ${a.season_start_date} at ${a.season_start_time} EST.  There are ${days}, ${hours}
-                    and ${minutes} left until picks are due.</p>
+                    on ${picks_due} at ${time_due} EST.  There are ${days} days, ${hours} hours,
+                    and ${minutes} minutes left until picks are due.</p>
 
                     <h2>Account Management</h2>
                         <ul>
