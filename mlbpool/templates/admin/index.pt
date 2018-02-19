@@ -9,11 +9,13 @@
 
 
                     <h1>MLBPool2 Administration</h1>
+                    <h2>Hi, ${first_name}! </h2>
 
                     <p>Welcome to the administration panel for MLBPool2.  You can create a new installation
                     or add a new season.</p>
 
-                    <p>The first game is ${teams[0]} at ${teams[1]} on ${first_game_date} at ${first_game_time} EST.</p>
+                    <p tal:repeat="a season_info">The season starts with ${a.away_team} at ${a.home_team}
+                    on ${a.season_start_date} at ${a.season_start_time} EST.</p>
 
                     <h2>Account Management</h2>
                         <ul>

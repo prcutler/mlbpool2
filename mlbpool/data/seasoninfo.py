@@ -8,6 +8,6 @@ class SeasonInfo(SqlAlchemyBase):
     current_season = sqlalchemy.Column(sqlalchemy.Integer)
     season_start_date = sqlalchemy.Column(sqlalchemy.DATE)
     season_start_time = sqlalchemy.Column(sqlalchemy.String(8))
-    home_team = sqlalchemy.Column(sqlalchemy.Integer)
-    away_team = sqlalchemy.Column(sqlalchemy.Integer)
+    home_team = sqlalchemy.Column(sqlalchemy.String(16))
+    away_team = sqlalchemy.Column(sqlalchemy.String(16))
     all_star_game_date = sqlalchemy.Column(sqlalchemy.DATE)

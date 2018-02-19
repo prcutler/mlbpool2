@@ -14,8 +14,7 @@ from mlbpool.services.weekly_msf_data import WeeklyStatsService
 from mlbpool.viewmodels.update_unique_picks_viewmodel import UniquePicksViewModel
 from mlbpool.services.unique_picks_service import UniquePicksService
 from mlbpool.services.standings_service import StandingsService
-from mlbpool.services.gameday_service import GameDayService
-from mlbpool.viewmodels.admin_viewmodel import AdminViewModel
+from mlbpool.data.seasoninfo import SeasonInfo
 
 
 class AdminController(BaseController):
@@ -29,11 +28,17 @@ class AdminController(BaseController):
             print("You must be an administrator to view this page")
             self.redirect('/home')
 
-        first_game_date = GameDayService.get_season_opener_date()
-        first_game_time = GameDayService.get_season_opener_time()
-        teams = GameDayService.get_season_opener_teams()
+        session = DbSessionFactory.create_session()
 
-        return {'first_game_date': first_game_date, 'first_game_time': first_game_time, 'teams': teams}
+        get_first_name = session.query(Account.first_name).filter(Account.id == self.logged_in_user_id) \
+            .first()
+        first_name = get_first_name[0]
+
+        season_info = session.query(SeasonInfo).all()
+        print(season_info)
+
+        return {'season_info': season_info,
+                'first_name': first_name}
 
     # GET /admin/new_install
     @pyramid_handlers.action(renderer='templates/admin/new_install.pt',
@@ -91,9 +96,8 @@ class AdminController(BaseController):
         vm = NewSeasonViewModel()
         vm.from_dict(self.request.POST)
 
-        # Insert NFLPlayer info
-        new_season_input = NewSeasonService.create_season(vm.new_season_input, vm.season_start_date_input,
-                                                          vm.season_all_star_game_date_input)
+        # Insert the new season information
+        new_season_input = NewSeasonService.create_season(vm.new_season_input, vm.season_all_star_game_date_input)
 
         # redirect
         self.redirect('/admin/update_mlbplayers')
