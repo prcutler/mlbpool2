@@ -15,6 +15,9 @@ from mlbpool.viewmodels.update_unique_picks_viewmodel import UniquePicksViewMode
 from mlbpool.services.unique_picks_service import UniquePicksService
 from mlbpool.services.standings_service import StandingsService
 from mlbpool.data.seasoninfo import SeasonInfo
+from mlbpool.services.gameday_service import GameDayService
+import pendulum
+from dateutil import parser
 
 
 class AdminController(BaseController):
@@ -35,9 +38,25 @@ class AdminController(BaseController):
         first_name = get_first_name[0]
 
         season_info = session.query(SeasonInfo).all()
-        print(season_info)
 
-        return {'season_info': season_info,
+        season_opener_date = session.query(SeasonInfo.season_start_date).first()
+        season_opener_time = session.query(SeasonInfo.season_start_time).first()
+        print(season_opener_date, season_opener_time)
+
+        tz = pendulum.timezone('America/New_York')
+        season_start_dt = season_opener_date + season_opener_time[:-2]
+        season_start = parser.parse(season_start_dt)
+        now = pendulum.now(tz=tz)
+        delta = season_start - now
+        days = delta.days
+        hours = delta.hours
+        minutes = delta.minutes
+
+#        days = GameDayService.get_season_opener_time(get_days)
+#        hours = GameDayService.get_season_opener_time(get_hours)
+#        minutes = GameDayService.get_season_opener_time(get_minutes)
+
+        return {'season_info': season_info, 'days': days, 'hours': hours, 'minutes': minutes,
                 'first_name': first_name}
 
     # GET /admin/new_install

@@ -4,6 +4,7 @@ from requests.auth import HTTPBasicAuth
 from mlbpool.data.seasoninfo import SeasonInfo
 from mlbpool.data.dbsession import DbSessionFactory
 import mlbpool.data.config as config
+from dateutil import parser
 
 
 class GameDayService:
@@ -16,70 +17,25 @@ class GameDayService:
 
         season = season_row.current_season
         season_opener_date = session.query(SeasonInfo.season_start_date)
-        all_star_game_date = session.query(SeasonInfo.all_star_game_date)
-        tz = pendulum.timezone('America/New_York')
-
-        response = requests.get('https://api.mysportsfeeds.com/v1.2/pull/mlb/' + str(season) +
-                                '-regular/full_game_schedule.json',
-                                auth=HTTPBasicAuth(config.msf_username, config.msf_pw))
-
-        gameday_json = response.json()
-        gameday_data = gameday_json["fullgameschedule"]["gameentry"][0]
-
-        """Get the date of the season opener"""
-
-        for gameday_info in gameday_data:
-            first_game_date = gameday_data["date"]
-
-            return first_game_date
 
     @staticmethod
-    def get_season_opener_time():
-        """Get the timeof the season opener's game"""
+    def get_season_opener_time(get_days, get_hours, get_minutes):
+        """Get the time of the season opener's game"""
 
         session = DbSessionFactory.create_session()
         season_row = session.query(SeasonInfo.current_season).filter(SeasonInfo.id == 1).first()
 
         season = season_row.current_season
         season_opener_date = session.query(SeasonInfo.season_start_date)
-        all_star_game_date = session.query(SeasonInfo.all_star_game_date)
+        season_opener_time = session.query(SeasonInfo.season_start_time)
+
         tz = pendulum.timezone('America/New_York')
+        season_start_dt = season_opener_date + "T" + season_opener_time[:-2]
+        now = pendulum.now(tz=tz)
+        delta = season_start_dt - now
+        delta.days = get_days
+        delta.hours = get_hours
+        delta.minutes = get_minutes
 
-        response = requests.get('https://api.mysportsfeeds.com/v1.2/pull/mlb/' + str(season) +
-                                '-regular/full_game_schedule.json',
-                                auth=HTTPBasicAuth(config.msf_username, config.msf_pw))
 
-        gameday_json = response.json()
-        gameday_data = gameday_json["fullgameschedule"]["gameentry"][0]
 
-        for gameday_info in gameday_data:
-            first_game_time = gameday_data["time"]
-
-            return first_game_time
-
-    @staticmethod
-    def get_season_opener_teams():
-        """Get the teams playing in the season opener"""
-
-        session = DbSessionFactory.create_session()
-        season_row = session.query(SeasonInfo.current_season).filter(SeasonInfo.id == 1).first()
-
-        season = season_row.current_season
-        season_opener_date = session.query(SeasonInfo.season_start_date)
-        all_star_game_date = session.query(SeasonInfo.all_star_game_date)
-        tz = pendulum.timezone('America/New_York')
-
-        response = requests.get('https://api.mysportsfeeds.com/v1.2/pull/mlb/' + str(season) +
-                                '-regular/full_game_schedule.json',
-                                auth=HTTPBasicAuth(config.msf_username, config.msf_pw))
-
-        gameday_json = response.json()
-        gameday_data = gameday_json["fullgameschedule"]["gameentry"][0]
-
-        for gameday_info in gameday_data:
-            away_team = gameday_data["awayTeam"]["Name"]
-            home_team = gameday_data["homeTeam"]["Name"]
-
-            season_opener_teams = [away_team, home_team]
-
-            return season_opener_teams
