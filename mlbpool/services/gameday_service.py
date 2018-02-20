@@ -24,10 +24,6 @@ def season_opener():
     season_start_date_convert = \
         pendulum.from_format(season_opener_date, '%Y-%m-%d %H:%M:%S', timezone).to_datetime_string()
 
-    # Convert the start date to a string that Pendulum can work with
-    season_start_date_convert = \
-        pendulum.from_format(season_opener_date, '%Y-%m-%d %H:%M:%S', timezone).to_datetime_string()
-
     # Use the string above in a Pendulum instance and get the time deltas needed
     season_start_date = pendulum.parse(season_start_date_convert)
 
