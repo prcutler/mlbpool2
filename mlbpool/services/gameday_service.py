@@ -32,6 +32,13 @@ def season_opener():
 
 class GameDayService:
     @staticmethod
+    def admin_check():
+        session = DbSessionFactory.create_session()
+
+        season_start_query = session.query(SeasonInfo.season_start_date).first()
+        return season_start_query
+
+    @staticmethod
     def season_opener_date():
         """Get the time of the season opener's game"""
 

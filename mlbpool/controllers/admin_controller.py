@@ -35,23 +35,29 @@ class AdminController(BaseController):
         first_name = get_first_name[0]
 
         season_info = session.query(SeasonInfo).all()
+        print(season_info)
 
-        season_start_date = GameDayService.season_opener_date()
-        picks_due = GameDayService.picks_due()
-        time_due = GameDayService.time_due()
+        if GameDayService.admin_check() is None:
+            self.redirect('/admin/new_season')
 
-        now_time = pendulum.now(tz=pendulum.timezone('America/New_York')).to_datetime_string()
+        else:
 
-        # Use the string above in a Pendulum instance and get the time deltas needed
-        now_time = pendulum.parse(now_time)
+            season_start_date = GameDayService.season_opener_date()
+            picks_due = GameDayService.picks_due()
+            time_due = GameDayService.time_due()
 
-        delta = season_start_date - now_time
-        days = delta.days
-        hours = delta.hours
-        minutes = delta.minutes
+            now_time = pendulum.now(tz=pendulum.timezone('America/New_York')).to_datetime_string()
 
-        return {'picks_due': picks_due, 'time_due': time_due, 'days': days, 'hours': hours, 'minutes': minutes,
-                'first_name': first_name, 'season_info': season_info}
+            # Use the string above in a Pendulum instance and get the time deltas needed
+            now_time = pendulum.parse(now_time)
+
+            delta = season_start_date - now_time
+            days = delta.days
+            hours = delta.hours
+            minutes = delta.minutes
+
+            return {'picks_due': picks_due, 'time_due': time_due, 'days': days, 'hours': hours, 'minutes': minutes,
+                    'first_name': first_name, 'season_info': season_info}
 
     # GET /admin/new_install
     @pyramid_handlers.action(renderer='templates/admin/new_install.pt',
