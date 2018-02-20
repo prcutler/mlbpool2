@@ -17,7 +17,6 @@ from mlbpool.services.standings_service import StandingsService
 from mlbpool.data.seasoninfo import SeasonInfo
 from mlbpool.services.gameday_service import GameDayService
 import pendulum
-from dateutil import parser
 
 
 class AdminController(BaseController):
@@ -42,7 +41,6 @@ class AdminController(BaseController):
 
         # season_start_query is returned as a tuple and need to get the first part of the tuple:
         season_opener_date = str(season_start_query[0])
-        print(season_opener_date)
 
         # Set the timezone we will be working with
         tz = pendulum.timezone('America/New_York')
@@ -50,13 +48,11 @@ class AdminController(BaseController):
         # Convert the start date to a string that Pendulum can work with
         season_start_date_convert = \
             pendulum.from_format(season_opener_date, '%Y-%m-%d %H:%M:%S', tz).to_datetime_string()
-        print(season_start_date_convert)
 
         # Use the string above in a Pendulum instance and get the time deltas needed
         season_start_date = pendulum.parse(season_start_date_convert)
 
         now = pendulum.now(tz=tz)
-        print(now)
         delta = season_start_date - now
         days = delta.days
         hours = delta.hours
