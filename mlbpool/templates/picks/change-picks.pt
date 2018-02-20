@@ -12,11 +12,14 @@
 
                    <h2>Hi, ${first_name}! </h2>
 
-                    <div class="alert alert-warning" role="alert">If the season has not started yet, you can
+                    <div class="alert alert-warning" role="alert"><p>If the season has not started yet, you can
                         change as many picks as you want (except the tiebreaker) without penalty after you press
-                        submit below.  Visit the account page after you submit to view your picks or change your picks.
-                        You can only change up to 14 of your picks at the All-Star Break.
-                        These changes will only be worth half points and do qualify for double points if unique.</div>
+                        submit below.  You can only change up to 14 of your picks at the All-Star Break.
+                        These changes will only be worth half points and do qualify for double points if unique.</p>
+
+                        <p>Your current picks are automatically filled in the form below.  Choose from the drop down
+                            menu to change your picks and press submit at the bottom of the form.</p>
+                        </div>
 
                     <form class="form-horizontal" action="" method="POST">
                     <div class="form-group">
