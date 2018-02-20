@@ -7,7 +7,9 @@ from mlbpool.data.dbsession import DbSessionFactory
 from mlbpool.data.player_picks import PlayerPicks
 from mlbpool.data.seasoninfo import SeasonInfo
 from mlbpool.data.account import Account
+from mlbpool.services.gameday_service import GameDayService
 import datetime
+import pendulum
 
 
 class PicksController(BaseController):
@@ -54,27 +56,23 @@ class PicksController(BaseController):
         season_row = session.query(SeasonInfo.current_season).filter(SeasonInfo.id == '1').first()
         season = season_row.current_season
 
-        #        first_game = session.query(SeasonInfo.season_start_date).filter(SeasonInfo.current_season == season)\
-        #            .filter(SeasonInfo.season_start_date).first()
+        season_info = session.query(SeasonInfo).all()
 
-        # TODO Refactor this to use Maya datetimes
+        season_start_date = GameDayService.season_opener_date()
+        picks_due = GameDayService.picks_due()
+        time_due = GameDayService.time_due()
 
-        #        string_date = first_game[0] + ' 21:59'
-        #        first_game_time = datetime.datetime.strptime(string_date, "%Y-%m-%d %H:%M")
+        now_time = pendulum.now(tz=pendulum.timezone('America/New_York')).to_datetime_string()
 
-        #        if dt > first_game_time:
-        #            print("Season has already started")
-        #            self.redirect('/picks/too-late')
-        #        else:
+        # Use the string above in a Pendulum instance and get the time deltas needed
+        now_time = pendulum.parse(now_time)
 
-        #            if not self.logged_in_user_id:
-        #                print("Cannot view account page, you must be logged in")
-        #                self.redirect('/account/signin')
+        delta = season_start_date - now_time
+        days = delta.days
+        hours = delta.hours
+        minutes = delta.minutes
 
         # Check if user has already submitted picks
-        session = DbSessionFactory.create_session()
-        season_row = session.query(SeasonInfo.current_season).filter(SeasonInfo.id == '1').first()
-        season = season_row.current_season
 
         user_query = session.query(PlayerPicks.user_id).filter(PlayerPicks.user_id == self.logged_in_user_id) \
             .filter(PlayerPicks.season == season).first()
@@ -128,7 +126,13 @@ class PicksController(BaseController):
                 'nl_pitcher_list': nl_pitcher_list,
                 'al_wildcard_list': al_wildcard_list,
                 'nl_wildcard_list': nl_wildcard_list,
-                'twins_wins_pick_list': twins_wins_pick_list
+                'twins_wins_pick_list': twins_wins_pick_list,
+                'picks_due': picks_due,
+                'time_due': time_due,
+                'days': days,
+                'hours': hours,
+                'minutes': minutes,
+                'season_info': season_info
             }
 
         else:
