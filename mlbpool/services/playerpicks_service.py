@@ -326,7 +326,7 @@ class PlayerPicksService:
                 .update({"date_submitted": dt})
             session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id).filter(PlayerPicks.pick_type == 1). \
                 filter(PlayerPicks.rank == 1).filter(PlayerPicks.league_id == 0).filter(PlayerPicks.division_id == 1) \
-                .update({"changed": 0})
+                .update({"changed": 1})
 
         session.commit()
         session.close()
