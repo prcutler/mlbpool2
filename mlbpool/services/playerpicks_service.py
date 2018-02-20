@@ -241,19 +241,19 @@ class PlayerPicksService:
 
         # Add the wildcard picks
         al_wildcard1_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, team_id=al_wildcard1_pick,
-                                      pick_type=9, league_id=0, original_pick=al_wildcard1_pick)
+                                      pick_type=9, league_id=0, original_pick=al_wildcard1_pick, rank=1)
         session.add(al_wildcard1_db)
 
         al_wildcard2_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, team_id=al_wildcard2_pick,
-                                      pick_type=9, league_id=0, original_pick=al_wildcard2_pick)
+                                      pick_type=9, league_id=0, original_pick=al_wildcard2_pick, rank=2)
         session.add(al_wildcard2_db)
 
         nl_wildcard1_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, team_id=nl_wildcard1_pick,
-                                      pick_type=9, league_id=1, original_pick=nl_wildcard1_pick)
+                                      pick_type=9, league_id=1, original_pick=nl_wildcard1_pick, rank=1)
         session.add(nl_wildcard1_db)
 
         nl_wildcard2_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, team_id=nl_wildcard2_pick,
-                                      pick_type=9, league_id=1, original_pick=nl_wildcard2_pick)
+                                      pick_type=9, league_id=1, original_pick=nl_wildcard2_pick, rank=2)
         session.add(nl_wildcard2_db)
 
         # Add the Most Wins 
@@ -265,7 +265,7 @@ class PlayerPicksService:
                                  pick_type=3, league_id=1, original_pick=nl_wins_pick)
         session.add(nl_wins_db)
 
-        # Add the Most Lossess
+        # Add the Most Losses
         al_losses_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, team_id=al_losses_pick,
                                 pick_type=2, league_id=0, original_pick=al_losses_pick)
         session.add(al_losses_db)
