@@ -55,7 +55,7 @@
                             <ul>
                             <li><a href="/admin/new_install">New installation</a> (create team lists, division lists,
                             league list, and pick types).</li>
-                            <li><a href="/admin/update_mlblplayers">Update all active MLB Players</a></li>
+                            <li><a href="/admin/update_mlbplayers">Update all active MLB Players</a></li>
                             </ul>
 
                 </div>
