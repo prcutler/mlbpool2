@@ -742,6 +742,55 @@ class PlayerPicksService:
                     .update(
                     {"player_id": nl_era_pick, "date_submitted": dt, "original_pick": nl_era_pick})
 
+            # Update Pick Type 9 - Wildcard Teams
+            if al_wildcard1_pick != session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
+                    .filter(PlayerPicks.season == season) \
+                    .filter(PlayerPicks.pick_type == 9) \
+                    .filter(PlayerPicks.league_id == 0) \
+                    .filter(PlayerPicks.team_id) \
+                    .filter(PlayerPicks.rank == 1):
+                session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
+                    .filter(PlayerPicks.pick_type == 9) \
+                    .filter(PlayerPicks.league_id == 0) \
+                    .update(
+                    {"team_id": al_wildcard1_pick, "date_submitted": dt, "original_pick": al_wildcard1_pick})
+
+            if al_wildcard2_pick != session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
+                    .filter(PlayerPicks.season == season) \
+                    .filter(PlayerPicks.pick_type == 9) \
+                    .filter(PlayerPicks.league_id == 0) \
+                    .filter(PlayerPicks.team_id)\
+                    .filter(PlayerPicks.rank == 2):
+                session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
+                    .filter(PlayerPicks.pick_type == 9) \
+                    .filter(PlayerPicks.league_id == 0) \
+                    .update(
+                    {"team_id": al_wildcard2_pick, "date_submitted": dt, "original_pick": al_wildcard2_pick})
+
+            if nl_wildcard1_pick != session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
+                    .filter(PlayerPicks.season == season) \
+                    .filter(PlayerPicks.pick_type == 9) \
+                    .filter(PlayerPicks.league_id == 1) \
+                    .filter(PlayerPicks.team_id) \
+                    .filter(PlayerPicks.rank == 1):
+                session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
+                    .filter(PlayerPicks.pick_type == 9) \
+                    .filter(PlayerPicks.league_id == 1) \
+                    .update(
+                    {"team_id": nl_wildcard1_pick, "date_submitted": dt, "original_pick": nl_wildcard1_pick})
+
+            if nl_wildcard2_pick != session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
+                    .filter(PlayerPicks.season == season) \
+                    .filter(PlayerPicks.pick_type == 9) \
+                    .filter(PlayerPicks.league_id == 1) \
+                    .filter(PlayerPicks.team_id) \
+                    .filter(PlayerPicks.rank == 2):
+                session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
+                    .filter(PlayerPicks.pick_type == 9) \
+                    .filter(PlayerPicks.league_id == 1) \
+                    .update(
+                    {"team_id": nl_wildcard2_pick, "date_submitted": dt, "original_pick": nl_wildcard2_pick})
+
         else:
             """If the season has started, update picks at the All-Star Break.  Do not change the original pick column
             and update the changed column to 1."""
@@ -1154,6 +1203,59 @@ class PlayerPicksService:
                     .filter(PlayerPicks.league_id == 1) \
                     .update(
                     {"player_id": nl_era_pick, "date_submitted": dt, "changed": 1})
+                
+            # Update Pick Type 9 - Wildcard Teams
+            if al_wildcard1_pick != session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
+                    .filter(PlayerPicks.season == season) \
+                    .filter(PlayerPicks.pick_type == 9) \
+                    .filter(PlayerPicks.league_id == 0)\
+                    .filter(PlayerPicks.team_id) \
+                    .filter(PlayerPicks.rank == 1):
+                session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
+                    .filter(PlayerPicks.pick_type == 9) \
+                    .filter(PlayerPicks.league_id == 0) \
+                    .filter(PlayerPicks.rank == 1) \
+                    .update(
+                    {"team_id": al_wins_pick, "date_submitted": dt, "changed": 1})
+
+            if nl_wildcard1_pick != session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
+                    .filter(PlayerPicks.season == season) \
+                    .filter(PlayerPicks.pick_type == 9) \
+                    .filter(PlayerPicks.league_id == 1) \
+                    .filter(PlayerPicks.team_id) \
+                    .filter(PlayerPicks.rank == 1):
+                session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
+                    .filter(PlayerPicks.pick_type == 9) \
+                    .filter(PlayerPicks.league_id == 1) \
+                    .filter(PlayerPicks.rank == 1) \
+                    .update(
+                    {"team_id": nl_wildcard1_pick, "date_submitted": dt, "changed": 1})
+
+            if al_wildcard2_pick != session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
+                    .filter(PlayerPicks.season == season) \
+                    .filter(PlayerPicks.pick_type == 9) \
+                    .filter(PlayerPicks.league_id == 0)\
+                    .filter(PlayerPicks.team_id) \
+                    .filter(PlayerPicks.rank == 2):
+                session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
+                    .filter(PlayerPicks.pick_type == 9) \
+                    .filter(PlayerPicks.league_id == 0) \
+                    .filter(PlayerPicks.rank == 2) \
+                    .update(
+                    {"team_id": al_wildcard2_pick, "date_submitted": dt, "changed": 1})
+
+            if nl_wildcard2_pick != session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
+                    .filter(PlayerPicks.season == season) \
+                    .filter(PlayerPicks.pick_type == 9) \
+                    .filter(PlayerPicks.league_id == 1) \
+                    .filter(PlayerPicks.team_id) \
+                    .filter(PlayerPicks.rank == 2):
+                session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
+                    .filter(PlayerPicks.pick_type == 9) \
+                    .filter(PlayerPicks.league_id == 1) \
+                    .filter(PlayerPicks.rank == 2) \
+                    .update(
+                    {"team_id": nl_wildcard2_pick, "date_submitted": dt, "changed": 1})
 
         session.commit()
         session.close()
