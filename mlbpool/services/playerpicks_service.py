@@ -600,7 +600,7 @@ class PlayerPicksService:
                     .filter(PlayerPicks.league_id == 1) \
                     .filter(PlayerPicks.team_id):
                 session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id)\
-                    .filter(PlayerPicks == 2)\
+                    .filter(PlayerPicks.pick_type == 2)\
                     .filter(PlayerPicks.league_id == 1)\
                     .update({"team_id": nl_losses_pick, "date_submitted": dt, "original_pick": nl_losses_pick})
 
@@ -634,7 +634,7 @@ class PlayerPicksService:
                     .filter(PlayerPicks.league_id == 0) \
                     .filter(PlayerPicks.player_id):
                 session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
-                    .filter(PlayerPicks.pick_type == 3) \
+                    .filter(PlayerPicks.pick_type == 4) \
                     .filter(PlayerPicks.league_id == 0) \
                     .update(
                     {"player_id": al_hr_pick, "date_submitted": dt, "original_pick": al_hr_pick})
@@ -649,6 +649,52 @@ class PlayerPicksService:
                     .filter(PlayerPicks.league_id == 1) \
                     .update(
                     {"player_id": nl_hr_pick, "date_submitted": dt, "original_pick": nl_hr_pick})
+
+            # Update Pick Type 5 - Batting Average
+            if al_ba_pick != session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
+                    .filter(PlayerPicks.season == season) \
+                    .filter(PlayerPicks.pick_type == 5) \
+                    .filter(PlayerPicks.league_id == 0) \
+                    .filter(PlayerPicks.player_id):
+                session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
+                    .filter(PlayerPicks.pick_type == 5) \
+                    .filter(PlayerPicks.league_id == 0) \
+                    .update(
+                    {"player_id": al_ba_pick, "date_submitted": dt, "original_pick": al_ba_pick})
+
+            if nl_ba_pick != session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
+                    .filter(PlayerPicks.season == season) \
+                    .filter(PlayerPicks.pick_type == 5) \
+                    .filter(PlayerPicks.league_id == 1) \
+                    .filter(PlayerPicks.player_id):
+                session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
+                    .filter(PlayerPicks.pick_type == 5) \
+                    .filter(PlayerPicks.league_id == 1) \
+                    .update(
+                    {"player_id": nl_ba_pick, "date_submitted": dt, "original_pick": nl_ba_pick})
+
+            # Update Pick Type 6 - RBIs
+            if al_rbi_pick != session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
+                    .filter(PlayerPicks.season == season) \
+                    .filter(PlayerPicks.pick_type == 6) \
+                    .filter(PlayerPicks.league_id == 0) \
+                    .filter(PlayerPicks.player_id):
+                session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
+                    .filter(PlayerPicks.pick_type == 6) \
+                    .filter(PlayerPicks.league_id == 0) \
+                    .update(
+                    {"player_id": al_rbi_pick, "date_submitted": dt, "original_pick": al_rbi_pick})
+
+            if nl_rbi_pick != session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
+                    .filter(PlayerPicks.season == season) \
+                    .filter(PlayerPicks.pick_type == 6) \
+                    .filter(PlayerPicks.league_id == 1) \
+                    .filter(PlayerPicks.player_id):
+                session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
+                    .filter(PlayerPicks.pick_type == 6) \
+                    .filter(PlayerPicks.league_id == 1) \
+                    .update(
+                    {"player_id": nl_rbi_pick, "date_submitted": dt, "original_pick": nl_rbi_pick})
 
         else:
             """If the season has started, update picks at the All-Star Break.  Do not change the original pick column
@@ -955,12 +1001,12 @@ class PlayerPicksService:
                     .filter(PlayerPicks.league_id == 0)\
                     .filter(PlayerPicks.player_id):
                 session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
-                    .filter(PlayerPicks.pick_type == 3) \
+                    .filter(PlayerPicks.pick_type == 4) \
                     .filter(PlayerPicks.league_id == 0) \
                     .update(
                     {"player_id": al_wins_pick, "date_submitted": dt, "changed": 1})
 
-            if nl_wins_pick != session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
+            if nl_hr_pick != session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
                     .filter(PlayerPicks.season == season) \
                     .filter(PlayerPicks.pick_type == 4) \
                     .filter(PlayerPicks.league_id == 1) \
@@ -970,6 +1016,52 @@ class PlayerPicksService:
                     .filter(PlayerPicks.league_id == 1) \
                     .update(
                     {"player_id": nl_hr_pick, "date_submitted": dt, "changed": 1})
+
+            # Update Pick Type 5 - Batting Average
+            if al_ba_pick != session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
+                    .filter(PlayerPicks.season == season) \
+                    .filter(PlayerPicks.pick_type == 5) \
+                    .filter(PlayerPicks.league_id == 0) \
+                    .filter(PlayerPicks.player_id):
+                session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
+                    .filter(PlayerPicks.pick_type == 5) \
+                    .filter(PlayerPicks.league_id == 0) \
+                    .update(
+                    {"player_id": al_ba_pick, "date_submitted": dt, "changed": 1})
+
+            if nl_ba_pick != session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
+                    .filter(PlayerPicks.season == season) \
+                    .filter(PlayerPicks.pick_type == 5) \
+                    .filter(PlayerPicks.league_id == 1) \
+                    .filter(PlayerPicks.player_id):
+                session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
+                    .filter(PlayerPicks.pick_type == 5) \
+                    .filter(PlayerPicks.league_id == 1) \
+                    .update(
+                    {"player_id": nl_ba_pick, "date_submitted": dt, "changed": 1})
+
+            # Update Pick Type 6 - RBIs
+            if al_rbi_pick != session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
+                    .filter(PlayerPicks.season == season) \
+                    .filter(PlayerPicks.pick_type == 6) \
+                    .filter(PlayerPicks.league_id == 0) \
+                    .filter(PlayerPicks.player_id):
+                session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
+                    .filter(PlayerPicks.pick_type == 6) \
+                    .filter(PlayerPicks.league_id == 0) \
+                    .update(
+                    {"player_id": al_rbi_pick, "date_submitted": dt, "changed": 1})
+
+            if nl_rbi_pick != session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
+                    .filter(PlayerPicks.season == season) \
+                    .filter(PlayerPicks.pick_type == 6) \
+                    .filter(PlayerPicks.league_id == 1) \
+                    .filter(PlayerPicks.player_id):
+                session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
+                    .filter(PlayerPicks.pick_type == 6) \
+                    .filter(PlayerPicks.league_id == 1) \
+                    .update(
+                    {"player_id": nl_rbi_pick, "date_submitted": dt, "changed": 1})
 
         session.commit()
         session.close()
