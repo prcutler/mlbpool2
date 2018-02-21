@@ -344,64 +344,68 @@ class PlayerPicksService:
                              "original_pick": al_east_winner_pick})
 
             # Update the AL East 2nd Place Team
-            if al_east_second_pick is session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
+            if al_east_second_pick != session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
                     .filter(PlayerPicks.pick_type == 1). \
                     filter(PlayerPicks.rank == 2) \
                     .filter(PlayerPicks.league_id == 0) \
                     .filter(PlayerPicks.division_id == 1):
-                pass
-            else:
                 session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id).filter(
                     PlayerPicks.pick_type == 1). \
                     filter(PlayerPicks.rank == 2).filter(PlayerPicks.league_id == 0).filter(
                     PlayerPicks.division_id == 1) \
-                    .update({"team_id": al_east_second_pick, "date_submitted": dt})
+                    .update({"team_id": al_east_second_pick, "date_submitted": dt,
+                             "original_pick": al_east_second_pick})
+
+            if al_east_last_pick != session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id)\
+                    .filter(PlayerPicks.pick_type == 1). \
+                    filter(PlayerPicks.rank == 3)\
+                    .filter(PlayerPicks.league_id == 0).filter(
+                    PlayerPicks.division_id == 1):
+                session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id).filter(PlayerPicks.pick_type == 1). \
+                    filter(PlayerPicks.rank == 3).filter(PlayerPicks.league_id == 0).filter(
+                    PlayerPicks.division_id == 1) \
+                    .update({"team_id": al_east_last_pick, "date_submitted": dt, "original_pick": al_east_last_pick})
 
         else:
+            """If the season has started, update picks at the All-Star Break.  Do not change the original pick column
+            and update the changed column to 1."""
 
             # Update the AL East Winner Pick
-            if al_east_winner_pick == session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
+            if al_east_winner_pick != session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
                     .filter(PlayerPicks.pick_type == 1). \
                     filter(PlayerPicks.rank == 1) \
                     .filter(PlayerPicks.league_id == 0) \
                     .filter(PlayerPicks.division_id == 1):
-                pass
-
-            else:
                 session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id).filter(PlayerPicks.pick_type == 1). \
-                    filter(PlayerPicks.rank == 1).filter(PlayerPicks.league_id == 0).\
+                    filter(PlayerPicks.rank == 1).filter(PlayerPicks.league_id == 0). \
                     filter(PlayerPicks.division_id == 1) \
                     .update({"team_id": al_east_winner_pick, "date_submitted": dt, "changed": 1})
 
-                # Update the AL East 2nd Place Team
+            # Update the AL East 2nd Place Team
             if al_east_second_pick is session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id)\
                     .filter(PlayerPicks.pick_type == 1)\
                     .filter(PlayerPicks.rank == 2)\
                     .filter(PlayerPicks.league_id == 0)\
                     .filter(PlayerPicks.division_id == 1):
-                pass
-            else:
                 session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id).filter(PlayerPicks.pick_type == 1). \
-                    filter(PlayerPicks.rank == 2).filter(PlayerPicks.league_id == 0)\
-                    .filter(PlayerPicks.division_id == 1)\
+                    filter(PlayerPicks.rank == 2).filter(PlayerPicks.league_id == 0) \
+                    .filter(PlayerPicks.division_id == 1) \
                     .update({"team_id": al_east_second_pick, "date_submitted": dt, "changed": 1})
 
+            # Update the AL East Last Place Team
+            if al_east_last_pick != session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id)\
+                    .filter(PlayerPicks.pick_type == 1). \
+                    filter(PlayerPicks.rank == 3)\
+                    .filter(PlayerPicks.league_id == 0).filter(
+                    PlayerPicks.division_id == 1):
+                session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id).filter(PlayerPicks.pick_type == 1). \
+                    filter(PlayerPicks.rank == 3).filter(PlayerPicks.league_id == 0).filter(
+                    PlayerPicks.division_id == 1) \
+                    .update({"team_id": al_east_last_pick, "date_submitted": dt, "changed": 1})
+
+
+
         # OLD CODE HERE
-
-        # Update the AL East Last Place Team
-        if al_east_last_pick is False:
-            pass
-        else:
-            session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id).filter(PlayerPicks.pick_type == 1). \
-                filter(PlayerPicks.rank == 3).filter(PlayerPicks.league_id == 0).filter(PlayerPicks.division_id == 1) \
-                .update({"team_id": al_east_last_pick})
-            session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id).filter(PlayerPicks.pick_type == 1). \
-                filter(PlayerPicks.rank == 3).filter(PlayerPicks.league_id == 0).filter(PlayerPicks.division_id == 1) \
-                .update({"date_submitted": dt})
-            session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id).filter(PlayerPicks.pick_type == 1). \
-                filter(PlayerPicks.rank == 3).filter(PlayerPicks.league_id == 0).filter(PlayerPicks.division_id == 1) \
-                .update({"changed": 1})
-
         # Update the AL Central Winner Pick
         if al_central_winner_pick is False:
             pass
