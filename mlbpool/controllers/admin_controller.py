@@ -38,7 +38,7 @@ class AdminController(BaseController):
         print(season_info)
 
         if GameDayService.admin_check() is None:
-            self.redirect('/admin/new_season')
+            self.redirect('/admin/new_install')
 
         else:
 
