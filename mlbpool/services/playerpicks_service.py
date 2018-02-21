@@ -4,6 +4,8 @@ from mlbpool.data.activeplayers import ActiveMLBPlayers
 from mlbpool.data.seasoninfo import SeasonInfo
 from mlbpool.data.player_picks import PlayerPicks
 import datetime
+from mlbpool.services.gameday_service import GameDayService
+import pendulum
 
 
 class PlayerPicksService:
@@ -94,6 +96,7 @@ class PlayerPicksService:
                          al_losses_pick: int, nl_losses_pick: int,
                          twins_wins_pick: int,
                          user_id: str):
+
         """Get the list of selections from the POST and insert into the database"""
         session = DbSessionFactory.create_session()
         season_row = session.query(SeasonInfo.current_season).filter(SeasonInfo.id == 1).first()
@@ -282,12 +285,12 @@ class PlayerPicksService:
         session.close()
 
     @classmethod
-    def change_player_picks(cls, al_east_winner_pick: int, al_east_second: int, al_east_last: int,
-                            al_central_winner_pick: int, al_central_second: int, al_central_last: int,
-                            al_west_winner_pick: int, al_west_second: int, al_west_last: int,
-                            nl_east_winner_pick: int, nl_east_second: int, nl_east_last: int,
-                            nl_central_winner_pick: int, nl_central_second: int, nl_central_last: int,
-                            nl_west_winner_pick: int, nl_west_second: int, nl_west_last: int,
+    def change_player_picks(cls, al_east_winner_pick: int, al_east_second_pick: int, al_east_last_pick: int,
+                            al_central_winner_pick: int, al_central_second_pick: int, al_central_last_pick: int,
+                            al_west_winner_pick: int, al_west_second_pick: int, al_west_last_pick: int,
+                            nl_east_winner_pick: int, nl_east_second_pick: int, nl_east_last_pick: int,
+                            nl_central_winner_pick: int, nl_central_second_pick: int, nl_central_last_pick: int,
+                            nl_west_winner_pick: int, nl_west_second_pick: int, nl_west_last_pick: int,
                             al_hr_pick: int, nl_hr_pick: int, al_rbi_pick: int, nl_rbi_pick: int,
                             al_ba_pick: int, nl_ba_pick: int,
                             al_p_wins_pick: int, nl_p_wins_pick: int,
@@ -296,7 +299,9 @@ class PlayerPicksService:
                             nl_wildcard1_pick: int, nl_wildcard2_pick: int,
                             al_wins_pick: int, nl_wins_pick: int,
                             al_losses_pick: int, nl_losses_pick: int,
-                            change_al_east_winner_pick: str, user_id: str):
+                            twins_wins_pick: int,
+                            user_id: str):
+
         """Update the player_picks table with the changes the pool player wants to make.
         Sets changed column to 0 (from 1) if the pick has been changed."""
         session = DbSessionFactory.create_session()
@@ -306,18 +311,29 @@ class PlayerPicksService:
 
         dt = datetime.datetime.now()
 
-        # TODO Need to add if / else for Maya datetimes if change is made during the pre-season vs. All-Star Break
         # TODO "changed" should only be updated at All-Star Break
+        # TODO How do I account for the original pick field?  (If / Else?)
 
         # Add American League team picks
 
         print(user_id)
         print(al_east_winner_pick)
-        print(change_al_east_winner_pick)
 
-        if change_al_east_winner_pick is False:
+        """If the season has not started yet, changed picks should remain 0.  If it's after the All-Star Break 
+        changed should be 1.  UniquePicksService will then assign it half points"""
+
+        now_time = pendulum.now(tz=pendulum.timezone('America/New_York'))
+        print(now_time, GameDayService.season_opener_date())
+
+        if GameDayService.season_opener_date() > now_time:
+            changed = 0
+        else:
+            changed = 1
+
+        if al_east_winner_pick is False:
             pass
         else:
+            # Update the AL East Winner Pick
             session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id).filter(PlayerPicks.pick_type == 1).\
                 filter(PlayerPicks.rank == 1).filter(PlayerPicks.league_id == 0).filter(PlayerPicks.division_id == 1) \
                 .update({"team_id": al_east_winner_pick})
@@ -326,7 +342,54 @@ class PlayerPicksService:
                 .update({"date_submitted": dt})
             session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id).filter(PlayerPicks.pick_type == 1). \
                 filter(PlayerPicks.rank == 1).filter(PlayerPicks.league_id == 0).filter(PlayerPicks.division_id == 1) \
-                .update({"changed": 1})
+                .update({"changed": changed})
+            
+        # Update the AL East 2nd Team
+        if al_east_second_pick is False:
+            pass
+        else:
+            # Update the AL East Second Pick
+            session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id).filter(PlayerPicks.pick_type == 1). \
+                filter(PlayerPicks.rank == 2).filter(PlayerPicks.league_id == 0).filter(PlayerPicks.division_id == 1) \
+                .update({"team_id": al_east_second_pick})
+            session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id).filter(PlayerPicks.pick_type == 1). \
+                filter(PlayerPicks.rank == 2).filter(PlayerPicks.league_id == 0).filter(PlayerPicks.division_id == 1) \
+                .update({"date_submitted": dt})
+            session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id).filter(PlayerPicks.pick_type == 1). \
+                filter(PlayerPicks.rank == 2).filter(PlayerPicks.league_id == 0).filter(PlayerPicks.division_id == 1) \
+                .update({"changed": changed})
+
+        # Update the AL East 3rd Team
+
+        # Update the AL Central Winner Pick
+
+        # Update the AL Central 2nd Team
+
+        # Update the AL Central 3rd Team
+
+        # Update the AL West Winner Pick
+
+        # Update the AL West 2nd Team
+
+        # Update the AL West 3rd Team
+
+        # Update the NL East Winner Pick
+
+        # Update the NL East 2nd Team
+
+        # Update the NL East 3rd Team
+
+        # Update the NL Central Winner Pick
+
+        # Update the NL Central 2nd Team
+
+        # Update the NL Central 3rd Team
+
+        # Update the NL West Winner Pick
+
+        # Update the NL West 2nd Team
+
+        # Update the NL West 3rd Team
 
         session.commit()
         session.close()

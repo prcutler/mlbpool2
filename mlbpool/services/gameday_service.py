@@ -51,7 +51,6 @@ class GameDayService:
     def timezone():
         tz = pendulum.timezone('America/New_York')
 
-
         return tz
 
     @staticmethod
@@ -83,3 +82,5 @@ class GameDayService:
         minutes = delta.minutes
 
         return days, hours, minutes
+
+
