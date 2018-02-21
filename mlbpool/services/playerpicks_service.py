@@ -587,42 +587,68 @@ class PlayerPicksService:
             if al_losses_pick != session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id)\
                     .filter(PlayerPicks.season == season) \
                     .filter(PlayerPicks.pick_type == 2)\
-                    .filter(PlayerPicks.league_id == 0):
+                    .filter(PlayerPicks.league_id == 0)\
+                    .filter(PlayerPicks.team_id):
                 session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id)\
                     .filter(PlayerPicks == 2)\
                     .filter(PlayerPicks.league_id == 0)\
-                    .update({"al_losses_pick": al_losses_pick, "date_submitted": dt, "original_pick": al_losses_pick})
+                    .update({"team_id": al_losses_pick, "date_submitted": dt, "original_pick": al_losses_pick})
 
             if nl_losses_pick != session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id)\
                     .filter(PlayerPicks.season == season) \
                     .filter(PlayerPicks.pick_type == 2)\
-                    .filter(PlayerPicks.league_id == 1):
+                    .filter(PlayerPicks.league_id == 1) \
+                    .filter(PlayerPicks.team_id):
                 session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id)\
                     .filter(PlayerPicks == 2)\
                     .filter(PlayerPicks.league_id == 1)\
-                    .update({"nl_losses_pick": nl_losses_pick, "date_submitted": dt, "original_pick": nl_losses_pick})
+                    .update({"team_id": nl_losses_pick, "date_submitted": dt, "original_pick": nl_losses_pick})
 
             # Update Pick Type 3 - Team Wins
             if al_wins_pick != session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
                     .filter(PlayerPicks.season == season) \
                     .filter(PlayerPicks.pick_type == 3) \
-                    .filter(PlayerPicks.league_id == 0):
+                    .filter(PlayerPicks.league_id == 0) \
+                    .filter(PlayerPicks.team_id):
                 session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
                     .filter(PlayerPicks.pick_type == 3) \
                     .filter(PlayerPicks.league_id == 0) \
                     .update(
-                    {"al_wins_pick": al_losses_pick, "date_submitted": dt, "original_pick": al_wins_pick})
+                    {"team_id": al_losses_pick, "date_submitted": dt, "original_pick": al_wins_pick})
 
             if nl_wins_pick != session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
                     .filter(PlayerPicks.season == season) \
                     .filter(PlayerPicks.pick_type == 3) \
-                    .filter(PlayerPicks.league_id == 1):
+                    .filter(PlayerPicks.league_id == 1) \
+                    .filter(PlayerPicks.team_id):
                 session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
                     .filter(PlayerPicks.pick_type == 3) \
                     .filter(PlayerPicks.league_id == 1) \
                     .update(
-                    {"nl_wins_pick": nl_wins_pick, "date_submitted": dt, "original_pick": nl_wins_pick})
+                    {"team_id": nl_wins_pick, "date_submitted": dt, "original_pick": nl_wins_pick})
 
+            # Update Pick Type 4 - Home Runs
+            if al_hr_pick != session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
+                    .filter(PlayerPicks.season == season) \
+                    .filter(PlayerPicks.pick_type == 4) \
+                    .filter(PlayerPicks.league_id == 0) \
+                    .filter(PlayerPicks.player_id):
+                session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
+                    .filter(PlayerPicks.pick_type == 3) \
+                    .filter(PlayerPicks.league_id == 0) \
+                    .update(
+                    {"player_id": al_hr_pick, "date_submitted": dt, "original_pick": al_hr_pick})
+
+            if nl_hr_pick != session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
+                    .filter(PlayerPicks.season == season) \
+                    .filter(PlayerPicks.pick_type == 4) \
+                    .filter(PlayerPicks.league_id == 1) \
+                    .filter(PlayerPicks.player_id):
+                session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
+                    .filter(PlayerPicks.pick_type == 4) \
+                    .filter(PlayerPicks.league_id == 1) \
+                    .update(
+                    {"player_id": nl_hr_pick, "date_submitted": dt, "original_pick": nl_hr_pick})
 
         else:
             """If the season has started, update picks at the All-Star Break.  Do not change the original pick column
@@ -885,7 +911,7 @@ class PlayerPicksService:
                     .filter(PlayerPicks == 2) \
                     .filter(PlayerPicks.league_id == 0) \
                     .update(
-                    {"al_losses_pick": al_losses_pick, "date_submitted": dt, "changed": 1})
+                    {"team_id": al_losses_pick, "date_submitted": dt, "changed": 1})
 
             if nl_losses_pick != session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
                     .filter(PlayerPicks.season == season) \
@@ -895,7 +921,7 @@ class PlayerPicksService:
                     .filter(PlayerPicks == 2) \
                     .filter(PlayerPicks.league_id == 1) \
                     .update(
-                    {"nl_losses_pick": nl_losses_pick, "date_submitted": dt, "changed": 1})
+                    {"team_id": nl_losses_pick, "date_submitted": dt, "changed": 1})
 
             # Update Pick Type 3 - Team Wins
             if al_wins_pick != session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
@@ -906,7 +932,7 @@ class PlayerPicksService:
                     .filter(PlayerPicks.pick_type == 3) \
                     .filter(PlayerPicks.league_id == 0) \
                     .update(
-                    {"al_wins_pick": al_wins_pick, "date_submitted": dt, "changed": 1})
+                    {"team_id": al_wins_pick, "date_submitted": dt, "changed": 1})
 
             if nl_wins_pick != session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
                     .filter(PlayerPicks.season == season) \
@@ -916,7 +942,30 @@ class PlayerPicksService:
                     .filter(PlayerPicks.pick_type == 3) \
                     .filter(PlayerPicks.league_id == 1) \
                     .update(
-                    {"nl_wins_pick": nl_wins_pick, "date_submitted": dt, "changed": 1})
+                    {"team_id": nl_wins_pick, "date_submitted": dt, "changed": 1})
+
+            # Update Pick Type 4 - Home Runs
+            if al_hr_pick != session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
+                    .filter(PlayerPicks.season == season) \
+                    .filter(PlayerPicks.pick_type == 4) \
+                    .filter(PlayerPicks.league_id == 0)\
+                    .filter(PlayerPicks.player_id):
+                session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
+                    .filter(PlayerPicks.pick_type == 3) \
+                    .filter(PlayerPicks.league_id == 0) \
+                    .update(
+                    {"player_id": al_wins_pick, "date_submitted": dt, "changed": 1})
+
+            if nl_wins_pick != session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
+                    .filter(PlayerPicks.season == season) \
+                    .filter(PlayerPicks.pick_type == 4) \
+                    .filter(PlayerPicks.league_id == 1) \
+                    .filter(PlayerPicks.player_id):
+                session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
+                    .filter(PlayerPicks.pick_type == 4) \
+                    .filter(PlayerPicks.league_id == 1) \
+                    .update(
+                    {"player_id": nl_hr_pick, "date_submitted": dt, "changed": 1})
 
         session.commit()
         session.close()
