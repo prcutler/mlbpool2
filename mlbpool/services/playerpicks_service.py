@@ -328,24 +328,36 @@ class PlayerPicksService:
         print(now_time, GameDayService.season_opener_date())
 
         if GameDayService.season_opener_date() > now_time:
+            """Update the picks passed from change-picks.  If the season start date is later than the current time, 
+            make the new changed picks equal to the original picks, making original_pick equal to the new pick."""
 
-            # Update the AL East Winner Pick - check to see if it has been change
-            if al_east_winner_pick == session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
+            # Update the AL East Winner Pick - check to see if it has been changed
+            if al_east_winner_pick != session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
                     .filter(PlayerPicks.pick_type == 1). \
                     filter(PlayerPicks.rank == 1) \
                     .filter(PlayerPicks.league_id == 0) \
                     .filter(PlayerPicks.division_id == 1):
-                pass
-            else:
                 session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id).filter(PlayerPicks.pick_type == 1). \
                     filter(PlayerPicks.rank == 1).filter(PlayerPicks.league_id == 0).filter(
                     PlayerPicks.division_id == 1) \
-                    .update({"team_id": al_east_winner_pick, "date_submitted": dt, "changed": 0,
-                             "original_pick" == al_east_winner_pick})
+                    .update({"team_id": al_east_winner_pick, "date_submitted": dt,
+                             "original_pick": al_east_winner_pick})
+
+            # Update the AL East 2nd Place Team
+            if al_east_second_pick is session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
+                    .filter(PlayerPicks.pick_type == 1). \
+                    filter(PlayerPicks.rank == 2) \
+                    .filter(PlayerPicks.league_id == 0) \
+                    .filter(PlayerPicks.division_id == 1):
+                pass
+            else:
+                session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id).filter(
+                    PlayerPicks.pick_type == 1). \
+                    filter(PlayerPicks.rank == 2).filter(PlayerPicks.league_id == 0).filter(
+                    PlayerPicks.division_id == 1) \
+                    .update({"team_id": al_east_second_pick, "date_submitted": dt})
 
         else:
-            original_pick = session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id).filter(
-                PlayerPicks.original_pick)
 
             # Update the AL East Winner Pick
             if al_east_winner_pick == session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
@@ -354,26 +366,27 @@ class PlayerPicksService:
                     .filter(PlayerPicks.league_id == 0) \
                     .filter(PlayerPicks.division_id == 1):
                 pass
+
             else:
                 session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id).filter(PlayerPicks.pick_type == 1). \
-                    filter(PlayerPicks.rank == 1).filter(PlayerPicks.league_id == 0).filter(
-                    PlayerPicks.division_id == 1) \
-                    .update({"team_id": al_east_winner_pick, "date_submitted": dt, "changed": 1,
-                             "original_pick" == original_pick})
+                    filter(PlayerPicks.rank == 1).filter(PlayerPicks.league_id == 0).\
+                    filter(PlayerPicks.division_id == 1) \
+                    .update({"team_id": al_east_winner_pick, "date_submitted": dt, "changed": 1})
 
-        # Update the AL East 2nd Place Team
-        if al_east_second_pick is False:
-            pass
-        else:
-            session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id).filter(PlayerPicks.pick_type == 1). \
-                filter(PlayerPicks.rank == 2).filter(PlayerPicks.league_id == 0).filter(PlayerPicks.division_id == 1) \
-                .update({"team_id": al_east_second_pick})
-            session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id).filter(PlayerPicks.pick_type == 1). \
-                filter(PlayerPicks.rank == 2).filter(PlayerPicks.league_id == 0).filter(PlayerPicks.division_id == 1) \
-                .update({"date_submitted": dt})
-            session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id).filter(PlayerPicks.pick_type == 1). \
-                filter(PlayerPicks.rank == 2).filter(PlayerPicks.league_id == 0).filter(PlayerPicks.division_id == 1) \
-                .update({"changed": changed})
+                # Update the AL East 2nd Place Team
+            if al_east_second_pick is session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id)\
+                    .filter(PlayerPicks.pick_type == 1)\
+                    .filter(PlayerPicks.rank == 2)\
+                    .filter(PlayerPicks.league_id == 0)\
+                    .filter(PlayerPicks.division_id == 1):
+                pass
+            else:
+                session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id).filter(PlayerPicks.pick_type == 1). \
+                    filter(PlayerPicks.rank == 2).filter(PlayerPicks.league_id == 0)\
+                    .filter(PlayerPicks.division_id == 1)\
+                    .update({"team_id": al_east_second_pick, "date_submitted": dt, "changed": 1})
+
+        # OLD CODE HERE
 
         # Update the AL East Last Place Team
         if al_east_last_pick is False:
@@ -387,7 +400,7 @@ class PlayerPicksService:
                 .update({"date_submitted": dt})
             session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id).filter(PlayerPicks.pick_type == 1). \
                 filter(PlayerPicks.rank == 3).filter(PlayerPicks.league_id == 0).filter(PlayerPicks.division_id == 1) \
-                .update({"changed": changed})
+                .update({"changed": 1})
 
         # Update the AL Central Winner Pick
         if al_central_winner_pick is False:
@@ -401,7 +414,7 @@ class PlayerPicksService:
                 .update({"date_submitted": dt})
             session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id).filter(PlayerPicks.pick_type == 1). \
                 filter(PlayerPicks.rank == 1).filter(PlayerPicks.league_id == 0).filter(PlayerPicks.division_id == 2) \
-                .update({"changed": changed})
+                .update({"changed": 1})
 
         # Update the AL Central 2nd Place Team
         if al_central_second_pick is False:
@@ -415,7 +428,7 @@ class PlayerPicksService:
                 .update({"date_submitted": dt})
             session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id).filter(PlayerPicks.pick_type == 1). \
                 filter(PlayerPicks.rank == 2).filter(PlayerPicks.league_id == 0).filter(PlayerPicks.division_id == 3) \
-                .update({"changed": changed})
+                .update({"changed": 1})
 
         # Update the AL Central Last Place Team
         if al_central_last_pick is False:
@@ -429,7 +442,7 @@ class PlayerPicksService:
                 .update({"date_submitted": dt})
             session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id).filter(PlayerPicks.pick_type == 1). \
                 filter(PlayerPicks.rank == 3).filter(PlayerPicks.league_id == 0).filter(PlayerPicks.division_id == 2) \
-                .update({"changed": changed})
+                .update({"changed": 1})
 
         # Update the AL West Winner Pick
         if al_west_winner_pick is False:
@@ -443,7 +456,7 @@ class PlayerPicksService:
                 .update({"date_submitted": dt})
             session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id).filter(PlayerPicks.pick_type == 1). \
                 filter(PlayerPicks.rank == 1).filter(PlayerPicks.league_id == 0).filter(PlayerPicks.division_id == 3) \
-                .update({"changed": changed})
+                .update({"changed": 1})
 
         # Update the AL West 2nd Place Team
         if al_west_second_pick is False:
@@ -457,7 +470,7 @@ class PlayerPicksService:
                 .update({"date_submitted": dt})
             session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id).filter(PlayerPicks.pick_type == 1). \
                 filter(PlayerPicks.rank == 2).filter(PlayerPicks.league_id == 0).filter(PlayerPicks.division_id == 3) \
-                .update({"changed": changed})
+                .update({"changed": 1})
 
         # Update the AL West Last Place Team
         if al_west_last_pick is False:
@@ -471,7 +484,7 @@ class PlayerPicksService:
                 .update({"date_submitted": dt})
             session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id).filter(PlayerPicks.pick_type == 1). \
                 filter(PlayerPicks.rank == 3).filter(PlayerPicks.league_id == 0).filter(PlayerPicks.division_id == 3) \
-                .update({"changed": changed})
+                .update({"changed": 1})
 
         # Update the NL East Winner Pick
         if nl_east_winner_pick is False:
@@ -485,7 +498,7 @@ class PlayerPicksService:
                 .update({"date_submitted": dt})
             session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id).filter(PlayerPicks.pick_type == 1). \
                 filter(PlayerPicks.rank == 1).filter(PlayerPicks.league_id == 1).filter(PlayerPicks.division_id == 1) \
-                .update({"changed": changed})
+                .update({"changed": 1})
 
         # Update the NL East 2nd Place Team
         if nl_east_second_pick is False:
@@ -499,7 +512,7 @@ class PlayerPicksService:
                 .update({"date_submitted": dt})
             session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id).filter(PlayerPicks.pick_type == 1). \
                 filter(PlayerPicks.rank == 2).filter(PlayerPicks.league_id == 1).filter(PlayerPicks.division_id == 1) \
-                .update({"changed": changed})
+                .update({"changed": 1})
 
         # Update the NL East Last Place Team
         if nl_east_last_pick is False:
@@ -513,7 +526,7 @@ class PlayerPicksService:
                 .update({"date_submitted": dt})
             session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id).filter(PlayerPicks.pick_type == 1). \
                 filter(PlayerPicks.rank == 3).filter(PlayerPicks.league_id == 1).filter(PlayerPicks.division_id == 1) \
-                .update({"changed": changed})
+                .update({"changed": 1})
 
         # Update the NL Central Winner Pick
         if nl_central_winner_pick is False:
@@ -527,7 +540,7 @@ class PlayerPicksService:
                 .update({"date_submitted": dt})
             session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id).filter(PlayerPicks.pick_type == 1). \
                 filter(PlayerPicks.rank == 1).filter(PlayerPicks.league_id == 1).filter(PlayerPicks.division_id == 2) \
-                .update({"changed": changed})
+                .update({"changed": 1})
 
         # Update the NL Central 2nd Place Team
         if nl_central_second_pick is False:
@@ -541,7 +554,7 @@ class PlayerPicksService:
                 .update({"date_submitted": dt})
             session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id).filter(PlayerPicks.pick_type == 1). \
                 filter(PlayerPicks.rank == 2).filter(PlayerPicks.league_id == 1).filter(PlayerPicks.division_id == 3) \
-                .update({"changed": changed})
+                .update({"changed": 1})
 
         # Update the NL Central Last Place Team
         if nl_central_last_pick is False:
@@ -555,7 +568,7 @@ class PlayerPicksService:
                 .update({"date_submitted": dt})
             session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id).filter(PlayerPicks.pick_type == 1). \
                 filter(PlayerPicks.rank == 3).filter(PlayerPicks.league_id == 1).filter(PlayerPicks.division_id == 2) \
-                .update({"changed": changed})
+                .update({"changed": 1})
 
         # Update the NL West Winner Pick
         if nl_west_winner_pick is False:
@@ -569,7 +582,7 @@ class PlayerPicksService:
                 .update({"date_submitted": dt})
             session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id).filter(PlayerPicks.pick_type == 1). \
                 filter(PlayerPicks.rank == 1).filter(PlayerPicks.league_id == 1).filter(PlayerPicks.division_id == 3) \
-                .update({"changed": changed})
+                .update({"changed": 1})
 
         # Update the NL West 2nd Place Team
         if nl_west_second_pick is False:
@@ -583,7 +596,7 @@ class PlayerPicksService:
                 .update({"date_submitted": dt})
             session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id).filter(PlayerPicks.pick_type == 1). \
                 filter(PlayerPicks.rank == 2).filter(PlayerPicks.league_id == 1).filter(PlayerPicks.division_id == 3) \
-                .update({"changed": changed})
+                .update({"changed": 1})
 
         # Update the NL West Last Place Team
         if nl_west_last_pick is False:
@@ -597,7 +610,7 @@ class PlayerPicksService:
                 .update({"date_submitted": dt})
             session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id).filter(PlayerPicks.pick_type == 1). \
                 filter(PlayerPicks.rank == 3).filter(PlayerPicks.league_id == 1).filter(PlayerPicks.division_id == 3) \
-                .update({"changed": changed})
+                .update({"changed": 1})
 
         session.commit()
         session.close()
