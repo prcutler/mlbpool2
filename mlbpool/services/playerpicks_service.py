@@ -906,7 +906,8 @@ class PlayerPicksService:
             if al_losses_pick != session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
                     .filter(PlayerPicks.season == season) \
                     .filter(PlayerPicks.pick_type == 2) \
-                    .filter(PlayerPicks.league_id == 0):
+                    .filter(PlayerPicks.league_id == 0) \
+                    .filter(PlayerPicks.team_id):
                 session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
                     .filter(PlayerPicks == 2) \
                     .filter(PlayerPicks.league_id == 0) \
@@ -916,7 +917,8 @@ class PlayerPicksService:
             if nl_losses_pick != session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
                     .filter(PlayerPicks.season == season) \
                     .filter(PlayerPicks.pick_type == 2) \
-                    .filter(PlayerPicks.league_id == 1):
+                    .filter(PlayerPicks.league_id == 1) \
+                    .filter(PlayerPicks.team_id):
                 session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
                     .filter(PlayerPicks == 2) \
                     .filter(PlayerPicks.league_id == 1) \
@@ -927,7 +929,8 @@ class PlayerPicksService:
             if al_wins_pick != session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
                     .filter(PlayerPicks.season == season) \
                     .filter(PlayerPicks.pick_type == 3) \
-                    .filter(PlayerPicks.league_id == 0):
+                    .filter(PlayerPicks.league_id == 0)\
+                    .filter(PlayerPicks.team_id):
                 session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
                     .filter(PlayerPicks.pick_type == 3) \
                     .filter(PlayerPicks.league_id == 0) \
@@ -937,7 +940,8 @@ class PlayerPicksService:
             if nl_wins_pick != session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
                     .filter(PlayerPicks.season == season) \
                     .filter(PlayerPicks.pick_type == 3) \
-                    .filter(PlayerPicks.league_id == 1):
+                    .filter(PlayerPicks.league_id == 1) \
+                    .filter(PlayerPicks.team_id):
                 session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
                     .filter(PlayerPicks.pick_type == 3) \
                     .filter(PlayerPicks.league_id == 1) \
