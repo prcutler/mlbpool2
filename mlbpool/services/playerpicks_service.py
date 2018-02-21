@@ -313,37 +313,54 @@ class PlayerPicksService:
 
         # TODO "changed" should only be updated at All-Star Break
         # TODO How do I account for the original pick field?  (If / Else?)
+        # TODO Thinking about this, I don't think they'll be returning "False".  Might need to be == to a query
 
         # Add American League team picks
 
         print(user_id)
-        print(al_east_winner_pick)
+        print(al_east_winner_pick, al_central_winner_pick, nl_central_last_pick, nl_west_last_pick)
 
         """If the season has not started yet, changed picks should remain 0.  If it's after the All-Star Break 
-        changed should be 1.  UniquePicksService will then assign it half points"""
+        changed should be 1.  UniquePicksService will then assign it half points.  Also, if the season has not 
+        started need to update the original_pick column (which is not done at the All-Star break)"""
 
         now_time = pendulum.now(tz=pendulum.timezone('America/New_York'))
         print(now_time, GameDayService.season_opener_date())
 
         if GameDayService.season_opener_date() > now_time:
-            changed = 0
-        else:
-            changed = 1
 
-        # Update the AL East Winner Pick
-        if al_east_winner_pick is False:
-            pass
+            # Update the AL East Winner Pick - check to see if it has been change
+            if al_east_winner_pick == session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
+                    .filter(PlayerPicks.pick_type == 1). \
+                    filter(PlayerPicks.rank == 1) \
+                    .filter(PlayerPicks.league_id == 0) \
+                    .filter(PlayerPicks.division_id == 1):
+                pass
+            else:
+                session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id).filter(PlayerPicks.pick_type == 1). \
+                    filter(PlayerPicks.rank == 1).filter(PlayerPicks.league_id == 0).filter(
+                    PlayerPicks.division_id == 1) \
+                    .update({"team_id": al_east_winner_pick, "date_submitted": dt, "changed": 0,
+                             "original_pick" == al_east_winner_pick})
+
         else:
-            session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id).filter(PlayerPicks.pick_type == 1).\
-                filter(PlayerPicks.rank == 1).filter(PlayerPicks.league_id == 0).filter(PlayerPicks.division_id == 1) \
-                .update({"team_id": al_east_winner_pick})
-            session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id).filter(PlayerPicks.pick_type == 1). \
-                filter(PlayerPicks.rank == 1).filter(PlayerPicks.league_id == 0).filter(PlayerPicks.division_id == 1) \
-                .update({"date_submitted": dt})
-            session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id).filter(PlayerPicks.pick_type == 1). \
-                filter(PlayerPicks.rank == 1).filter(PlayerPicks.league_id == 0).filter(PlayerPicks.division_id == 1) \
-                .update({"changed": changed})
-            
+            original_pick = session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id).filter(
+                PlayerPicks.original_pick)
+
+            # Update the AL East Winner Pick
+            if al_east_winner_pick == session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
+                    .filter(PlayerPicks.pick_type == 1). \
+                    filter(PlayerPicks.rank == 1) \
+                    .filter(PlayerPicks.league_id == 0) \
+                    .filter(PlayerPicks.division_id == 1):
+                pass
+            else:
+                session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id).filter(PlayerPicks.pick_type == 1). \
+                    filter(PlayerPicks.rank == 1).filter(PlayerPicks.league_id == 0).filter(
+                    PlayerPicks.division_id == 1) \
+                    .update({"team_id": al_east_winner_pick, "date_submitted": dt, "changed": 1,
+                             "original_pick" == original_pick})
+
         # Update the AL East 2nd Place Team
         if al_east_second_pick is False:
             pass
