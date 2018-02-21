@@ -9,6 +9,7 @@ from mlbpool.viewmodels.resetpassword_viewmodel import ResetPasswordViewModel
 import mlbpool.infrastructure.cookie_auth as cookie_auth
 from mlbpool.viewmodels.your_picks_viewmodel import YourPicksViewModel
 from mlbpool.services.view_picks_service import ViewPicksService
+from mlbpool.services.gameday_service import GameDayService
 
 
 class AccountController(BaseController):
@@ -23,10 +24,15 @@ class AccountController(BaseController):
         seasons_played = AccountService.seasons_played(self.logged_in_user_id)
         account_date = AccountService.get_account_date(self.logged_in_user_id)
 
+        picks_due = GameDayService.picks_due()
+        time_due = GameDayService.time_due()
+
         # return the model
         return {'account': account_details,
                 'seasons': seasons_played,
-                'account_date': account_date
+                'account_date': account_date,
+                'picks_due': picks_due,
+                'time_due': time_due
                 }
 
     @pyramid_handlers.action(renderer='templates/account/signin.pt',

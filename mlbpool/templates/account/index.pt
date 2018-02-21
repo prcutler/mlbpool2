@@ -25,9 +25,16 @@
                         </ul>
                     </div>
 
-                    <h3>Submit your picks</h3>
-                    <p><a href="/picks/submit-picks">Submit your picks</a> - you have until 6:59 p.m. before the kickoff
-                        of the first Thursday night game.</p>
+                    <h3>Manage your picks</h3>
+                    <ul>
+                        <li><a href="/picks/submit-picks">Submit your picks</a> - picks are due by ${picks_due}
+                        ${time_due}.</li>
+                    </ul>
+                    <ul>
+                        <li><a href="/picks/change-picks">Change your picks</a> - if the season has not started yet, you
+                        can change your picks as many times as you want.  You can also change them during the All-Star
+                        Break and they will be worth half the points.</li>
+                    </ul>
 
 
                 </div>
