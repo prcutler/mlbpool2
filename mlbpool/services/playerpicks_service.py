@@ -319,6 +319,7 @@ class PlayerPicksService:
             """Update the picks passed from change-picks.  If the season start date is later than the current time, 
             make the new changed picks equal to the original picks, making original_pick equal to the new pick."""
 
+            # Update Pick Type 1
             # Update the AL East Winner Pick - check to see if it has been changed
             if al_east_winner_pick != session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
                     .filter(PlayerPicks.season == season) \
@@ -568,6 +569,7 @@ class PlayerPicksService:
                     .update({"team_id": nl_west_second_pick, "date_submitted": dt,
                              "original_pick": nl_west_second_pick})
 
+            # Update the NL West Last Place Team
             if nl_west_last_pick != session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
                     .filter(PlayerPicks.season == season) \
                     .filter(PlayerPicks.pick_type == 1) \
@@ -580,6 +582,47 @@ class PlayerPicksService:
                     .filter(PlayerPicks.division_id == 3) \
                     .update(
                     {"team_id": nl_west_last_pick, "date_submitted": dt, "original_pick": nl_west_last_pick})
+
+            # Update Pick Type 2 - Team Losses
+            if al_losses_pick != session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id)\
+                    .filter(PlayerPicks.season == season) \
+                    .filter(PlayerPicks.pick_type == 2)\
+                    .filter(PlayerPicks.league_id == 0):
+                session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id)\
+                    .filter(PlayerPicks == 2)\
+                    .filter(PlayerPicks.league_id == 0)\
+                    .update({"al_losses_pick": al_losses_pick, "date_submitted": dt, "original_pick": al_losses_pick})
+
+            if nl_losses_pick != session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id)\
+                    .filter(PlayerPicks.season == season) \
+                    .filter(PlayerPicks.pick_type == 2)\
+                    .filter(PlayerPicks.league_id == 1):
+                session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id)\
+                    .filter(PlayerPicks == 2)\
+                    .filter(PlayerPicks.league_id == 1)\
+                    .update({"nl_losses_pick": nl_losses_pick, "date_submitted": dt, "original_pick": nl_losses_pick})
+
+            # Update Pick Type 3 - Team Wins
+            if al_wins_pick != session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
+                    .filter(PlayerPicks.season == season) \
+                    .filter(PlayerPicks.pick_type == 3) \
+                    .filter(PlayerPicks.league_id == 0):
+                session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
+                    .filter(PlayerPicks.pick_type == 3) \
+                    .filter(PlayerPicks.league_id == 0) \
+                    .update(
+                    {"al_wins_pick": al_losses_pick, "date_submitted": dt, "original_pick": al_wins_pick})
+
+            if nl_wins_pick != session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
+                    .filter(PlayerPicks.season == season) \
+                    .filter(PlayerPicks.pick_type == 3) \
+                    .filter(PlayerPicks.league_id == 1):
+                session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
+                    .filter(PlayerPicks.pick_type == 3) \
+                    .filter(PlayerPicks.league_id == 1) \
+                    .update(
+                    {"nl_wins_pick": nl_wins_pick, "date_submitted": dt, "original_pick": nl_wins_pick})
+
 
         else:
             """If the season has started, update picks at the All-Star Break.  Do not change the original pick column
@@ -832,6 +875,48 @@ class PlayerPicksService:
                     .filter(PlayerPicks.rank == 3).filter(PlayerPicks.league_id == 1)\
                     .filter(PlayerPicks.division_id == 3) \
                     .update({"team_id": nl_west_last_pick, "date_submitted": dt, "changed": 1})
+
+            # Update Pick Type 2 - Team Losses
+            if al_losses_pick != session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
+                    .filter(PlayerPicks.season == season) \
+                    .filter(PlayerPicks.pick_type == 2) \
+                    .filter(PlayerPicks.league_id == 0):
+                session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
+                    .filter(PlayerPicks == 2) \
+                    .filter(PlayerPicks.league_id == 0) \
+                    .update(
+                    {"al_losses_pick": al_losses_pick, "date_submitted": dt, "changed": 1})
+
+            if nl_losses_pick != session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
+                    .filter(PlayerPicks.season == season) \
+                    .filter(PlayerPicks.pick_type == 2) \
+                    .filter(PlayerPicks.league_id == 1):
+                session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
+                    .filter(PlayerPicks == 2) \
+                    .filter(PlayerPicks.league_id == 1) \
+                    .update(
+                    {"nl_losses_pick": nl_losses_pick, "date_submitted": dt, "changed": 1})
+
+            # Update Pick Type 3 - Team Wins
+            if al_wins_pick != session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
+                    .filter(PlayerPicks.season == season) \
+                    .filter(PlayerPicks.pick_type == 3) \
+                    .filter(PlayerPicks.league_id == 0):
+                session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
+                    .filter(PlayerPicks.pick_type == 3) \
+                    .filter(PlayerPicks.league_id == 0) \
+                    .update(
+                    {"al_wins_pick": al_wins_pick, "date_submitted": dt, "changed": 1})
+
+            if nl_wins_pick != session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
+                    .filter(PlayerPicks.season == season) \
+                    .filter(PlayerPicks.pick_type == 3) \
+                    .filter(PlayerPicks.league_id == 1):
+                session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
+                    .filter(PlayerPicks.pick_type == 3) \
+                    .filter(PlayerPicks.league_id == 1) \
+                    .update(
+                    {"nl_wins_pick": nl_wins_pick, "date_submitted": dt, "changed": 1})
 
         session.commit()
         session.close()
