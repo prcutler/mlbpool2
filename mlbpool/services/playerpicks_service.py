@@ -305,19 +305,8 @@ class PlayerPicksService:
         Sets changed column to 0 (from 1) if the pick has been changed."""
         session = DbSessionFactory.create_session()
         season_row = session.query(SeasonInfo.current_season).filter(SeasonInfo.id == 1).first()
-        season = season_row.current_season
-        start_date = session.query(SeasonInfo.season_start_date)
 
         dt = datetime.datetime.now()
-
-        # TODO "changed" should only be updated at All-Star Break
-        # TODO How do I account for the original pick field?  (If / Else?)
-        # TODO Thinking about this, I don't think they'll be returning "False".  Might need to be == to a query
-
-        # Add American League team picks
-
-        print(user_id)
-        print(al_east_winner_pick, al_central_winner_pick, nl_central_last_pick, nl_west_last_pick)
 
         """If the season has not started yet, changed picks should remain 0.  If it's after the All-Star Break 
         changed should be 1.  UniquePicksService will then assign it half points.  Also, if the season has not 
