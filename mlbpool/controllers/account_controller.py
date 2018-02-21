@@ -19,6 +19,9 @@ class AccountController(BaseController):
             print("Cannot view account page, must login")
             self.redirect('/account/signin')
 
+        if GameDayService.admin_check() is None:
+            self.redirect('/admin/new_install')
+
         # data / service access
         account_details = AccountService.get_account_info(self.logged_in_user_id)
         seasons_played = AccountService.seasons_played(self.logged_in_user_id)
