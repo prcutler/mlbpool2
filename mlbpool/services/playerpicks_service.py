@@ -6,6 +6,7 @@ from mlbpool.data.player_picks import PlayerPicks
 import datetime
 from mlbpool.services.gameday_service import GameDayService
 import pendulum
+from mlbpool.services.count_service import CountService
 
 
 class PlayerPicksService:
@@ -291,7 +292,8 @@ class PlayerPicksService:
                             nl_east_winner_pick: int, nl_east_second_pick: int, nl_east_last_pick: int,
                             nl_central_winner_pick: int, nl_central_second_pick: int, nl_central_last_pick: int,
                             nl_west_winner_pick: int, nl_west_second_pick: int, nl_west_last_pick: int,
-                            al_hr_pick: int, nl_hr_pick: int, al_rbi_pick: int, nl_rbi_pick: int,
+                            al_hr_pick: int, nl_hr_pick: int,
+                            al_rbi_pick: int, nl_rbi_pick: int,
                             al_ba_pick: int, nl_ba_pick: int,
                             al_p_wins_pick: int, nl_p_wins_pick: int,
                             al_era_pick: int, nl_era_pick: int,
@@ -313,7 +315,11 @@ class PlayerPicksService:
         changed should be 1.  UniquePicksService will then assign it half points.  Also, if the season has not 
         started need to update the original_pick column (which is not done at the All-Star break)"""
 
-        now_time = pendulum.now(tz=pendulum.timezone('America/New_York'))
+        # Change now_time for testing
+        # Use this one for production:
+        # now_time = pendulum.now(tz=pendulum.timezone('America/New_York'))
+        # Use this one for testing:
+        now_time = datetime.date(2018, 5, 1)
 
         if GameDayService.season_opener_date() > now_time:
             """Update the picks passed from change-picks.  If the season start date is later than the current time, 
@@ -614,7 +620,7 @@ class PlayerPicksService:
                     .filter(PlayerPicks.pick_type == 3) \
                     .filter(PlayerPicks.league_id == 0) \
                     .update(
-                    {"team_id": al_losses_pick, "date_submitted": dt, "original_pick": al_wins_pick})
+                    {"team_id": al_wins_pick, "date_submitted": dt, "original_pick": al_wins_pick})
 
             if nl_wins_pick != session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
                     .filter(PlayerPicks.season == season) \
@@ -795,6 +801,15 @@ class PlayerPicksService:
             """If the season has started, update picks at the All-Star Break.  Do not change the original pick column
             and update the changed column to 1."""
 
+            # Check to see if the user has submitted more than 14 picks for changes
+            total_changes = CountService.change_picks_count(al_east_winner_pick, al_east_second_pick,
+                                                            user_id, season, al_east_last_pick)
+
+            print(total_changes, type(total_changes))
+
+            if total_changes > 2:
+                print("Too many!")
+
             # Update the AL East Winner Pick
             if al_east_winner_pick != session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
                     .filter(PlayerPicks.season == season) \
@@ -809,7 +824,7 @@ class PlayerPicksService:
                     .update({"team_id": al_east_winner_pick, "date_submitted": dt, "changed": 1})
 
             # Update the AL East 2nd Place Team
-            if al_east_second_pick is session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
+            if al_east_second_pick != session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
                     .filter(PlayerPicks.season == season) \
                     .filter(PlayerPicks.pick_type == 1)\
                     .filter(PlayerPicks.rank == 2)\
@@ -851,7 +866,7 @@ class PlayerPicksService:
                     .update({"team_id": al_central_winner_pick, "date_submitted": dt, "changed": 1})
 
             # Update the AL Central 2nd Place Team
-            if al_central_second_pick is session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
+            if al_central_second_pick != session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
                     .filter(PlayerPicks.season == season) \
                     .filter(PlayerPicks.pick_type == 1) \
                     .filter(PlayerPicks.rank == 2) \
@@ -892,7 +907,7 @@ class PlayerPicksService:
                     .update({"team_id": al_west_winner_pick, "date_submitted": dt, "changed": 1})
 
             # Update the AL West 2nd Place Team
-            if al_west_second_pick is session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
+            if al_west_second_pick != session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
                     .filter(PlayerPicks.season == season) \
                     .filter(PlayerPicks.pick_type == 1) \
                     .filter(PlayerPicks.rank == 2) \
@@ -933,7 +948,7 @@ class PlayerPicksService:
                     .update({"team_id": nl_east_winner_pick, "date_submitted": dt, "changed": 1})
 
             # Update the NL East 2nd Place Team
-            if nl_east_second_pick is session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
+            if nl_east_second_pick != session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
                     .filter(PlayerPicks.season == season) \
                     .filter(PlayerPicks.pick_type == 1) \
                     .filter(PlayerPicks.rank == 2) \
@@ -975,7 +990,7 @@ class PlayerPicksService:
                     .update({"team_id": nl_central_winner_pick, "date_submitted": dt, "changed": 1})
 
             # Update the NL Central 2nd Place Team
-            if nl_central_second_pick is session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
+            if nl_central_second_pick != session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
                     .filter(PlayerPicks.season == season) \
                     .filter(PlayerPicks.pick_type == 1) \
                     .filter(PlayerPicks.rank == 2) \
@@ -1017,7 +1032,7 @@ class PlayerPicksService:
                     .update({"team_id": nl_west_winner_pick, "date_submitted": dt, "changed": 1})
 
             # Update the NL West 2nd Place Team
-            if nl_west_second_pick is session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
+            if nl_west_second_pick != session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
                     .filter(PlayerPicks.season == season) \
                     .filter(PlayerPicks.pick_type == 1) \
                     .filter(PlayerPicks.rank == 2) \
@@ -1050,7 +1065,7 @@ class PlayerPicksService:
                     .filter(PlayerPicks.league_id == 0) \
                     .filter(PlayerPicks.team_id):
                 session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
-                    .filter(PlayerPicks == 2) \
+                    .filter(PlayerPicks.pick_type == 2) \
                     .filter(PlayerPicks.league_id == 0) \
                     .update(
                     {"team_id": al_losses_pick, "date_submitted": dt, "changed": 1})
@@ -1061,7 +1076,7 @@ class PlayerPicksService:
                     .filter(PlayerPicks.league_id == 1) \
                     .filter(PlayerPicks.team_id):
                 session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
-                    .filter(PlayerPicks == 2) \
+                    .filter(PlayerPicks.pick_type == 2) \
                     .filter(PlayerPicks.league_id == 1) \
                     .update(
                     {"team_id": nl_losses_pick, "date_submitted": dt, "changed": 1})
@@ -1099,7 +1114,7 @@ class PlayerPicksService:
                     .filter(PlayerPicks.pick_type == 4) \
                     .filter(PlayerPicks.league_id == 0) \
                     .update(
-                    {"player_id": al_wins_pick, "date_submitted": dt, "changed": 1})
+                    {"player_id": al_hr_pick, "date_submitted": dt, "changed": 1})
 
             if nl_hr_pick != session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
                     .filter(PlayerPicks.season == season) \

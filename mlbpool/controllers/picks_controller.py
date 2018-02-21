@@ -342,7 +342,6 @@ class PicksController(BaseController):
                                                            vm.nl_wildcard1_pick, vm.nl_wildcard2_pick,
                                                            vm.al_wins_pick, vm.nl_wins_pick,
                                                            vm.al_losses_pick, vm.nl_losses_pick,
-                                                           vm.change_pick,
                                                            vm.user_id)
 
         # Log that a user changed picks
