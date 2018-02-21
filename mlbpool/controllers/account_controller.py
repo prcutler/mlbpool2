@@ -19,6 +19,8 @@ class AccountController(BaseController):
             print("Cannot view account page, must login")
             self.redirect('/account/signin')
 
+        """Account homepage loads after each user registers.  After the first user registers (which will be the 
+        admin user, check to see if the database is empty and if so, redirect to the new_install service process"""
         if GameDayService.admin_check() is None:
             self.redirect('/admin/new_install')
 
