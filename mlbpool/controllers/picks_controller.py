@@ -221,10 +221,16 @@ class PicksController(BaseController):
         user_query = session.query(PlayerPicks.user_id).filter(PlayerPicks.user_id == self.logged_in_user_id) \
             .filter(PlayerPicks.season == season).first()
 
+        find_changes = CountService.find_changes(self.logged_in_user_id)
+
         if user_query is None:
 
             print("You have not submitted picks for this season")
             self.redirect('/picks/submit-picks')
+
+        elif find_changes == 1:
+                print(find_changes)
+                self.redirect('/picks/too-late')
 
         else:
 
@@ -332,8 +338,6 @@ class PicksController(BaseController):
         # Use this one for testing:
         now_time = datetime.date(2018, 5, 1)
         print(now_time)
-
-        # TODO Need to add a check if any changes have been submitted - put in CountService
 
         if GameDayService.season_opener_date() < now_time:
             total_changes = CountService.change_picks_count(
