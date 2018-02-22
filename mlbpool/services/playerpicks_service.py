@@ -801,15 +801,6 @@ class PlayerPicksService:
             """If the season has started, update picks at the All-Star Break.  Do not change the original pick column
             and update the changed column to 1."""
 
-            # Check to see if the user has submitted more than 14 picks for changes
-            total_changes = CountService.change_picks_count(al_east_winner_pick, al_east_second_pick,
-                                                            user_id, season, al_east_last_pick)
-
-            print(total_changes, type(total_changes))
-
-            if total_changes > 2:
-                print("Too many!")
-
             # Update the AL East Winner Pick
             if al_east_winner_pick != session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
                     .filter(PlayerPicks.season == season) \

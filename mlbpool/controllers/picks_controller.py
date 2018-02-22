@@ -8,6 +8,7 @@ from mlbpool.data.player_picks import PlayerPicks
 from mlbpool.data.seasoninfo import SeasonInfo
 from mlbpool.data.account import Account
 from mlbpool.services.gameday_service import GameDayService
+from mlbpool.services.count_service import CountService
 import datetime
 import pendulum
 
@@ -317,32 +318,66 @@ class PicksController(BaseController):
 
         # Pass a player's picks to the service to be inserted in the db
 
+        session = DbSessionFactory.create_session()
+        season_row = session.query(SeasonInfo.current_season).filter(SeasonInfo.id == '1').first()
+        season = season_row.current_season
         vm.user_id = self.logged_in_user_id
+        vm.season = season
 
         # TODO This may need to be a different PlayerPicksService to do a db update
 
-        player_picks = PlayerPicksService.change_player_picks(vm.al_east_winner_pick, vm.al_east_second_pick,
-                                                           vm.al_east_last_pick,
-                                                           vm.al_central_winner_pick, vm.al_central_second_pick,
-                                                           vm.al_central_last_pick,
-                                                           vm.al_west_winner_pick, vm.al_west_second_pick,
-                                                           vm.al_west_last_pick,
-                                                           vm.nl_east_winner_pick, vm.nl_east_second_pick,
-                                                           vm.nl_east_last_pick,
-                                                           vm.nl_central_winner_pick, vm.nl_central_second_pick,
-                                                           vm.nl_central_last_pick,
-                                                           vm.nl_west_winner_pick, vm.nl_west_second_pick,
-                                                           vm.nl_west_last_pick,
-                                                           vm.al_hr_pick, vm.nl_hr_pick,
-                                                           vm.al_rbi_pick, vm.nl_rbi_pick,
-                                                           vm.al_ba_pick, vm.nl_ba_pick,
-                                                           vm.al_p_wins_pick, vm.nl_p_wins_pick,
-                                                           vm.al_era_pick, vm.nl_era_pick,
-                                                           vm.al_wildcard1_pick, vm.al_wildcard2_pick,
-                                                           vm.nl_wildcard1_pick, vm.nl_wildcard2_pick,
-                                                           vm.al_wins_pick, vm.nl_wins_pick,
-                                                           vm.al_losses_pick, vm.nl_losses_pick,
-                                                           vm.user_id)
+        # Change now_time for testing
+        # Use this one for production:
+        # now_time = pendulum.now(tz=pendulum.timezone('America/New_York'))
+        # Use this one for testing:
+        now_time = datetime.date(2018, 5, 1)
+        print(now_time)
+
+        if GameDayService.season_opener_date() < now_time:
+            total_changes = CountService.change_picks_count(
+                vm.user_id, vm.season, vm.al_east_winner_pick, vm.al_east_second_pick, vm.al_east_last_pick,
+                vm.al_central_winner_pick, vm.al_central_second_pick, vm.al_central_last_pick,
+                vm.al_west_winner_pick, vm.al_west_second_pick, vm.al_west_last_pick,
+                vm.nl_east_winner_pick, vm.nl_east_second_pick, vm.nl_east_last_pick,
+                vm.nl_central_winner_pick, vm.nl_central_second_pick, vm.nl_central_last_pick,
+                vm.nl_west_winner_pick, vm.nl_west_second_pick, vm.nl_west_last_pick,
+                vm.al_losses_pick, vm.nl_losses_pick, vm.al_wins_pick, vm.nl_wins_pick,
+                vm.al_hr_pick, vm.nl_hr_pick, vm.al_ba_pick, vm.nl_ba_pick,
+                vm.al_rbi_pick, vm.nl_rbi_pick,
+                vm.al_p_wins_pick, vm.nl_p_wins_pick,
+                vm.al_era_pick, vm.nl_era_pick,
+                vm.al_wildcard1_pick, vm.nl_wildcard1_pick,
+                vm.al_wildcard2_pick, vm.nl_wildcard2_pick)
+
+            print(now_time, total_changes, "Why is this not working?")
+
+            if total_changes >= 14:
+                self.redirect('/picks/too-many')
+
+        else:
+
+            PlayerPicksService.change_player_picks(vm.al_east_winner_pick, vm.al_east_second_pick,
+                                                               vm.al_east_last_pick,
+                                                               vm.al_central_winner_pick, vm.al_central_second_pick,
+                                                               vm.al_central_last_pick,
+                                                               vm.al_west_winner_pick, vm.al_west_second_pick,
+                                                               vm.al_west_last_pick,
+                                                               vm.nl_east_winner_pick, vm.nl_east_second_pick,
+                                                               vm.nl_east_last_pick,
+                                                               vm.nl_central_winner_pick, vm.nl_central_second_pick,
+                                                               vm.nl_central_last_pick,
+                                                               vm.nl_west_winner_pick, vm.nl_west_second_pick,
+                                                               vm.nl_west_last_pick,
+                                                               vm.al_hr_pick, vm.nl_hr_pick,
+                                                               vm.al_rbi_pick, vm.nl_rbi_pick,
+                                                               vm.al_ba_pick, vm.nl_ba_pick,
+                                                               vm.al_p_wins_pick, vm.nl_p_wins_pick,
+                                                               vm.al_era_pick, vm.nl_era_pick,
+                                                               vm.al_wildcard1_pick, vm.al_wildcard2_pick,
+                                                               vm.nl_wildcard1_pick, vm.nl_wildcard2_pick,
+                                                               vm.al_wins_pick, vm.nl_wins_pick,
+                                                               vm.al_losses_pick, vm.nl_losses_pick,
+                                                               vm.user_id)
 
         # Log that a user changed picks
 
