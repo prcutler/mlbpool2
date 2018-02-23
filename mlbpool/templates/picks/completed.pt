@@ -12,11 +12,11 @@
 
                     <p>You did it, ${first_name}! Your picks are complete for the ${season} season.</p>
 
-                    <p>You can view your picks on <a href="/account">your account page</a>.</p>
+                    <p>You can view or change your picks on <a href="/account">your account page</a>.</p>
 
                     <div class="alert alert-warning" role="alert">Don't forget to
                         <a href="https://www.paypal.com/myaccount/transfer/send">pay the entry fee via PayPal</a>
-                        to paul.r.cutler@gmail.com.</div>
+                        to chris@usisales.com and make sure to send the money as a friend.</div>
 
                     <iframe src="https://giphy.com/embed/l3vRfyh5b1MqngPx6" width="480" height="270" frameBorder="0"
                             class="giphy-embed" allowFullScreen></iframe><p>
