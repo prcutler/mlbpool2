@@ -955,130 +955,158 @@ class PlayerPicksService:
     
 #                    print("Original pick:", pick, type(pick), "New picK:", al_central_last_pick)
 
-            # Update the NL East Winner Pick
-            if nl_east_winner_pick != session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
-                    .filter(PlayerPicks.season == season) \
-                    .filter(PlayerPicks.pick_type == 1) \
-                    .filter(PlayerPicks.rank == 1) \
-                    .filter(PlayerPicks.league_id == 1) \
-                    .filter(PlayerPicks.division_id == 1):
+        # Update the NL East Winner Pick
+        for pick in session.query(PlayerPicks.team_id).filter(PlayerPicks.user_id == user_id) \
+                .filter(PlayerPicks.season == season) \
+                .filter(PlayerPicks.pick_type == 1) \
+                .filter(PlayerPicks.rank == 1) \
+                .filter(PlayerPicks.league_id == 1) \
+                .filter(PlayerPicks.division_id == 1).first():
+
+            if pick != int(nl_east_winner_pick):
                 session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
-                    .filter(PlayerPicks.season == season) \
                     .filter(PlayerPicks.pick_type == 1) \
                     .filter(PlayerPicks.rank == 1).filter(PlayerPicks.league_id == 1) \
                     .filter(PlayerPicks.division_id == 1) \
                     .update({"team_id": nl_east_winner_pick, "date_submitted": dt, "changed": 1})
 
-            # Update the NL East 2nd Place Team
-            if nl_east_second_pick != session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
-                    .filter(PlayerPicks.season == season) \
-                    .filter(PlayerPicks.pick_type == 1) \
-                    .filter(PlayerPicks.rank == 2) \
-                    .filter(PlayerPicks.league_id == 1) \
-                    .filter(PlayerPicks.division_id == 1):
+#                    print("Original pick:", pick, type(pick), "New picK:", nl_east_winner_pick)
+
+        # Update the NL East 2nd Place Team
+        for pick in session.query(PlayerPicks.team_id).filter(PlayerPicks.user_id == user_id) \
+                .filter(PlayerPicks.season == season) \
+                .filter(PlayerPicks.pick_type == 1) \
+                .filter(PlayerPicks.rank == 2) \
+                .filter(PlayerPicks.league_id == 1) \
+                .filter(PlayerPicks.division_id == 1).first():
+
+            if pick != int(nl_east_second_pick):
                 session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
-                    .filter(PlayerPicks.season == season) \
                     .filter(PlayerPicks.pick_type == 1) \
                     .filter(PlayerPicks.rank == 2).filter(PlayerPicks.league_id == 1) \
                     .filter(PlayerPicks.division_id == 1) \
-                    .update({"team_id": nl_east_second_pick, "date_submitted": dt, "changed": 1})
+                    .update({"team_id": nl_east_winner_pick, "date_submitted": dt, "changed": 1})
 
-            # Update the NL East Last Place Team
-            if nl_east_last_pick != session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
-                    .filter(PlayerPicks.season == season) \
-                    .filter(PlayerPicks.pick_type == 1) \
-                    .filter(PlayerPicks.rank == 5) \
-                    .filter(PlayerPicks.league_id == 1)\
-                    .filter(PlayerPicks.division_id == 1):
+#                print("Original pick:", pick, type(pick), "New picK:", nl_east_second_pick)
+
+        # Update the NL East Last Place Team
+        for pick in session.query(PlayerPicks.team_id).filter(PlayerPicks.user_id == user_id) \
+                .filter(PlayerPicks.season == season) \
+                .filter(PlayerPicks.pick_type == 1) \
+                .filter(PlayerPicks.rank == 5) \
+                .filter(PlayerPicks.league_id == 1) \
+                .filter(PlayerPicks.division_id == 1).first():
+
+            if pick != int(nl_east_last_pick):
                 session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
-                    .filter(PlayerPicks.season == season) \
                     .filter(PlayerPicks.pick_type == 1) \
-                    .filter(PlayerPicks.rank == 5).filter(PlayerPicks.league_id == 1)\
+                    .filter(PlayerPicks.rank == 5).filter(PlayerPicks.league_id == 1) \
                     .filter(PlayerPicks.division_id == 1) \
-                    .update({"team_id": nl_east_last_pick, "date_submitted": dt, "changed": 1})
+                    .update({"team_id": nl_east_winner_pick, "date_submitted": dt, "changed": 1})
 
-            # Update the NL Central Winner Pick
-            if nl_central_winner_pick != session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
-                    .filter(PlayerPicks.season == season) \
-                    .filter(PlayerPicks.pick_type == 1) \
-                    .filter(PlayerPicks.rank == 1) \
-                    .filter(PlayerPicks.league_id == 1) \
-                    .filter(PlayerPicks.division_id == 2):
+#                    print("Original pick:", pick, type(pick), "New picK:", nl_east_last_pick)
+
+        # Update the NL Central Winner Pick
+        for pick in session.query(PlayerPicks.team_id).filter(PlayerPicks.user_id == user_id) \
+                .filter(PlayerPicks.season == season) \
+                .filter(PlayerPicks.pick_type == 1) \
+                .filter(PlayerPicks.rank == 1) \
+                .filter(PlayerPicks.league_id == 1) \
+                .filter(PlayerPicks.division_id == 2).first():
+
+            if pick != int(nl_central_winner_pick):
                 session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
-                    .filter(PlayerPicks.season == season) \
                     .filter(PlayerPicks.pick_type == 1) \
                     .filter(PlayerPicks.rank == 1).filter(PlayerPicks.league_id == 1) \
                     .filter(PlayerPicks.division_id == 2) \
                     .update({"team_id": nl_central_winner_pick, "date_submitted": dt, "changed": 1})
 
-            # Update the NL Central 2nd Place Team
-            if nl_central_second_pick != session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
-                    .filter(PlayerPicks.season == season) \
-                    .filter(PlayerPicks.pick_type == 1) \
-                    .filter(PlayerPicks.rank == 2) \
-                    .filter(PlayerPicks.league_id == 1) \
-                    .filter(PlayerPicks.division_id == 2):
+#                    print("Original pick:", pick, type(pick), "New picK:", nl_central_winner_pick)
+
+        # Update the NL Central 2nd Place Team
+        for pick in session.query(PlayerPicks.team_id).filter(PlayerPicks.user_id == user_id) \
+                .filter(PlayerPicks.season == season) \
+                .filter(PlayerPicks.pick_type == 1) \
+                .filter(PlayerPicks.rank == 2) \
+                .filter(PlayerPicks.league_id == 1) \
+                .filter(PlayerPicks.division_id == 2).first():
+    
+            if pick != int(nl_central_second_pick):
                 session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
-                    .filter(PlayerPicks.season == season) \
-                    .filter(PlayerPicks.season == season) \
                     .filter(PlayerPicks.pick_type == 1) \
                     .filter(PlayerPicks.rank == 2).filter(PlayerPicks.league_id == 1) \
                     .filter(PlayerPicks.division_id == 2) \
-                    .update({"team_id": nl_central_second_pick, "date_submitted": dt, "changed": 1})
+                    .update({"team_id": nl_central_winner_pick, "date_submitted": dt, "changed": 1})
+    
+                print("Original pick:", pick, type(pick), "New picK:", nl_central_second_pick)
 
-            # Update the NL Central Last Place Team
-            if nl_central_last_pick != session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
-                    .filter(PlayerPicks.season == season) \
-                    .filter(PlayerPicks.pick_type == 1) \
-                    .filter(PlayerPicks.rank == 5) \
-                    .filter(PlayerPicks.league_id == 1).filter(PlayerPicks.division_id == 2):
+        # Update the NL Central Last Place Team
+        for pick in session.query(PlayerPicks.team_id).filter(PlayerPicks.user_id == user_id) \
+                .filter(PlayerPicks.season == season) \
+                .filter(PlayerPicks.pick_type == 1) \
+                .filter(PlayerPicks.rank == 5) \
+                .filter(PlayerPicks.league_id == 1) \
+                .filter(PlayerPicks.division_id == 2).first():
+    
+            if pick != int(nl_central_last_pick):
                 session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
-                    .filter(PlayerPicks.season == season) \
                     .filter(PlayerPicks.pick_type == 1) \
-                    .filter(PlayerPicks.rank == 5).filter(PlayerPicks.league_id == 1)\
+                    .filter(PlayerPicks.rank == 5).filter(PlayerPicks.league_id == 1) \
                     .filter(PlayerPicks.division_id == 2) \
-                    .update({"team_id": nl_central_last_pick, "date_submitted": dt, "changed": 1})
+                    .update({"team_id": nl_central_winner_pick, "date_submitted": dt, "changed": 1})
+    
+#                    print("Original pick:", pick, type(pick), "New picK:", nl_central_last_pick)
 
-            # Update the NL West Winner Pick
-            if nl_west_winner_pick != session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
-                    .filter(PlayerPicks.season == season) \
-                    .filter(PlayerPicks.pick_type == 1) \
-                    .filter(PlayerPicks.rank == 1) \
-                    .filter(PlayerPicks.league_id == 1) \
-                    .filter(PlayerPicks.division_id == 3):
+        # Update the NL West Winner Pick
+        for pick in session.query(PlayerPicks.team_id).filter(PlayerPicks.user_id == user_id) \
+                .filter(PlayerPicks.season == season) \
+                .filter(PlayerPicks.pick_type == 1) \
+                .filter(PlayerPicks.rank == 1) \
+                .filter(PlayerPicks.league_id == 1) \
+                .filter(PlayerPicks.division_id == 3).first():
+    
+            if pick != int(nl_central_winner_pick):
                 session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
-                    .filter(PlayerPicks.season == season) \
                     .filter(PlayerPicks.pick_type == 1) \
                     .filter(PlayerPicks.rank == 1).filter(PlayerPicks.league_id == 1) \
                     .filter(PlayerPicks.division_id == 3) \
-                    .update({"team_id": nl_west_winner_pick, "date_submitted": dt, "changed": 1})
+                    .update({"team_id": nl_central_winner_pick, "date_submitted": dt, "changed": 1})
 
-            # Update the NL West 2nd Place Team
-            if nl_west_second_pick != session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
-                    .filter(PlayerPicks.season == season) \
-                    .filter(PlayerPicks.pick_type == 1) \
-                    .filter(PlayerPicks.rank == 2) \
-                    .filter(PlayerPicks.league_id == 1) \
-                    .filter(PlayerPicks.division_id == 3):
+#                    print("Original pick:", pick, type(pick), "New picK:", nl_central_winner_pick)
+
+        # Update the NL West 2nd Place Team
+        for pick in session.query(PlayerPicks.team_id).filter(PlayerPicks.user_id == user_id) \
+                .filter(PlayerPicks.season == season) \
+                .filter(PlayerPicks.pick_type == 1) \
+                .filter(PlayerPicks.rank == 2) \
+                .filter(PlayerPicks.league_id == 1) \
+                .filter(PlayerPicks.division_id == 3).first():
+    
+            if pick != int(nl_central_second_pick):
                 session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
-                    .filter(PlayerPicks.season == season) \
                     .filter(PlayerPicks.pick_type == 1) \
                     .filter(PlayerPicks.rank == 2).filter(PlayerPicks.league_id == 1) \
                     .filter(PlayerPicks.division_id == 3) \
-                    .update({"team_id": nl_west_second_pick, "date_submitted": dt, "changed": 1})
+                    .update({"team_id": nl_central_winner_pick, "date_submitted": dt, "changed": 1})
 
-            # Update the NL West Last Place Team
-            if nl_west_last_pick != session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
-                    .filter(PlayerPicks.season == season) \
-                    .filter(PlayerPicks.pick_type == 1) \
-                    .filter(PlayerPicks.rank == 5) \
-                    .filter(PlayerPicks.league_id == 1).filter(PlayerPicks.division_id == 3):
+#            print("Original pick:", pick, type(pick), "New picK:", nl_central_second_pick)
+
+        # Update the NL West Last Place Team
+        for pick in session.query(PlayerPicks.team_id).filter(PlayerPicks.user_id == user_id) \
+                .filter(PlayerPicks.season == season) \
+                .filter(PlayerPicks.pick_type == 1) \
+                .filter(PlayerPicks.rank == 5) \
+                .filter(PlayerPicks.league_id == 1) \
+                .filter(PlayerPicks.division_id == 3).first():
+    
+            if pick != int(nl_central_last_pick):
                 session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
-                    .filter(PlayerPicks.season == season) \
                     .filter(PlayerPicks.pick_type == 1) \
-                    .filter(PlayerPicks.rank == 5).filter(PlayerPicks.league_id == 1)\
+                    .filter(PlayerPicks.rank == 5).filter(PlayerPicks.league_id == 1) \
                     .filter(PlayerPicks.division_id == 3) \
-                    .update({"team_id": nl_west_last_pick, "date_submitted": dt, "changed": 1})
+                    .update({"team_id": nl_central_winner_pick, "date_submitted": dt, "changed": 1})
+
+#                print("Original pick:", pick, type(pick), "New picK:", nl_central_last_pick)
 
             # Update Pick Type 2 - Team Losses
             if al_losses_pick != session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
