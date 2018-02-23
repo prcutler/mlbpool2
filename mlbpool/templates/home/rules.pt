@@ -21,8 +21,13 @@
                 </ul>
 
             <h3>Changing your picks</h3>
-                <p>During the All-Star break from Monday to Thursday, you can change up to 14 picks.  These
-                picks will be worth half of the original points.  Unique points are still worth double.</p>
+                <p>Before the season starts, you can change your picks as many times as you want without any
+                penalty.</p>
+                <p>During the All-Star break from Sunday night until the first game after the All-Star Break,
+                    you can change up to 14 picks, except the tiebreaker pick.
+                    These picks will be worth half of the original points.
+                    Unique points are still worth double.</p>
+                <p>You can only change your picks <b>once</b> during the All-Star break.</p>
             <h3>Individual Leaders</h3>
                 <p> These are staggered to improve the odds of earning points.
                     For example, you earn 30 points for the player with the most home runs.
@@ -34,13 +39,16 @@
                     double points in that category.  For instance, if you are the only person to pick Joe Mauer
                     for home runs, and he somehow ends up in the mix, you would earn 60 points instead of 30
                     (if he ends in 1st place), 40 instead of 20 (2nd place), or 20 instead of 10
-                    <b>if no one else has chosen him</b>.  You can view your picks on your account page and there
-                    is a column that shows if your pick is unique.
-                    This applies to all individual picks and you can
+                    <b>if no one else has chosen him</b>.  This applies to all individual picks and you can
                     earn points (and double points if you are the only one to pick that player) if the player
                     you choose finishes in first, second or third.  If you are the only player to pick
                     the Miami Marlins to finish first in the NL East, you would earn 100 points, instead of 50.
                     </p>
+                    <p>You can view your picks from your <a href="/account">account page</a> and there
+                    is a column that shows if your pick is unique.  This is updated after the season starts and
+                    after the All-Star break ends.  Your unique picks could change at the All-Star break if
+                    someone selects a team or player that you originally had as unique during the first
+                    half of the season.</p>
 
             <h2>Points Breakdown:</h2>
 
@@ -282,8 +290,8 @@
                 </table>
 
             <h3>Fees and Payouts</h3>
-                <p>The entry fee is $100.  Payouts will be determined by the number of players and 100% of
-                the fees are paid to the league players.</p>
+                <p>The entry fee is $100.  Payouts will be determined by the number of players and 100%
+                     of the fees (minus a small amount to cover web hosting) are paid to the league players.</p>
 
         </div>
         </div>
