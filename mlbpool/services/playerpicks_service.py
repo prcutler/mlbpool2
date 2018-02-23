@@ -319,7 +319,8 @@ class PlayerPicksService:
         # Use this one for production:
         # now_time = pendulum.now(tz=pendulum.timezone('America/New_York'))
         # Use this one for testing:
-        now_time = datetime.date(2018, 5, 1)
+        now_time = pendulum.create(2018, 3, 17, 18, 59, tz='America/New_York')
+        print("Season opener date:", GameDayService.season_opener_date(), "Now time", now_time)
 
         if GameDayService.season_opener_date() > now_time:
             """Update the picks passed from change-picks.  If the season start date is later than the current time, 
@@ -596,7 +597,7 @@ class PlayerPicksService:
                     .filter(PlayerPicks.league_id == 0)\
                     .filter(PlayerPicks.team_id):
                 session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id)\
-                    .filter(PlayerPicks == 2)\
+                    .filter(PlayerPicks.pick_type == 2)\
                     .filter(PlayerPicks.league_id == 0)\
                     .update({"team_id": al_losses_pick, "date_submitted": dt, "original_pick": al_losses_pick})
 

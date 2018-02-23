@@ -236,7 +236,7 @@ class PicksController(BaseController):
             # Use this one for production:
             # now_time = pendulum.now(tz=pendulum.timezone('America/New_York'))
             # Use this one for testing:
-            now_time = pendulum.create(2018, 3, 15, 18, 59, tz='America/New_York')
+            now_time = pendulum.create(2018, 3, 17, 18, 59, tz='America/New_York')
 
             if GameDayService.season_opener_date() > now_time or GameDayService.all_star_break(now_time) is True:
 
@@ -322,7 +322,11 @@ class PicksController(BaseController):
         vm.user_id = self.logged_in_user_id
         vm.season = season
 
-        now_time = pendulum.now(tz='America/New_York')
+        # Change now_time for testing
+        # Use this one for production:
+        # now_time = pendulum.now(tz=pendulum.timezone('America/New_York'))
+        # Use this one for testing:
+        now_time = pendulum.create(2018, 3, 17, 18, 59, tz='America/New_York')
 
         if GameDayService.season_opener_date() < now_time:
             total_changes = CountService.change_picks_count(
@@ -369,6 +373,31 @@ class PicksController(BaseController):
                                                                    vm.al_wins_pick, vm.nl_wins_pick,
                                                                    vm.al_losses_pick, vm.nl_losses_pick,
                                                                    vm.user_id)
+        else:
+
+            PlayerPicksService.change_player_picks(vm.al_east_winner_pick, vm.al_east_second_pick,
+                                                   vm.al_east_last_pick,
+                                                   vm.al_central_winner_pick, vm.al_central_second_pick,
+                                                   vm.al_central_last_pick,
+                                                   vm.al_west_winner_pick, vm.al_west_second_pick,
+                                                   vm.al_west_last_pick,
+                                                   vm.nl_east_winner_pick, vm.nl_east_second_pick,
+                                                   vm.nl_east_last_pick,
+                                                   vm.nl_central_winner_pick, vm.nl_central_second_pick,
+                                                   vm.nl_central_last_pick,
+                                                   vm.nl_west_winner_pick, vm.nl_west_second_pick,
+                                                   vm.nl_west_last_pick,
+                                                   vm.al_hr_pick, vm.nl_hr_pick,
+                                                   vm.al_rbi_pick, vm.nl_rbi_pick,
+                                                   vm.al_ba_pick, vm.nl_ba_pick,
+                                                   vm.al_p_wins_pick, vm.nl_p_wins_pick,
+                                                   vm.al_era_pick, vm.nl_era_pick,
+                                                   vm.al_wildcard1_pick, vm.al_wildcard2_pick,
+                                                   vm.nl_wildcard1_pick, vm.nl_wildcard2_pick,
+                                                   vm.al_wins_pick, vm.nl_wins_pick,
+                                                   vm.al_losses_pick, vm.nl_losses_pick,
+                                                   vm.user_id)
+
 
         # Log that a user changed picks
 
