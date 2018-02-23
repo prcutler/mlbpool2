@@ -322,6 +322,8 @@ class PicksController(BaseController):
         vm.user_id = self.logged_in_user_id
         vm.season = season
 
+        now_time = pendulum.now(tz='America/New_York')
+
         if GameDayService.season_opener_date() < now_time:
             total_changes = CountService.change_picks_count(
                 vm.user_id, vm.season, vm.al_east_winner_pick, vm.al_east_second_pick, vm.al_east_last_pick,
