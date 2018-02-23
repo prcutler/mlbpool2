@@ -236,7 +236,7 @@ class PicksController(BaseController):
             # Use this one for production:
             # now_time = pendulum.now(tz=pendulum.timezone('America/New_York'))
             # Use this one for testing:
-            now_time = pendulum.create(2018, 3, 17, 18, 59, tz='America/New_York')
+            now_time = pendulum.create(2018, 7, 17, 18, 59, tz='America/New_York')
 
             if GameDayService.season_opener_date() > now_time or GameDayService.all_star_break(now_time) is True:
 
@@ -326,7 +326,7 @@ class PicksController(BaseController):
         # Use this one for production:
         # now_time = pendulum.now(tz=pendulum.timezone('America/New_York'))
         # Use this one for testing:
-        now_time = pendulum.create(2018, 3, 17, 18, 59, tz='America/New_York')
+        now_time = pendulum.create(2018, 7, 17, 18, 59, tz='America/New_York')
 
         if GameDayService.season_opener_date() < now_time:
             total_changes = CountService.change_picks_count(
