@@ -28,8 +28,6 @@ class PicksController(BaseController):
             print("Cannot view account page, you must be logged in")
             self.redirect('/account/signin')
 
-        #        display_player_picks = DisplayPlayerPicks.display_picks(self.logged_in_user_id)
-
         session = DbSessionFactory.create_session()
         season_row = session.query(SeasonInfo.current_season).filter(SeasonInfo.id == '1').first()
         season = season_row.current_season
@@ -391,3 +389,17 @@ class PicksController(BaseController):
 
     # redirect
         self.redirect('/account')
+
+    @pyramid_handlers.action(renderer='templates/picks/too-many.pt',
+                             request_method='GET',
+                             name='too-many')
+    def too_many(self):
+        if not self.logged_in_user_id:
+            print("Cannot view account page, you must be logged in")
+            self.redirect('/account/signin')
+
+        session = DbSessionFactory.create_session()
+        season_row = session.query(SeasonInfo.current_season).filter(SeasonInfo.id == '1').first()
+        season = season_row.current_season
+
+        return {'season': season}
