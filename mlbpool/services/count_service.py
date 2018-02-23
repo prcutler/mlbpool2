@@ -12,17 +12,20 @@ class CountService:
         season_row = session.query(SeasonInfo.current_season).filter(SeasonInfo.id == 1).first()
         season = season_row.current_season
 
-        for pick in session.query(PlayerPicks.changed).filter(PlayerPicks.user_id == user_id) \
-                .filter(PlayerPicks.season == season) \
-                .filter(PlayerPicks.pick_type == 1) \
-                .filter(PlayerPicks.rank == 1) \
-                .filter(PlayerPicks.league_id == 0) \
-                .filter(PlayerPicks.division_id == 1).first():
-
-            if pick == 1:
+        try:
+            for pick in session.query(PlayerPicks.changed).filter(PlayerPicks.user_id == user_id) \
+                    .filter(PlayerPicks.season == season) \
+                    .filter(PlayerPicks.pick_type == 1) \
+                    .filter(PlayerPicks.rank == 1) \
+                    .filter(PlayerPicks.league_id == 0) \
+                    .filter(PlayerPicks.division_id == 1).first():
 
                 return pick
 
+        except TypeError:
+
+            pick = 0
+            return pick
 
     @staticmethod
     def change_picks_count(user_id, season, al_east_winner_pick, al_east_second_pick, al_east_last_pick,

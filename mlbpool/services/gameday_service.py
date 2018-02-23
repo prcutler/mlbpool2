@@ -26,6 +26,7 @@ def season_opener():
 
     # Use the string above in a Pendulum instance and get the time deltas needed
     season_start_date = pendulum.parse(season_start_date_convert)
+    session.close()
 
     return season_start_date
 
@@ -83,4 +84,29 @@ class GameDayService:
 
         return days, hours, minutes
 
+    @staticmethod
+    def all_star_break(all_star_break_date):
+        """Get the date of the All Star Game from the database and create the window when a user can change picks"""
+
+        # Get the All-Star break info from the database
+        session = DbSessionFactory.create_session()
+        all_star_game_query = session.query(SeasonInfo.all_star_game_date).first()
+        all_star_game_date = str(all_star_game_query[0])
+        start_time = (all_star_game_date + " 19:00")
+        all_star_game = pendulum.from_format(start_time, '%Y-%m-%d %H:%M', tz=timezone)
+
+        print("Converted:", all_star_game)
+
+        all_star_game_break_start = all_star_game.subtract(hours=48)
+        print("Break starts at", all_star_game_break_start)
+        all_star_break_end = (all_star_game.add(hours=48))
+        print("Break ends at", all_star_break_end)
+
+        session.close()
+
+        if all_star_break_date > all_star_game_break_start and all_star_break_date < all_star_break_end:
+            return True
+
+        else:
+            return False
 

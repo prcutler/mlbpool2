@@ -221,7 +221,7 @@ class PicksController(BaseController):
 
         find_changes = CountService.find_changes(self.logged_in_user_id)
 
-        if user_query is None:
+        if user_query is None and find_changes is 0:
 
             print("You have not submitted picks for this season")
             self.redirect('/picks/submit-picks')
@@ -232,93 +232,87 @@ class PicksController(BaseController):
 
         else:
 
-            session = DbSessionFactory.create_session()
-            season_row = session.query(SeasonInfo.current_season).filter(SeasonInfo.id == '1').first()
-            season = season_row.current_season
+            # Change now_time for testing
+            # Use this one for production:
+            # now_time = pendulum.now(tz=pendulum.timezone('America/New_York'))
+            # Use this one for testing:
+            now_time = pendulum.create(2018, 3, 15, 18, 59, tz='America/New_York')
 
-            # TODO Refactor this to use Maya datetimes
+            if GameDayService.season_opener_date() > now_time or GameDayService.all_star_break(now_time) is True:
 
-            now_time = pendulum.now
+                session = DbSessionFactory.create_session()
+                season_row = session.query(SeasonInfo.current_season).filter(SeasonInfo.id == '1').first()
+                season = season_row.current_season
 
-            #        string_date = first_game[0] + ' 21:59'
-            #        first_game_time = datetime.datetime.strptime(string_date, "%Y-%m-%d %H:%M")
+                # Data / Service access
+                al_east_list = PlayerPicksService.get_division_team_list(0, 1)
+                al_central_list = PlayerPicksService.get_division_team_list(0, 2)
+                al_west_list = PlayerPicksService.get_division_team_list(0, 3)
 
-            #        if dt > first_game_time:
-            #            print("Season has already started")
-            #            self.redirect('/picks/too-late')
-            #        else:
+                nl_east_list = PlayerPicksService.get_division_team_list(1, 1)
+                nl_central_list = PlayerPicksService.get_division_team_list(1, 2)
+                nl_west_list = PlayerPicksService.get_division_team_list(1, 3)
 
-            #            if not self.logged_in_user_id:
-            #                print("Cannot view account page, you must be logged in")
-            #                self.redirect('/account/signin')
+                # Pass the P as the pitcher position and the query to get the list != P
+                al_batter_list = PlayerPicksService.get_hitter_list(0, 'P')
+                nl_batter_list = PlayerPicksService.get_hitter_list(1, 'P')
 
-            # Data / Service access
-            al_east_list = PlayerPicksService.get_division_team_list(0, 1)
-            al_central_list = PlayerPicksService.get_division_team_list(0, 2)
-            al_west_list = PlayerPicksService.get_division_team_list(0, 3)
+                # List of all Pitchers
+                al_pitcher_list = PlayerPicksService.get_pitcher_list(0, 'P')
+                nl_pitcher_list = PlayerPicksService.get_pitcher_list(1, 'P')
 
-            nl_east_list = PlayerPicksService.get_division_team_list(1, 1)
-            nl_central_list = PlayerPicksService.get_division_team_list(1, 2)
-            nl_west_list = PlayerPicksService.get_division_team_list(1, 3)
+                # List of all teams to pick the Wild Card from each league
+                al_wildcard_list = PlayerPicksService.get_al_wildcard()
+                nl_wildcard_list = PlayerPicksService.get_nl_wildcard()
 
-            # Pass the P as the pitcher position and the query to get the list != P
-            al_batter_list = PlayerPicksService.get_hitter_list(0, 'P')
-            nl_batter_list = PlayerPicksService.get_hitter_list(1, 'P')
+                # Create a range of 0-162 for players to pick how many wins the Twins will finish with
+                twins_wins_pick_list = list(range(0, 163))
 
-            # List of all Pitchers
-            al_pitcher_list = PlayerPicksService.get_pitcher_list(0, 'P')
-            nl_pitcher_list = PlayerPicksService.get_pitcher_list(1, 'P')
+                # Get the user ID
+                user_id = self.logged_in_user_id
+                get_first_name = session.query(Account.first_name).filter(Account.id == self.logged_in_user_id) \
+                    .first()
+                first_name = get_first_name[0]
 
-            # List of all teams to pick the Wild Card from each league
-            al_wildcard_list = PlayerPicksService.get_al_wildcard()
-            nl_wildcard_list = PlayerPicksService.get_nl_wildcard()
+                # Get the original picks the player made
+                all_picks = ViewPicksService.display_picks(self.logged_in_user_id, season)
 
-            # Create a range of 0-162 for players to pick how many wins the Twins will finish with
-            twins_wins_pick_list = list(range(0, 163))
+                # Return the models
+                return {
+                    'season': season,
+                    'user_id': user_id,
+                    'first_name': first_name,
+                    'al_east': al_east_list,
+                    'al_central': al_central_list,
+                    'al_west': al_west_list,
+                    'nl_east': nl_east_list,
+                    'nl_central': nl_central_list,
+                    'nl_west': nl_west_list,
+                    'al_hitter_list': al_batter_list,
+                    'nl_hitter_list': nl_batter_list,
+                    'al_pitcher_list': al_pitcher_list,
+                    'nl_pitcher_list': nl_pitcher_list,
+                    'al_wildcard_list': al_wildcard_list,
+                    'nl_wildcard_list': nl_wildcard_list,
+                    'twins_wins_pick_list': twins_wins_pick_list,
+                    'all_picks': all_picks
+                }
 
-            # Get the user ID
-            user_id = self.logged_in_user_id
-            get_first_name = session.query(Account.first_name).filter(Account.id == self.logged_in_user_id) \
-                .first()
-            first_name = get_first_name[0]
+            elif GameDayService.all_star_break(now_time) is False:
 
-            # Get the original picks the player made
-            all_picks = ViewPicksService.display_picks(self.logged_in_user_id, season)
+                self.redirect('/picks/too-late')
 
-            # Create the list to allow a user to select if changing a pick
-            change_pick = [0, 1]
+            elif GameDayService.season_opener_date() < now_time:
 
-            # Return the models
-            return {
-                'season': season,
-                'user_id': user_id,
-                'first_name': first_name,
-                'al_east': al_east_list,
-                'al_central': al_central_list,
-                'al_west': al_west_list,
-                'nl_east': nl_east_list,
-                'nl_central': nl_central_list,
-                'nl_west': nl_west_list,
-                'al_hitter_list': al_batter_list,
-                'nl_hitter_list': nl_batter_list,
-                'al_pitcher_list': al_pitcher_list,
-                'nl_pitcher_list': nl_pitcher_list,
-                'al_wildcard_list': al_wildcard_list,
-                'nl_wildcard_list': nl_wildcard_list,
-                'twins_wins_pick_list': twins_wins_pick_list,
-                'all_picks': all_picks,
-                'change_pick': change_pick
-            }
+                self.redirect('/picks/too-late')
 
     # POST /picks/submit_picks
-    @pyramid_handlers.action(renderer='templates/picks/change-picks2.pt',
+    @pyramid_handlers.action(renderer='templates/picks/change-picks.pt',
                              request_method='POST',
                              name='change-picks')
     def change_player_picks_post(self):
         vm = PlayerPicksViewModel()
         vm.from_dict(self.request.POST)
-
-        # TODO Need to get a count that can't be more than 14 when changing picks
 
         # Pass a player's picks to the service to be inserted in the db
 
@@ -327,13 +321,6 @@ class PicksController(BaseController):
         season = season_row.current_season
         vm.user_id = self.logged_in_user_id
         vm.season = season
-
-        # Change now_time for testing
-        # Use this one for production:
-        # now_time = pendulum.now(tz=pendulum.timezone('America/New_York'))
-        # Use this one for testing:
-        now_time = datetime.date(2018, 5, 1)
-        print(now_time)
 
         if GameDayService.season_opener_date() < now_time:
             total_changes = CountService.change_picks_count(
@@ -351,7 +338,7 @@ class PicksController(BaseController):
                 vm.al_wildcard1_pick, vm.nl_wildcard1_pick,
                 vm.al_wildcard2_pick, vm.nl_wildcard2_pick)
 
-            print(now_time, total_changes, "Why is this not working?")
+#            print(now_time, total_changes, "Why is this not working?")
 
             if total_changes >= 14:
                 self.redirect('/picks/too-many')
