@@ -228,7 +228,7 @@ class PicksController(BaseController):
 
         elif find_changes == 1:
                 print(find_changes)
-                self.redirect('/picks/too-late')
+                self.redirect('/picks/too-many')
 
         else:
 
@@ -327,8 +327,6 @@ class PicksController(BaseController):
         season = season_row.current_season
         vm.user_id = self.logged_in_user_id
         vm.season = season
-
-        # TODO This may need to be a different PlayerPicksService to do a db update
 
         # Change now_time for testing
         # Use this one for production:
