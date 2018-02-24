@@ -3,10 +3,8 @@ from mlbpool.data.teaminfo import TeamInfo
 from mlbpool.data.activeplayers import ActiveMLBPlayers
 from mlbpool.data.seasoninfo import SeasonInfo
 from mlbpool.data.player_picks import PlayerPicks
-import datetime
 from mlbpool.services.gameday_service import GameDayService
 import pendulum
-from mlbpool.services.count_service import CountService
 
 
 class PlayerPicksService:
@@ -103,7 +101,7 @@ class PlayerPicksService:
         season_row = session.query(SeasonInfo.current_season).filter(SeasonInfo.id == 1).first()
         season = season_row.current_season
 
-        dt = datetime.datetime.now()
+        dt = pendulum.now()
 
         # Add American League team picks
         al_east_winner_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=0, division_id=1,
@@ -309,7 +307,7 @@ class PlayerPicksService:
         season_row = session.query(SeasonInfo.current_season).filter(SeasonInfo.id == 1).first()
         season = season_row.current_season
 
-        dt = datetime.datetime.now()
+        dt = pendulum.now()
 
         """If the season has not started yet, changed picks should remain 0.  If it's after the All-Star Break 
         changed should be 1.  UniquePicksService will then assign it half points.  Also, if the season has not 
@@ -317,9 +315,9 @@ class PlayerPicksService:
 
         # Change now_time for testing
         # Use this one for production:
-        # now_time = pendulum.now(tz=pendulum.timezone('America/New_York'))
+        now_time = pendulum.now(tz=pendulum.timezone('America/New_York'))
         # Use this one for testing:
-        now_time = pendulum.create(2018, 7, 17, 18, 59, tz='America/New_York')
+        # now_time = pendulum.create(2018, 7, 17, 18, 59, tz='America/New_York')
         print("Season opener date:", GameDayService.season_opener_date(), "Now time", now_time)
 
         if GameDayService.season_opener_date() > now_time:
@@ -801,6 +799,8 @@ class PlayerPicksService:
         else:
             """If the season has started, update picks at the All-Star Break.  Do not change the original pick column
             and update the changed column to 1."""
+
+            # TODO Should I be updating the date of when the pick was changed?
 
             # Update the AL East Winner Pick
             for pick in session.query(PlayerPicks.team_id).filter(PlayerPicks.user_id == user_id) \
