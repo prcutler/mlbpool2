@@ -33,6 +33,7 @@ class AccountService:
 
         session.add(account)
         session.commit()
+        session.close()
 
         return account
 
@@ -49,6 +50,8 @@ class AccountService:
         account = session.query(Account) \
             .filter(Account.email == email) \
             .first()
+
+        session.close()
 
         return account
 
@@ -81,6 +84,8 @@ class AccountService:
             .filter(Account.id == user_id) \
             .first()
 
+        session.close()
+
         return account
 
     @staticmethod
@@ -98,6 +103,7 @@ class AccountService:
 
         session.add(reset)
         session.commit()
+        session.close()
 
         return reset
 
@@ -111,6 +117,8 @@ class AccountService:
         reset = session.query(PasswordReset).\
             filter(PasswordReset.id == code).\
             first()
+
+        session.close()
 
         return reset
 
@@ -130,6 +138,7 @@ class AccountService:
         reset.used_date = datetime.datetime.now()
 
         session.commit()
+        session.close()
 
     @classmethod
     def set_password(cls, plain_text_password, account_id):
@@ -147,12 +156,15 @@ class AccountService:
         print("New password set.")
         account.password_hash = AccountService.hash_text(plain_text_password)
         session.commit()
+        session.close()
 
     @classmethod
     def get_account_info(cls, user_id):
         session = DbSessionFactory.create_session()
 
         account_info = session.query(Account).filter(Account.id == user_id).all()
+
+        session.close()
 
         return account_info
 
@@ -165,6 +177,8 @@ class AccountService:
         account_date_split = account_string.split()
         account_date = account_date_split[0]
 
+        session.close()
+
         return account_date
 
     @classmethod
@@ -172,6 +186,8 @@ class AccountService:
         session = DbSessionFactory.create_session()
 
         seasons_played = session.query(PlayerPicks.season).distinct(PlayerPicks.season).filter(Account.id == user_id)
+
+        session.close()
 
         return seasons_played
 
