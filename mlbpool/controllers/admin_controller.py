@@ -133,6 +133,8 @@ class AdminController(BaseController):
             print("You must be an administrator to view this page")
             self.redirect('/home')
 
+        session.close()
+
         vm = UpdateMLBPlayersViewModel()
         return vm.to_dict()
 
@@ -173,6 +175,9 @@ class AdminController(BaseController):
             self.redirect('/home')
 
         vm = UpdateWeeklyStats()
+
+        session.close()
+
         return vm.to_dict()
 
     @pyramid_handlers.action(renderer='templates/admin/update-weekly-stats.pt',
@@ -211,6 +216,9 @@ class AdminController(BaseController):
             self.redirect('/home')
 
         vm = UniquePicksViewModel()
+
+        session.close()
+
         return vm.to_dict()
 
     @pyramid_handlers.action(renderer='templates/admin/update-unique-picks.pt',
@@ -226,14 +234,20 @@ class AdminController(BaseController):
         conf = 0
         div = 1
 
+        # TODO The division numbers have changed from NFLPool to MLBPool (4 to 3) and rank is 5
+
         while conf < 2:
             rank = 1
             UniquePicksService.unique_team_picks(picktype, conf, div, rank)
+
             rank = 2
             UniquePicksService.unique_team_picks(picktype, conf, div, rank)
+
             rank = 4
             UniquePicksService.unique_team_picks(picktype, conf, div, rank)
+
             div += 1
+
             if div > 4:
                 div = 1
                 conf += 1
@@ -241,6 +255,7 @@ class AdminController(BaseController):
         picktype = 9
         conf = 0
         UniquePicksService.unique_team_picks(picktype, conf)
+
         conf = 1
         UniquePicksService.unique_team_picks(picktype, conf)
 
@@ -249,6 +264,7 @@ class AdminController(BaseController):
 
         picktype = 4
         conf = 0
+
         while picktype < 9:
             UniquePicksService.unique_player_picks(picktype, conf)
             conf += 1
