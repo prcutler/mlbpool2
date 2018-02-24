@@ -1340,8 +1340,6 @@ class PlayerPicksService:
                         .filter(PlayerPicks.rank == 2) \
                         .filter(PlayerPicks.league_id == 1) \
                         .update({"team_id": nl_wildcard2_pick, "date_submitted": dt, "changed": 1})
-            
-            
 
         session.commit()
         session.close()
