@@ -9,7 +9,6 @@ from mlbpool.data.seasoninfo import SeasonInfo
 from mlbpool.data.account import Account
 from mlbpool.services.gameday_service import GameDayService
 from mlbpool.services.count_service import CountService
-import datetime
 import pendulum
 
 
@@ -143,6 +142,8 @@ class PicksController(BaseController):
                 print("You have already submitted picks for this season")
                 self.redirect('/picks/change-picks')
 
+            session.close()
+
     # POST /picks/submit_picks
     @pyramid_handlers.action(renderer='templates/picks/submit-picks.pt',
                              request_method='POST',
@@ -198,6 +199,8 @@ class PicksController(BaseController):
         season_row = session.query(SeasonInfo.current_season).filter(SeasonInfo.id == '1').first()
         season = season_row.current_season
 
+        session.close()
+
         return {'season': season}
 
     # Change player picks for the current season
@@ -234,9 +237,9 @@ class PicksController(BaseController):
 
             # Change now_time for testing
             # Use this one for production:
-            # now_time = pendulum.now(tz=pendulum.timezone('America/New_York'))
+            now_time = pendulum.now(tz=pendulum.timezone('America/New_York'))
             # Use this one for testing:
-            now_time = pendulum.create(2018, 7, 17, 18, 59, tz='America/New_York')
+            # now_time = pendulum.create(2018, 7, 17, 18, 59, tz='America/New_York')
 
             if GameDayService.season_opener_date() > now_time or GameDayService.all_star_break(now_time) is True:
 
@@ -305,6 +308,8 @@ class PicksController(BaseController):
             elif GameDayService.season_opener_date() < now_time:
 
                 self.redirect('/picks/too-late')
+
+            session.close()
 
     # POST /picks/submit_picks
     @pyramid_handlers.action(renderer='templates/picks/change-picks.pt',
@@ -398,6 +403,7 @@ class PicksController(BaseController):
                                                    vm.al_losses_pick, vm.nl_losses_pick,
                                                    vm.user_id)
 
+        session.close()
 
         # Log that a user changed picks
 
@@ -417,5 +423,7 @@ class PicksController(BaseController):
         session = DbSessionFactory.create_session()
         season_row = session.query(SeasonInfo.current_season).filter(SeasonInfo.id == '1').first()
         season = season_row.current_season
+
+        session.close()
 
         return {'season': season}
