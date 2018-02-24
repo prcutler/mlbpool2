@@ -80,6 +80,8 @@ class NewInstallService:
 
             session.commit()
 
+        session.close()
+
     @classmethod
     def create_division_info(cls):
         """Create the DivisionInfo table with the division IDs and name them to match MLB division names."""
@@ -99,6 +101,8 @@ class NewInstallService:
             session.add(division_info)
             session.commit()
 
+            session.close()
+
     @classmethod
     def create_league_info(cls):
         """Fill out the needed data in the LeagueInfo table"""
@@ -116,6 +120,8 @@ class NewInstallService:
 
             session.add(league_info)
             session.commit()
+
+            session.close()
 
     @classmethod
     def create_pick_types(cls):
@@ -150,6 +156,8 @@ class NewInstallService:
             session.add(pick_type_info)
             session.commit()
 
+            session.close()
+
     @staticmethod
     def create_pick_type_points():
         """Assign how many points each different kind of pick is worth"""
@@ -174,7 +182,9 @@ class NewInstallService:
                         session = DbSessionFactory.create_session()
                         pick_type_points = PickTypePoints(pick_type_id=pick_type_id, rank=rank, points=points)
                         session.add(pick_type_points)
+
                         session.commit()
+                        session.close()
 
             elif x == 2:
                 """For pick type 2, assign to 1 team in each league who has the most losses.  Out of the 15 teams
@@ -185,7 +195,9 @@ class NewInstallService:
 
                 pick_type_points = PickTypePoints(pick_type_id=pick_type_id, rank=rank, points=points)
                 session.add(pick_type_points)
+
                 session.commit()
+                session.close()
 
             elif x == 3:
                 """For pick type 3, assign to 1 team in each league who has the most wins.  Out of the 15 teams
@@ -196,7 +208,9 @@ class NewInstallService:
 
                 pick_type_points = PickTypePoints(pick_type_id=pick_type_id, rank=rank, points=points)
                 session.add(pick_type_points)
+
                 session.commit()
+                session.close()
 
             elif 3 < x < 9:
                 """Assign the value of individual MLB player picks such as home runs or pitcher wins"""
@@ -214,7 +228,9 @@ class NewInstallService:
 
                     pick_type_points = PickTypePoints(pick_type_id=pick_type_id, rank=rank, points=points)
                     session.add(pick_type_points)
+
                     session.commit()
+                    session.close()
 
             elif x == 9:
                 """Assign the points value for the wildcard picks for each league"""
@@ -226,7 +242,9 @@ class NewInstallService:
 
                     pick_type_points = PickTypePoints(pick_type_id=pick_type_id, rank=rank, points=points)
                     session.add(pick_type_points)
+
                     session.commit()
+                    session.close()
 
             else:
                 """Assign the Twins wins tiebreaker points value"""
@@ -236,5 +254,7 @@ class NewInstallService:
 
                 pick_type_points = PickTypePoints(pick_type_id=pick_type_id, rank=rank, points=points)
                 session.add(pick_type_points)
+
                 session.commit()
+                session.close()
 

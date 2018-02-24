@@ -15,6 +15,8 @@ class ViewPicksService:
 
         account_info = session.query(Account).filter(Account.id == user_id).all()
 
+        session.close()
+
         return account_info
 
     @classmethod
@@ -22,6 +24,8 @@ class ViewPicksService:
         session = DbSessionFactory.create_session()
 
         seasons_played = session.query(PlayerPicks.season).distinct(PlayerPicks.season).filter(Account.id == user_id)
+
+        session.close()
 
         return seasons_played
 
@@ -40,5 +44,7 @@ class ViewPicksService:
             .outerjoin(ActiveMLBPlayers, and_(PlayerPicks.player_id == ActiveMLBPlayers.player_id,
                                               PlayerPicks.season == ActiveMLBPlayers.season)).\
             filter(PlayerPicks.user_id == user_id, PlayerPicks.season == season)
+
+        session.close()
 
         return picks_query

@@ -11,10 +11,13 @@ def get_seasons():
     season_row = session.query(SeasonInfo).filter(SeasonInfo.id == '1').first()
     current_season = season_row.current_season
 
+    session.close()
+
     return current_season
 
 
 def get_week():
+    # TODO This needs to be re-written - not using weeks in MLBPool
     session = DbSessionFactory.create_session()
 
     season_row = session.query(SeasonInfo).filter(SeasonInfo.id == '1').first()
@@ -27,6 +30,9 @@ def get_week():
     print(week)
 
 #    week = 17           # ------------------------------- TESTING ------------------- remove this line after test.
+
+    session.close()
+
     return week
 
 
@@ -55,6 +61,7 @@ class StandingsService:
         dict_standings = [dict(row) for row in standings]
 
         session.close()
+
         return dict_standings
 
     def display_weekly_standings(season=None):
@@ -76,8 +83,10 @@ class StandingsService:
         dict_standings = [dict(row) for row in standings]
 
         session.close()
+
         return dict_standings
 
+    @staticmethod
     def update_player_pick_points():
         season = get_seasons()
         week = get_week()
@@ -142,6 +151,7 @@ class StandingsService:
 
         session.close()
 
+    @staticmethod
     def update_team_pick_points():
         session = DbSessionFactory.create_session()
 

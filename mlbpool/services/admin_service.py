@@ -15,11 +15,15 @@ def admin_check():
         print("You must be an administrator to view this page")
         self.redirect('/home')
 
+    session.close()
+
 
 class AccountService:
     @staticmethod
     def get_all_accounts():
         session = DbSessionFactory.create_session()
         account_list = session.query(Account).all()
+
+        session.close()
 
         return account_list

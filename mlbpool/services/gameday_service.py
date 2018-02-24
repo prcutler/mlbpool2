@@ -26,6 +26,7 @@ def season_opener():
 
     # Use the string above in a Pendulum instance and get the time deltas needed
     season_start_date = pendulum.parse(season_start_date_convert)
+
     session.close()
 
     return season_start_date
@@ -37,6 +38,9 @@ class GameDayService:
         session = DbSessionFactory.create_session()
 
         season_start_query = session.query(SeasonInfo.season_start_date).first()
+
+        session.close()
+
         return season_start_query
 
     @staticmethod

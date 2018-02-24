@@ -27,6 +27,8 @@ class CountService:
             pick = 0
             return pick
 
+        session.close()
+
     @staticmethod
     def change_picks_count(user_id, season, al_east_winner_pick, al_east_second_pick, al_east_last_pick,
                            al_central_winner_pick, al_central_second_pick, al_central_last_pick,

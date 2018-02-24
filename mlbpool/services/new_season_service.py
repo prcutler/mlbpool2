@@ -43,6 +43,7 @@ class NewSeasonService:
                                     home_team=home_team, away_team=away_team, current_season=season,
                                     all_star_game_date=all_star_game_date)
 
+            # TODO Add log for new_season
             print(new_season)
 
             session.add(new_season)
@@ -72,6 +73,8 @@ class NewSeasonService:
             update_row.first_game_time = first_game_time
             update_row.away_team = away_team
             update_row.home_team = home_team
+
+            # TODO Add log for new season
 
             session.commit()
             session.close()
