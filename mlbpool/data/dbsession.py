@@ -33,11 +33,13 @@ class DbSessionFactory:
     # Start a database session at app startup
     @staticmethod
     def global_init():
- #       if DbSessionFactory.factory:
- #           return
 
- #       if not db_file or not db_file.strip():
- #           raise Exception("You must specify a data file.")
+        # Used for SQLite:
+        # if DbSessionFactory.factory:
+        # return
+
+        # if not db_file or not db_file.strip():
+        # raise Exception("You must specify a data file.")
 
         conn_str = 'mysql+pymysql://' + config.db_user + ':' + config.db_pw + '@localhost/mlbpooldb'
         print("Connecting to db with conn string: {}".format(conn_str))
