@@ -11,3 +11,6 @@ su_email = ''
 # Enter your database user and password
 db_user = ''
 db_pw = ''
+
+slack_client_id = ''
+slack_api_key = ''

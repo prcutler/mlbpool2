@@ -5,6 +5,7 @@ from mlbpool.data.passwordreset import PasswordReset
 import datetime
 import mlbpool.data.config as secret
 from mlbpool.data.player_picks import PlayerPicks
+import slacker
 from mlbpool.data.teaminfo import TeamInfo
 from mlbpool.data.picktypes import PickTypes
 from mlbpool.data.leagueinfo import LeagueInfo
@@ -33,7 +34,6 @@ class AccountService:
 
         session.add(account)
         session.commit()
-        session.close()
 
         return account
 
@@ -50,8 +50,6 @@ class AccountService:
         account = session.query(Account) \
             .filter(Account.email == email) \
             .first()
-
-        session.close()
 
         return account
 
@@ -84,8 +82,6 @@ class AccountService:
             .filter(Account.id == user_id) \
             .first()
 
-        session.close()
-
         return account
 
     @staticmethod
@@ -103,7 +99,6 @@ class AccountService:
 
         session.add(reset)
         session.commit()
-        session.close()
 
         return reset
 
@@ -117,8 +112,6 @@ class AccountService:
         reset = session.query(PasswordReset).\
             filter(PasswordReset.id == code).\
             first()
-
-        session.close()
 
         return reset
 
@@ -138,7 +131,6 @@ class AccountService:
         reset.used_date = datetime.datetime.now()
 
         session.commit()
-        session.close()
 
     @classmethod
     def set_password(cls, plain_text_password, account_id):
@@ -156,15 +148,12 @@ class AccountService:
         print("New password set.")
         account.password_hash = AccountService.hash_text(plain_text_password)
         session.commit()
-        session.close()
 
     @classmethod
     def get_account_info(cls, user_id):
         session = DbSessionFactory.create_session()
 
         account_info = session.query(Account).filter(Account.id == user_id).all()
-
-        session.close()
 
         return account_info
 

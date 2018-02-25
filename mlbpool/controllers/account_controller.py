@@ -10,6 +10,8 @@ import mlbpool.infrastructure.cookie_auth as cookie_auth
 from mlbpool.viewmodels.your_picks_viewmodel import YourPicksViewModel
 from mlbpool.services.view_picks_service import ViewPicksService
 from mlbpool.services.gameday_service import GameDayService
+from slacker import Slacker
+import mlbpool.data.config as config
 
 
 class AccountController(BaseController):
@@ -103,6 +105,12 @@ class AccountController(BaseController):
         # redirect
         print("Redirecting to account index page...")
         self.redirect('/account')
+
+        slack = Slacker(config.slack_api_key)
+
+        # Send a message to #notifications about new user registration
+        slack.chat.post_message('#notifications', "Registered new MLBPool2 user: " + account.email,
+                                account.first_name, account.last_name)
 
     # Form to generate reset code, trigger email (get)
     @pyramid_handlers.action(renderer='templates/account/forgot_password.pt',
