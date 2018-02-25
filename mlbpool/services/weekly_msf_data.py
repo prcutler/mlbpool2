@@ -9,14 +9,21 @@ import datetime
 
 
 def get_seasons():
+    """Get the current active season from the database"""
     session = DbSessionFactory.create_session()
     season_row = session.query(SeasonInfo).filter(SeasonInfo.id == '1').first()
     current_season = season_row.current_season
+
+    session.close()
 
     return current_season
 
 
 def get_update_date():
+    """Get the date of the update to insert into the database"""
+
+    # TODO Move to Pendulum and determine how I want the update to show up since MLB does not have to be weekly
+
     today = datetime.date.today()
     one_day = datetime.timedelta(days=1)
     stats_date = today - one_day
@@ -51,6 +58,8 @@ class WeeklyStatsService:
                 home_runs = players["stats"]["Homeruns"]["#text"]
                 RBI = players["stats"]["RunsBattedIn"]["#text"]
                 batting_average = players["stats"]["BattingAvg"]["#text"]
+                plate_appearances = players["stats"]["PlateAppearances"]["#text"]
+                player_games_played = players["stats"]["GamesPlayed"]["#text"]
 
             except KeyError:
                 continue
@@ -59,6 +68,8 @@ class WeeklyStatsService:
 
             weekly_player_stats = WeeklyMLBPlayerStats(player_id=player_id, season=season, home_runs=home_runs,
                                                        RBI=RBI, batting_average=batting_average,
+                                                       plate_appearance=plate_appearances,
+                                                       player_games_played=player_games_played,
                                                        update_date=update_date)
 
             session.add(weekly_player_stats)
@@ -67,7 +78,7 @@ class WeeklyStatsService:
 
     @staticmethod
     def get_pitcher_stats():
-        """Get cumuulative Pitcher stats (wins and ERA) from MySportsFeeds and insert into the database"""
+        """Get cumulative Pitcher stats (wins and ERA) from MySportsFeeds and insert into the database"""
 
         session = DbSessionFactory.create_session()
 
@@ -87,6 +98,7 @@ class WeeklyStatsService:
                 player_id = players["player"]["ID"]
                 ERA = players["stats"]["EarnedRunAvg"]["#text"]
                 pitcher_wins = players["stats"]["Wins"]["#text"]
+                innings_pitched = players["stats"]["InningsPitched"]["#text"]
 
             except KeyError:
                 continue
