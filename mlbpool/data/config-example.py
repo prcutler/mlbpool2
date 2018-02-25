@@ -12,5 +12,5 @@ su_email = ''
 db_user = ''
 db_pw = ''
 
-slack_client_id = ''
-slack_api_key = ''
+Enter the webhook URL of your Slack application
+slack_webhook_url = ''

@@ -21,7 +21,6 @@ requires = [
     'pymysql',
     'requests',
     'rollbar',
-    'slacker',
     'sqlalchemy',
     'waitress',
     ]
