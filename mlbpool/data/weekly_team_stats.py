@@ -13,3 +13,4 @@ class WeeklyTeamStats(SqlAlchemyBase):
     league_rank = sqlalchemy.Column(sqlalchemy.Integer)
     team_wins = sqlalchemy.Column(sqlalchemy.Integer)
     tiebreaker_twin_wins = sqlalchemy.Column(sqlalchemy.Integer)
+    team_games_played = sqlalchemy.Column(sqlalchemy.Integer)

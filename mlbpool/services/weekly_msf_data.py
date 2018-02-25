@@ -177,6 +177,7 @@ class WeeklyStatsService:
 
     @staticmethod
     def get_league_standings():
+        """Get the rank of each team in each league (1-15) and also how many games each team has played"""
         session = DbSessionFactory.create_session()
 
         season_row = session.query(SeasonInfo).filter(SeasonInfo.id == '1').first()
@@ -195,22 +196,24 @@ class WeeklyStatsService:
         for al_teams in teamlist:
             team_id = int(data["conferenceteamstandings"]["conference"][0]["teamentry"][x]["team"]["ID"])
             league_rank = data["conferenceteamstandings"]["conference"][0]["teamentry"][x]["rank"]
+            games_played =  data["conferenceteamstandings"]["conference"][0]["teamentry"][x]["stats"]["GamesPlayed"]
 
             x += 1
 
             session.query(WeeklyTeamStats).filter(WeeklyTeamStats.team_id == team_id). \
-                update({"league_rank": league_rank})
+                update({"league_rank": league_rank}, {"team_games_played": games_played})
 
             session.commit()
 
         for nl_team_list in teamlist:
             team_id = int(data["conferenceteamstandings"]["conference"][1]["teamentry"][y]["team"]["ID"])
             league_rank = data["conferenceteamstandings"]["conference"][1]["teamentry"][y]["rank"]
+            games_played = data["conferenceteamstandings"]["conference"][1]["teamentry"][x]["stats"]["GamesPlayed"]
 
             y += 1
 
             session.query(WeeklyTeamStats).filter(WeeklyTeamStats.team_id == team_id). \
-                update({"league_rank": league_rank})
+                update({"league_rank": league_rank}, {"games_played": games_played})
 
             session.commit()
 
