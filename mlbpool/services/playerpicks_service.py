@@ -5,6 +5,11 @@ from mlbpool.data.seasoninfo import SeasonInfo
 from mlbpool.data.player_picks import PlayerPicks
 from mlbpool.services.gameday_service import GameDayService
 import pendulum
+import pymysql.converters
+from pendulum import Pendulum
+
+# Needed for pymysql to understand Pendulum datetimes
+pymysql.converters.conversions[Pendulum] = pymysql.converters.escape_datetime
 
 
 class PlayerPicksService:
