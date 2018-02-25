@@ -10,7 +10,7 @@ from mlbpool.data.seasoninfo import SeasonInfo
 class UniquePicksService:
 
     @classmethod
-    def unique_team_picks(cls, pick_type, conf=None, div=None, rank=None):
+    def unique_team_picks(cls, pick_type, league=None, div=None, rank=None):
         session = DbSessionFactory.create_session()
 
         season_row = session.query(SeasonInfo).filter(SeasonInfo.id == '1').first()
@@ -22,17 +22,16 @@ class UniquePicksService:
 
         condstr = "pick_type=" + str(pick_type) + " AND season=" + str(current_season)
 
-        if conf is not None:
-            condstr += " AND conf_id=" + str(conf)
+        if league is not None:
+            condstr += " AND league_id=" + str(conf)
             if div is not None:
                 condstr += " AND division_id=" + str(div)
                 if rank is not None:
-                    condstr +=" AND rank=" + str(rank)
-
+                    condstr += " AND rank=" + str(rank)
 
         txtstr += condstr + midstr + "AND " + condstr
 
-#        print(txtstr)
+        # print(txtstr)
 
         session.execute(txtstr)
         session.commit()
@@ -51,11 +50,11 @@ class UniquePicksService:
 
         condstr = " pick_type=" + str(pick_type) + " AND season=" + str(current_season)
 
-        condstr += " AND conf_id=" + str(conf)
+        condstr += " AND league_id=" + str(conf)
 
         txtstr += condstr + midstr + "AND " + condstr
 
-      #  print(txtstr)
+        # print(txtstr)
 
         session.execute(txtstr)
         session.commit()
