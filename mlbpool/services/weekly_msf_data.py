@@ -46,7 +46,7 @@ class WeeklyStatsService:
         season_start = session.query(SeasonInfo).filter(SeasonInfo.season_start_date == '1').first()
 
         response = requests.get('https://api.mysportsfeeds.com/v1.2/pull/mlb/' + str(season) +
-                                '-regular/cumulative_player_stats.json?playerstats==HR,AVG,RBI',
+                                '-regular/cumulative_player_stats.json?playerstats=HR,AVG,RBI,PA',
                                 auth=HTTPBasicAuth(config.msf_username, config.msf_pw))
 
         player_json = response.json()
@@ -68,7 +68,7 @@ class WeeklyStatsService:
 
             weekly_player_stats = WeeklyMLBPlayerStats(player_id=player_id, season=season, home_runs=home_runs,
                                                        RBI=RBI, batting_average=batting_average,
-                                                       plate_appearance=plate_appearances,
+                                                       plate_appearances=plate_appearances,
                                                        player_games_played=player_games_played,
                                                        update_date=update_date)
 
@@ -107,6 +107,7 @@ class WeeklyStatsService:
 
             weekly_player_stats = WeeklyMLBPlayerStats(player_id=player_id, season=season,
                                                        ERA=ERA, pitcher_wins=pitcher_wins,
+                                                       innings_pitched=innings_pitched,
                                                        update_date=update_date)
 
             session.add(weekly_player_stats)

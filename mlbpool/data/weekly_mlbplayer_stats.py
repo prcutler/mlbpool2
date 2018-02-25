@@ -8,7 +8,7 @@ class WeeklyMLBPlayerStats(SqlAlchemyBase):
     primary_key = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)
     season = sqlalchemy.Column(sqlalchemy.Integer, index=True)
     update_date = sqlalchemy.Column(sqlalchemy.Date, index=True)
-    player_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey('ActiveMLBPlayers.player_id'))
+    player_id = sqlalchemy.Column(sqlalchemy.Integer)
     home_runs = sqlalchemy.Column(sqlalchemy.Integer)
     batting_average = sqlalchemy.Column(sqlalchemy.Float)
     at_bats = sqlalchemy.Column(sqlalchemy.Integer)
