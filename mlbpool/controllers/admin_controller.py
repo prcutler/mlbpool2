@@ -22,6 +22,7 @@ import pendulum
 class AdminController(BaseController):
     @pyramid_handlers.action(renderer='templates/admin/index.pt')
     def index(self):
+        """GET request for the admin homepage.  If the database is empty, redirect to new_install"""
         session = DbSessionFactory.create_session()
         su__query = session.query(Account.id).filter(Account.is_super_user == 1)\
             .filter(Account.id == self.logged_in_user_id).first()
@@ -64,6 +65,7 @@ class AdminController(BaseController):
                              request_method='GET',
                              name='new_install')
     def new_install_get(self):
+        """For first time installation, create the team, division, league, pick_types and points tables"""
         session = DbSessionFactory.create_session()
         su__query = session.query(Account.id).filter(Account.is_super_user == 1)\
             .filter(Account.id == self.logged_in_user_id).first()
@@ -80,6 +82,7 @@ class AdminController(BaseController):
                              request_method='POST',
                              name='new_install')
     def new_install_post(self):
+        """For first time installation, create the team, division, league, pick_types and points tables"""
         vm = NewInstallViewModel()
         vm.from_dict(self.request.POST)
 
@@ -97,6 +100,7 @@ class AdminController(BaseController):
                              request_method='GET',
                              name='new_season')
     def new_season_get(self):
+        """Update the year to a new season"""
         session = DbSessionFactory.create_session()
         su__query = session.query(Account.id).filter(Account.is_super_user == 1)\
             .filter(Account.id == self.logged_in_user_id).first()
@@ -112,6 +116,7 @@ class AdminController(BaseController):
                              request_method='POST',
                              name='new_season')
     def new_season_post(self):
+        """Update the year to a new season"""
         vm = NewSeasonViewModel()
         vm.from_dict(self.request.POST)
 
@@ -125,6 +130,7 @@ class AdminController(BaseController):
                              request_method='GET',
                              name='update_mlbplayers')
     def update_mlb_players(self):
+        """After updating to a new season, get a list of all MLB playes for that season"""
         session = DbSessionFactory.create_session()
         su__query = session.query(Account.id).filter(Account.is_super_user == 1)\
             .filter(Account.id == self.logged_in_user_id).first()
@@ -142,6 +148,7 @@ class AdminController(BaseController):
                              request_method='POST',
                              name='update_mlbplayers')
     def update_mlb_players_post(self):
+        """After updating to a new season, get a list of all MLB playes for that season"""
         vm = UpdateMLBPlayersViewModel()
         vm.from_dict(self.request.POST)
 
@@ -156,8 +163,7 @@ class AdminController(BaseController):
                              request_method='GET',
                              name='account-list')
     def list_accounts(self):
-
-        # Show list of accounts
+        """Show list of accounts"""
         account_list = AccountService.get_all_accounts()
 
         return {'account_list': account_list}
@@ -166,6 +172,7 @@ class AdminController(BaseController):
                              request_method='GET',
                              name='update-weekly-stats')
     def update_weekly_stats(self):
+        """Update the stats"""
         session = DbSessionFactory.create_session()
         su__query = session.query(Account.id).filter(Account.is_super_user == 1)\
             .filter(Account.id == self.logged_in_user_id).first()
@@ -184,6 +191,7 @@ class AdminController(BaseController):
                              request_method='POST',
                              name='update-weekly-stats')
     def update_weekly_stats_post(self):
+        """Call all the mthods to update all stats in the database"""
         vm = UpdateWeeklyStats()
         vm.from_dict(self.request.POST)
 
@@ -207,6 +215,8 @@ class AdminController(BaseController):
                              request_method='GET',
                              name='update-unique-picks')
     def update_unique_picks(self):
+        """Right after the season starts and right after the All-Star Break when pick changes are complete,
+        run this to see what picks are unique for each pool player"""
         session = DbSessionFactory.create_session()
         su__query = session.query(Account.id).filter(Account.is_super_user == 1)\
             .filter(Account.id == self.logged_in_user_id).first()
@@ -225,52 +235,54 @@ class AdminController(BaseController):
                              request_method='POST',
                              name='update-unique-picks')
     def update_unique_picks_post(self):
+        """Right after the season starts and right after the All-Star Break when pick changes are complete,
+                run this to see what picks are unique for each pool player"""
         vm = UniquePicksViewModel()
         vm.from_dict(self.request.POST)
 
         # Find all unique picks for each player
         # team type picks
         picktype = 1
-        conf = 0
+        league = 0
         div = 1
 
         # TODO The division numbers have changed from NFLPool to MLBPool (4 to 3) and rank is 5
 
-        while conf < 2:
+        while league < 2:
             rank = 1
-            UniquePicksService.unique_team_picks(picktype, conf, div, rank)
+            UniquePicksService.unique_team_picks(picktype, league, div, rank)
 
             rank = 2
-            UniquePicksService.unique_team_picks(picktype, conf, div, rank)
+            UniquePicksService.unique_team_picks(picktype, league, div, rank)
 
             rank = 4
-            UniquePicksService.unique_team_picks(picktype, conf, div, rank)
+            UniquePicksService.unique_team_picks(picktype, league, div, rank)
 
             div += 1
 
             if div > 4:
                 div = 1
-                conf += 1
+                league += 1
 
         picktype = 9
-        conf = 0
-        UniquePicksService.unique_team_picks(picktype, conf)
+        league = 0
+        UniquePicksService.unique_team_picks(picktype, league)
 
-        conf = 1
-        UniquePicksService.unique_team_picks(picktype, conf)
+        league = 1
+        UniquePicksService.unique_team_picks(picktype, league)
 
         picktype = 10
         UniquePicksService.unique_team_picks(picktype)
 
         picktype = 4
-        conf = 0
+        league = 0
 
         while picktype < 9:
-            UniquePicksService.unique_player_picks(picktype, conf)
-            conf += 1
-            if conf > 1:
+            UniquePicksService.unique_player_picks(picktype, league)
+            league += 1
+            if league > 1:
                 picktype += 1
-                conf = 0
+                league = 0
 
         # redirect
         self.redirect('/admin')
