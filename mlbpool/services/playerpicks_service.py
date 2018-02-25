@@ -101,7 +101,7 @@ class PlayerPicksService:
         season_row = session.query(SeasonInfo.current_season).filter(SeasonInfo.id == 1).first()
         season = season_row.current_season
 
-        dt = pendulum.now()
+        dt = pendulum.now(tz='America/New_York')
 
         # Add American League team picks
         al_east_winner_db = PlayerPicks(user_id=user_id, season=season, date_submitted=dt, league_id=0, division_id=1,
@@ -307,7 +307,7 @@ class PlayerPicksService:
         season_row = session.query(SeasonInfo.current_season).filter(SeasonInfo.id == 1).first()
         season = season_row.current_season
 
-        dt = pendulum.now()
+        dt = pendulum.now(tz='America/New_York')
 
         """If the season has not started yet, changed picks should remain 0.  If it's after the All-Star Break 
         changed should be 1.  UniquePicksService will then assign it half points.  Also, if the season has not 
