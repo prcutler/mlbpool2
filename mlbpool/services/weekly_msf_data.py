@@ -46,7 +46,8 @@ class WeeklyStatsService:
         season_start = session.query(SeasonInfo).filter(SeasonInfo.season_start_date == '1').first()
 
         response = requests.get('https://api.mysportsfeeds.com/v1.2/pull/mlb/' + str(season) +
-                                '-regular/cumulative_player_stats.json?playerstats=HR,AVG,RBI,PA',
+                                '-regular/cumulative_player_stats.json?playerstats=HR,AVG,RBI,PA'
+                                '&position=C,1B,2B,SS,3B,OF',
                                 auth=HTTPBasicAuth(config.msf_username, config.msf_pw))
 
         player_json = response.json()
@@ -87,7 +88,7 @@ class WeeklyStatsService:
         season_start = session.query(SeasonInfo).filter(SeasonInfo.season_start_date == '1').first()
 
         response = requests.get('https://api.mysportsfeeds.com/v1.2/pull/mlb/' + str(season) +
-                                '-regular/cumulative_player_stats.json?playerstats=W,ERA,IP',
+                                '-regular/cumulative_player_stats.json?playerstats=W,ERA,IP&position=P',
                                 auth=HTTPBasicAuth(config.msf_username, config.msf_pw))
 
         player_json = response.json()
