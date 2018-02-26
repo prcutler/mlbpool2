@@ -250,12 +250,12 @@ class AdminController(BaseController):
             rank = 2
             UniquePicksService.unique_team_picks(picktype, league, div, rank)
 
-            rank = 4
+            rank = 5
             UniquePicksService.unique_team_picks(picktype, league, div, rank)
 
             div += 1
 
-            if div > 4:
+            if div > 3:
                 div = 1
                 league += 1
 
