@@ -38,7 +38,7 @@ class UniquePicksService:
         session.close()
 
     @classmethod
-    def unique_player_picks(cls, pick_type, conf):
+    def unique_player_picks(cls, pick_type, league):
         session = DbSessionFactory.create_session()
 
         season_row = session.query(SeasonInfo).filter(SeasonInfo.id == '1').first()
@@ -50,7 +50,7 @@ class UniquePicksService:
 
         condstr = " pick_type=" + str(pick_type) + " AND season=" + str(current_season)
 
-        condstr += " AND league_id=" + str(conf)
+        condstr += " AND league_id=" + str(league)
 
         txtstr += condstr + midstr + "AND " + condstr
 
