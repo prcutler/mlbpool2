@@ -259,6 +259,20 @@ class AdminController(BaseController):
                 div = 1
                 league += 1
 
+        picktype = 2
+        league = 0
+        UniquePicksService.unique_team_picks(picktype, league)
+
+        league = 1
+        UniquePicksService.unique_team_picks(picktype, league)
+
+        picktype = 3
+        league = 0
+        UniquePicksService.unique_team_picks(picktype, league)
+
+        league = 1
+        UniquePicksService.unique_team_picks(picktype, league)
+
         picktype = 9
         league = 0
         UniquePicksService.unique_team_picks(picktype, league)
