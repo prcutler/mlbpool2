@@ -1073,7 +1073,7 @@ class PlayerPicksService:
                     .filter(PlayerPicks.league_id == 1) \
                     .filter(PlayerPicks.division_id == 3).first():
 
-                if pick != int(nl_central_winner_pick):
+                if pick != int(nl_west_winner_pick):
                     session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
                         .filter(PlayerPicks.pick_type == 1) \
                         .filter(PlayerPicks.rank == 1).filter(PlayerPicks.league_id == 1) \
@@ -1090,7 +1090,7 @@ class PlayerPicksService:
                     .filter(PlayerPicks.league_id == 1) \
                     .filter(PlayerPicks.division_id == 3).first():
 
-                if pick != int(nl_west_pick):
+                if pick != int(nl_west_second_pick):
                     session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
                         .filter(PlayerPicks.pick_type == 1) \
                         .filter(PlayerPicks.rank == 2).filter(PlayerPicks.league_id == 1) \
