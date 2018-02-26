@@ -3,6 +3,7 @@ from mlbpool.data.dbsession import DbSessionFactory
 import requests
 from requests.auth import HTTPBasicAuth
 import mlbpool.data.config as config
+import pendulum
 
 
 class NewSeasonService:
@@ -37,7 +38,15 @@ class NewSeasonService:
             away_team = gameday_data["awayTeam"]["Name"]
             home_team = gameday_data["homeTeam"]["Name"]
 
-            first_game = first_game_date + "T" + first_game_time[:-2]
+            first_game = first_game_date + "T" + first_game_time
+            first_game_calc = pendulum.create(first_game, tz='America/New_York')
+            start_time = pendulum.parse('00:00')
+            end_time = pendulum.parse('10:59')
+
+            if first_game_calc.between(start_time, end_time):
+                first_game = first_game_calc.add(hours=12)
+                print(first_game)
+
 
             new_season = SeasonInfo(season_start_date=first_game, season_start_time=first_game_time,
                                     home_team=home_team, away_team=away_team, current_season=season,
@@ -63,6 +72,18 @@ class NewSeasonService:
             first_game_time = gameday_data["time"]
             away_team = gameday_data["awayTeam"]["Name"]
             home_team = gameday_data["homeTeam"]["Name"]
+            print("JSON first game time", first_game_time)
+
+            first_game = first_game_date + "T" + first_game_time
+
+            first_game_calc = pendulum.from_format(first_game, tz='America/New_York')
+            # first_game_calc = pendulum.create(first_game_convert)
+            start_time = pendulum.parse('00:00')
+            end_time = pendulum.parse('10:59')
+
+            if first_game_calc.between(start_time, end_time):
+                first_game = first_game_calc.add(hours=12)
+                print(first_game)
 
             season_start_date = first_game_date
 

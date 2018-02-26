@@ -16,6 +16,7 @@ def season_opener():
     session = DbSessionFactory.create_session()
 
     season_start_query = session.query(SeasonInfo.season_start_date).first()
+    print("Season Start Query:", season_start_query)
 
     # season_start_query is returned as a tuple and need to get the first part of the tuple:
     season_opener_date = str(season_start_query[0])
@@ -61,8 +62,8 @@ class GameDayService:
     @staticmethod
     def time_due():
         season_start_date = season_opener()
-        time_due = season_start_date.format('%I:%M %p')
-        print("time_due", time_due)
+        time_due = season_start_date.format('%H:%M %p')
+        print("Season start date", season_start_date, "time_due", time_due)
 
         return time_due
 
@@ -78,7 +79,7 @@ class GameDayService:
     def deltas():
 
         season_start_date = season_opener()
-        now = pendulum.now(tz=tz)
+        now = pendulum.now(tz=timezone)
 
         delta = season_start_date - now
 
