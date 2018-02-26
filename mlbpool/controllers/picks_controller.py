@@ -60,24 +60,21 @@ class PicksController(BaseController):
 
         # Change now_time for testing
         # Use this one for production:
-        # now_time = pendulum.now(tz=pendulum.timezone('America/New_York')).to_datetime_string()
+        # now_time = pendulum.now(tz=pendulum.timezone('America/New_York'))
         # Use this one for testing:
         now_time = pendulum.create(2017, 3, 17, 18, 59, tz='America/New_York')
 
         # Check if the season has already started
-        if now_time > time_due:
+        if now_time > season_start_date:
             print("Too late!  The season has already started.")
             self.redirect('/picks/too-late')
 
         else:
 
-            # Use the string above in a Pendulum instance and get the time deltas needed
-            now_time = pendulum.parse(now_time)
-
-            delta = season_start_date - now_time
-            days = delta.days
-            hours = delta.hours
-            minutes = delta.minutes
+            days = GameDayService.delta_days()
+            hours = GameDayService.delta_hours()
+            minutes = GameDayService.delta_minutes()
+            current_datetime = now_time.to_day_datetime_string()
 
             # Check if user has already submitted picks
 
@@ -139,6 +136,7 @@ class PicksController(BaseController):
                     'days': days,
                     'hours': hours,
                     'minutes': minutes,
+                    'current_datetime': current_datetime,
                     'season_info': season_info
                 }
 
@@ -241,11 +239,20 @@ class PicksController(BaseController):
 
             # Change now_time for testing
             # Use this one for production:
-            now_time = pendulum.now(tz=pendulum.timezone('America/New_York'))
+            # now_time = pendulum.now(tz=pendulum.timezone('America/New_York'))
             # Use this one for testing:
-            # now_time = pendulum.create(2018, 7, 17, 18, 59, tz='America/New_York')
+            now_time = pendulum.create(2017, 7, 10, 18, 59, tz='America/New_York')
+            # print("Change picks now_time is:", now_time)
 
-            if GameDayService.season_opener_date() > now_time or GameDayService.all_star_break(now_time) is True:
+            if now_time < GameDayService.season_opener_date() and GameDayService.all_star_break(now_time) is False:
+
+                self.redirect('/picks/too-late')
+
+            elif now_time > GameDayService.season_opener_date() and GameDayService.all_star_break(now_time) is False:
+
+                self.redirect('/picks/too-late')
+
+            else:
 
                 session = DbSessionFactory.create_session()
                 season_row = session.query(SeasonInfo.current_season).filter(SeasonInfo.id == '1').first()
@@ -305,14 +312,6 @@ class PicksController(BaseController):
                     'all_picks': all_picks
                 }
 
-            elif GameDayService.all_star_break(now_time) is False:
-
-                self.redirect('/picks/too-late')
-
-            elif GameDayService.season_opener_date() < now_time:
-
-                self.redirect('/picks/too-late')
-
             session.close()
 
     # POST /picks/submit_picks
@@ -333,9 +332,9 @@ class PicksController(BaseController):
 
         # Change now_time for testing
         # Use this one for production:
-        now_time = pendulum.now(tz=pendulum.timezone('America/New_York'))
+        # now_time = pendulum.now(tz=pendulum.timezone('America/New_York'))
         # Use this one for testing:
-        # now_time = pendulum.create(2018, 7, 17, 18, 59, tz='America/New_York')
+        now_time = pendulum.create(2017, 7, 10, 18, 59, tz='America/New_York')
 
         if GameDayService.season_opener_date() < now_time:
             total_changes = CountService.change_picks_count(

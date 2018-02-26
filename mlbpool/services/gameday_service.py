@@ -10,6 +10,12 @@ from dateutil import parser
 # Set the timezone we will be working with
 timezone = pendulum.timezone('America/New_York')
 
+# Change now_time for testing
+# Use this one for production:
+# now_time = pendulum.now(tz=pendulum.timezone('America/New_York'))
+# Use this one for testing:
+now_time = pendulum.create(2017, 3, 17, 12, 15, tz='America/New_York')
+
 
 def season_opener():
 
@@ -22,11 +28,11 @@ def season_opener():
     season_opener_date = str(season_start_query[0])
 
     # Convert the start date to a string that Pendulum can work with
-    season_start_date_convert = \
-        pendulum.from_format(season_opener_date, '%Y-%m-%d %H:%M:%S', timezone).to_datetime_string()
+    # season_start_date_convert = \
+    #    pendulum.from_format(season_opener_date, '%Y-%m-%d %H:%M:%S', timezone).to_datetime_string()
 
     # Use the string above in a Pendulum instance and get the time deltas needed
-    season_start_date = pendulum.parse(season_start_date_convert)
+    season_start_date = pendulum.parse(season_opener_date)
 
     session.close()
 
@@ -62,7 +68,7 @@ class GameDayService:
     @staticmethod
     def time_due():
         season_start_date = season_opener()
-        time_due = season_start_date.format('%H:%M %p')
+        time_due = season_start_date.format('%I:%M %p')
         # print("Season start date", season_start_date, "time_due", time_due)
 
         return time_due
@@ -76,10 +82,10 @@ class GameDayService:
         return picks_due_date
 
     @staticmethod
-    def deltas():
+    def delta_days():
 
         season_start_date = season_opener()
-        now = pendulum.now(tz=timezone)
+        now = now_time
 
         delta = season_start_date - now
 
@@ -87,7 +93,35 @@ class GameDayService:
         hours = delta.hours
         minutes = delta.minutes
 
-        return days, hours, minutes
+        return days
+
+    @staticmethod
+    def delta_hours():
+
+        season_start_date = season_opener()
+        now = now_time
+
+        delta = season_start_date - now
+
+        days = delta.days
+        hours = delta.hours
+        minutes = delta.minutes
+
+        return hours
+
+    @staticmethod
+    def delta_minutes():
+
+        season_start_date = season_opener()
+        now = now_time
+
+        delta = season_start_date - now
+
+        days = delta.days
+        hours = delta.hours
+        minutes = delta.minutes
+
+        return minutes
 
     @staticmethod
     def all_star_break(all_star_break_date):
@@ -100,19 +134,34 @@ class GameDayService:
         start_time = (all_star_game_date + " 19:00")
         all_star_game = pendulum.from_format(start_time, '%Y-%m-%d %H:%M', tz=timezone)
 
+        season_start_date = season_opener()
+
         print("Converted:", all_star_game)
+        print("Now time:", all_star_break_date)
 
         all_star_game_break_start = all_star_game.subtract(hours=48)
-        # print("Break starts at", all_star_game_break_start)
+        print("Break starts at", all_star_game_break_start)
         all_star_break_end = (all_star_game.add(hours=48))
-        # print("Break ends at", all_star_break_end)
+        print("Break ends at", all_star_break_end)
 
         session.close()
 
-        # if all_star_break_date > all_star_game_break_start and all_star_break_date < all_star_break_end:
-        if all_star_break_date > all_star_game_break_start < all_star_break_end:
+        if all_star_break_date > all_star_break_end:
+            print("The current date is greater than the when the break ends")
+            return False
+
+        elif all_star_break_date < season_start_date:
 
             return True
 
+        elif all_star_game_break_start < all_star_break_date < all_star_break_end:
+
+            return True
+
+        elif all_star_break_date < all_star_game_break_start:
+            print("The current date is less than the start of the all-star break")
+            return False
+
         else:
+            print(False)
             return False
