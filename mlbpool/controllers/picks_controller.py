@@ -61,7 +61,7 @@ class PicksController(BaseController):
         now_time = pendulum.now(tz=pendulum.timezone('America/New_York')).to_datetime_string()
 
         # Check if the season has already started
-        if now_time < time_due:
+        if now_time > time_due:
             print("Too late!  The season has already started.")
             self.redirect('/picks/too-late')
 
