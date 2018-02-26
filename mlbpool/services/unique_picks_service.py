@@ -23,7 +23,7 @@ class UniquePicksService:
         condstr = "pick_type=" + str(pick_type) + " AND season=" + str(current_season)
 
         if league is not None:
-            condstr += " AND league_id=" + str(conf)
+            condstr += " AND league_id=" + str(league)
             if div is not None:
                 condstr += " AND division_id=" + str(div)
                 if rank is not None:

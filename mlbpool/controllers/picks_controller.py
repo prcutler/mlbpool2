@@ -58,7 +58,11 @@ class PicksController(BaseController):
         picks_due = GameDayService.picks_due()
         time_due = GameDayService.time_due()
 
+        # Change now_time for testing
+        # Use this one for production:
         now_time = pendulum.now(tz=pendulum.timezone('America/New_York')).to_datetime_string()
+        # Use this one for testing:
+        # now_time = pendulum.create(2018, 7, 17, 18, 59, tz='America/New_York')
 
         # Check if the season has already started
         if now_time > time_due:
