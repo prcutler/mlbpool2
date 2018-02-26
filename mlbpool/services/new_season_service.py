@@ -38,22 +38,20 @@ class NewSeasonService:
             away_team = gameday_data["awayTeam"]["Name"]
             home_team = gameday_data["homeTeam"]["Name"]
 
-            first_game = first_game_date + "T" + first_game_time
-            first_game_calc = pendulum.create(first_game, tz='America/New_York')
-            start_time = pendulum.parse('00:00')
-            end_time = pendulum.parse('10:59')
+            first_game = first_game_date + "T" + first_game_time[:-2]
+            # print("First game str concatenation:", first_game)
+            first_game_calc = pendulum.from_format(first_game, '%Y-%m-%dT%H:%M')
+            print("Pendulum instance is:", first_game_calc)
 
-            if first_game_calc.between(start_time, end_time):
+            if 1 >= first_game_calc.hour <= 10:
                 first_game = first_game_calc.add(hours=12)
                 print(first_game)
-
 
             new_season = SeasonInfo(season_start_date=first_game, season_start_time=first_game_time,
                                     home_team=home_team, away_team=away_team, current_season=season,
                                     all_star_game_date=all_star_game_date)
 
             # TODO Add log for new_season
-            print(new_season)
 
             session.add(new_season)
             session.commit()
@@ -74,24 +72,20 @@ class NewSeasonService:
             home_team = gameday_data["homeTeam"]["Name"]
             print("JSON first game time", first_game_time)
 
-            first_game = first_game_date + "T" + first_game_time
+            first_game = first_game_date + "T" + first_game_time[:-2]
+            # print("First game str concatenation:", first_game)
+            first_game_calc = pendulum.from_format(first_game, '%Y-%m-%dT%H:%M')
+            print("Pendulum instance is:", first_game_calc)
 
-            first_game_calc = pendulum.from_format(first_game, tz='America/New_York')
-            # first_game_calc = pendulum.create(first_game_convert)
-            start_time = pendulum.parse('00:00')
-            end_time = pendulum.parse('10:59')
-
-            if first_game_calc.between(start_time, end_time):
+            if 1 >= first_game_calc.hour <= 10:
                 first_game = first_game_calc.add(hours=12)
                 print(first_game)
 
-            season_start_date = first_game_date
-
             update_row = session.query(SeasonInfo).filter(SeasonInfo.id == '1').first()
             update_row.current_season = season
-            update_row.season_start_date = season_start_date
+            update_row.season_start_date = first_game
             update_row.all_star_game_date = all_star_game_date
-            update_row.first_game_time = first_game_time
+            update_row.season_start_time = first_game_time
             update_row.away_team = away_team
             update_row.home_team = home_team
 
