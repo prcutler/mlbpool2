@@ -36,7 +36,6 @@ class AdminController(BaseController):
         first_name = get_first_name[0]
 
         season_info = session.query(SeasonInfo).all()
-        print(season_info)
 
         if GameDayService.admin_check() is None:
             self.redirect('/admin/new_install')

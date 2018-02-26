@@ -16,7 +16,7 @@ def season_opener():
     session = DbSessionFactory.create_session()
 
     season_start_query = session.query(SeasonInfo.season_start_date).first()
-    print("Season Start Query:", season_start_query)
+    # print("Season Start Query:", season_start_query)
 
     # season_start_query is returned as a tuple and need to get the first part of the tuple:
     season_opener_date = str(season_start_query[0])
@@ -49,7 +49,7 @@ class GameDayService:
         """Get the time of the season opener's game"""
 
         season_opener_date = season_opener()
-        print("season_opener_date function", season_opener_date)
+        # print("season_opener_date function", season_opener_date)
 
         return season_opener_date
 
@@ -63,7 +63,7 @@ class GameDayService:
     def time_due():
         season_start_date = season_opener()
         time_due = season_start_date.format('%H:%M %p')
-        print("Season start date", season_start_date, "time_due", time_due)
+        # print("Season start date", season_start_date, "time_due", time_due)
 
         return time_due
 
@@ -71,7 +71,7 @@ class GameDayService:
     def picks_due():
         season_start_date = season_opener()
         picks_due_date = season_start_date.to_formatted_date_string()
-        print("picks_due_date", picks_due_date)
+        # print("picks_due_date", picks_due_date)
 
         return picks_due_date
 
@@ -103,15 +103,16 @@ class GameDayService:
         print("Converted:", all_star_game)
 
         all_star_game_break_start = all_star_game.subtract(hours=48)
-        print("Break starts at", all_star_game_break_start)
+        # print("Break starts at", all_star_game_break_start)
         all_star_break_end = (all_star_game.add(hours=48))
-        print("Break ends at", all_star_break_end)
+        # print("Break ends at", all_star_break_end)
 
         session.close()
 
-        if all_star_break_date > all_star_game_break_start and all_star_break_date < all_star_break_end:
+        # if all_star_break_date > all_star_game_break_start and all_star_break_date < all_star_break_end:
+        if all_star_break_date > all_star_game_break_start < all_star_break_end:
+
             return True
 
         else:
             return False
-

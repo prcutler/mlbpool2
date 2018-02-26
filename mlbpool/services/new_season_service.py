@@ -39,13 +39,10 @@ class NewSeasonService:
             home_team = gameday_data["homeTeam"]["Name"]
 
             first_game = first_game_date + "T" + first_game_time[:-2]
-            # print("First game str concatenation:", first_game)
             first_game_calc = pendulum.from_format(first_game, '%Y-%m-%dT%H:%M')
-            print("Pendulum instance is:", first_game_calc)
 
             if 1 >= first_game_calc.hour <= 10:
                 first_game = first_game_calc.add(hours=12)
-                print(first_game)
 
             new_season = SeasonInfo(season_start_date=first_game, season_start_time=first_game_time,
                                     home_team=home_team, away_team=away_team, current_season=season,
@@ -70,16 +67,13 @@ class NewSeasonService:
             first_game_time = gameday_data["time"]
             away_team = gameday_data["awayTeam"]["Name"]
             home_team = gameday_data["homeTeam"]["Name"]
-            print("JSON first game time", first_game_time)
 
             first_game = first_game_date + "T" + first_game_time[:-2]
             # print("First game str concatenation:", first_game)
             first_game_calc = pendulum.from_format(first_game, '%Y-%m-%dT%H:%M')
-            print("Pendulum instance is:", first_game_calc)
 
             if 1 >= first_game_calc.hour <= 10:
                 first_game = first_game_calc.add(hours=12)
-                print(first_game)
 
             update_row = session.query(SeasonInfo).filter(SeasonInfo.id == '1').first()
             update_row.current_season = season
