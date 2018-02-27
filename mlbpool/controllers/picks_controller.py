@@ -10,6 +10,7 @@ from mlbpool.data.account import Account
 from mlbpool.services.gameday_service import GameDayService
 from mlbpool.services.count_service import CountService
 import pendulum
+from mlbpool.services.time_service import TimeService
 
 
 class PicksController(BaseController):
@@ -58,11 +59,7 @@ class PicksController(BaseController):
         picks_due = GameDayService.picks_due()
         time_due = GameDayService.time_due()
 
-        # Change now_time for testing
-        # Use this one for production:
-        # now_time = pendulum.now(tz=pendulum.timezone('America/New_York')).to_datetime_string()
-        # Use this one for testing:
-        now_time = pendulum.create(2017, 3, 17, 18, 59, tz='America/New_York')
+        now_time = TimeService.now_time()
 
         # Check if the season has already started
         if now_time > time_due:
@@ -239,11 +236,7 @@ class PicksController(BaseController):
 
         else:
 
-            # Change now_time for testing
-            # Use this one for production:
-            now_time = pendulum.now(tz=pendulum.timezone('America/New_York'))
-            # Use this one for testing:
-            # now_time = pendulum.create(2018, 7, 17, 18, 59, tz='America/New_York')
+            now_time = TimeService.get_time()
 
             if GameDayService.season_opener_date() > now_time or GameDayService.all_star_break(now_time) is True:
 
@@ -331,11 +324,7 @@ class PicksController(BaseController):
         vm.user_id = self.logged_in_user_id
         vm.season = season
 
-        # Change now_time for testing
-        # Use this one for production:
-        now_time = pendulum.now(tz=pendulum.timezone('America/New_York'))
-        # Use this one for testing:
-        # now_time = pendulum.create(2018, 7, 17, 18, 59, tz='America/New_York')
+        now_time = TimeService.get_time()
 
         if GameDayService.season_opener_date() < now_time:
             total_changes = CountService.change_picks_count(
