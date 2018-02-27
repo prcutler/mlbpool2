@@ -36,7 +36,6 @@ class AdminController(BaseController):
         first_name = get_first_name[0]
 
         season_info = session.query(SeasonInfo).all()
-        print(season_info)
 
         if GameDayService.admin_check() is None:
             self.redirect('/admin/new_install')
@@ -251,14 +250,28 @@ class AdminController(BaseController):
             rank = 2
             UniquePicksService.unique_team_picks(picktype, league, div, rank)
 
-            rank = 4
+            rank = 5
             UniquePicksService.unique_team_picks(picktype, league, div, rank)
 
             div += 1
 
-            if div > 4:
+            if div > 3:
                 div = 1
                 league += 1
+
+        picktype = 2
+        league = 0
+        UniquePicksService.unique_team_picks(picktype, league)
+
+        league = 1
+        UniquePicksService.unique_team_picks(picktype, league)
+
+        picktype = 3
+        league = 0
+        UniquePicksService.unique_team_picks(picktype, league)
+
+        league = 1
+        UniquePicksService.unique_team_picks(picktype, league)
 
         picktype = 9
         league = 0

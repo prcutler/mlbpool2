@@ -18,7 +18,7 @@ class UniquePicksService:
 
         txtstr = "UPDATE PlayerPicks SET multiplier=2 WHERE team_id IN "
         txtstr += "(SELECT team_id FROM (select DISTINCT(team_id), COUNT(team_id) AS ct FROM PlayerPicks WHERE "
-        midstr = " GROUP BY team_id) WHERE ct=1) "
+        midstr = " GROUP BY team_id)PlayerPicks WHERE ct=1) "
 
         condstr = "pick_type=" + str(pick_type) + " AND season=" + str(current_season)
 
@@ -38,7 +38,7 @@ class UniquePicksService:
         session.close()
 
     @classmethod
-    def unique_player_picks(cls, pick_type, conf):
+    def unique_player_picks(cls, pick_type, league):
         session = DbSessionFactory.create_session()
 
         season_row = session.query(SeasonInfo).filter(SeasonInfo.id == '1').first()
@@ -46,11 +46,11 @@ class UniquePicksService:
 
         txtstr = "UPDATE PlayerPicks SET multiplier=2 WHERE player_id IN "
         txtstr += "(SELECT player_id FROM (select DISTINCT(player_id), COUNT(player_id) AS ct FROM PlayerPicks WHERE "
-        midstr = " GROUP BY player_id) WHERE ct=1) "
+        midstr = " GROUP BY player_id)PlayerPicks WHERE ct=1) "
 
         condstr = " pick_type=" + str(pick_type) + " AND season=" + str(current_season)
 
-        condstr += " AND league_id=" + str(conf)
+        condstr += " AND league_id=" + str(league)
 
         txtstr += condstr + midstr + "AND " + condstr
 

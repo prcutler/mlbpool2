@@ -14,7 +14,10 @@
 
                     <div class="alert alert-warning" role="alert" tal:repeat="a season_info">
                         The season starts with ${a.away_team} at ${a.home_team} on ${picks_due} at ${time_due} EST.
-                        There are ${days} days, ${hours} hours, and ${minutes} minutes left until picks are due.
+                        <br><br>
+
+                            The current time is ${current_datetime} EST.  There are ${days} days, ${hours} hours,
+                            and ${minutes} minutes left until picks are due.
 
                     </div>
 

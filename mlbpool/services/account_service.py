@@ -5,7 +5,6 @@ from mlbpool.data.passwordreset import PasswordReset
 import datetime
 import mlbpool.data.config as secret
 from mlbpool.data.player_picks import PlayerPicks
-import slacker
 from mlbpool.data.teaminfo import TeamInfo
 from mlbpool.data.picktypes import PickTypes
 from mlbpool.data.leagueinfo import LeagueInfo
