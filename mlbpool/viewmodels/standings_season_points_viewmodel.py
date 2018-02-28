@@ -1,7 +1,7 @@
 from mlbpool.viewmodels.viewmodelbase import ViewModelBase
 
 
-class YourPicksViewModel(ViewModelBase):
+class StandingsPointsViewModel(ViewModelBase):
     def __init__(self):
         self.season = None
         self.season_id = None

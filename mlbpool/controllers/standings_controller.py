@@ -5,22 +5,38 @@ from mlbpool.services.standings_service import StandingsService
 from mlbpool.data.dbsession import DbSessionFactory
 from mlbpool.data.seasoninfo import SeasonInfo
 from mlbpool.data.weekly_player_results import WeeklyPlayerResults
+from mlbpool.viewmodels.standings_season_points_viewmodel import StandingsPointsViewModel
 
 
 class StandingsController(BaseController):
-
     @pyramid_handlers.action(renderer='templates/standings/standings.pt')
     def index(self):
+        """Get a list of all seasons played from the database and display a bulleted list for the user to
+        choose which season to view standings for"""
+        seasons_played = StandingsService.all_seasons_played()
+
+        return {'seasons': seasons_played}
+
+    @pyramid_handlers.action(renderer='templates/standings/season.pt',
+                             request_method='GET',
+                             name='season')
+    def season(self):
+        """View the standings for a given season from the user choosing in the bullet list in index"""
+        vm = StandingsPointsViewModel()
+        vm.from_dict(self.data_dict)
+
+        season = self.request.matchdict['id']
         current_standings = StandingsService.display_weekly_standings()
 
         session = DbSessionFactory.create_session()
-        season_row = session.query(SeasonInfo.current_season).filter(SeasonInfo.id == '1').first()
-        season = season_row.current_season
+        season_row = session.query(SeasonInfo.current_season).filter(SeasonInfo.id == season).first()
+        season_history = season_row.current_season
 
-        week_query = session.query(WeeklyPlayerResults.week).order_by(WeeklyPlayerResults.week.desc()).first()
-        week = week_query[0]
+        date_query = session.query(WeeklyPlayerResults.update_date)\
+            .order_by(WeeklyPlayerResults.update_date.desc()).first()
+        date_updated = date_query[0]
 
-        return {'current_standings': current_standings, 'season': season, 'week': week}
+        return {'current_standings': current_standings, 'season': season_history, 'date_updated': date_updated}
 
     @pyramid_handlers.action(renderer='templates/standings/player-standings.pt',
                              request_method='GET',
