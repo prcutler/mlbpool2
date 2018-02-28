@@ -3,7 +3,7 @@ import pendulum
 
 class TimeService:
     @staticmethod
-    def get_time(self):
+    def get_time():
         """Create a service to get the time - there were too many instances of getting the current time in
         the codebase making testing difficult."""
         # Change now_time for testing

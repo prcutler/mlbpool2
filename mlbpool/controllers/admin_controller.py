@@ -16,7 +16,7 @@ from mlbpool.services.unique_picks_service import UniquePicksService
 from mlbpool.services.standings_service import StandingsService
 from mlbpool.data.seasoninfo import SeasonInfo
 from mlbpool.services.gameday_service import GameDayService
-import pendulum
+from mlbpool.services.time_service import TimeService
 
 
 class AdminController(BaseController):
@@ -46,10 +46,8 @@ class AdminController(BaseController):
             picks_due = GameDayService.picks_due()
             time_due = GameDayService.time_due()
 
-            now_time = pendulum.now(tz=pendulum.timezone('America/New_York')).to_datetime_string()
-
             # Use the string above in a Pendulum instance and get the time deltas needed
-            now_time = pendulum.parse(now_time)
+            now_time = TimeService.get_time()
 
             delta = season_start_date - now_time
             days = delta.days
