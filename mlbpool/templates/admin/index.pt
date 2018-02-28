@@ -31,7 +31,8 @@
                             </li>
                             <li>
                                 <a href="/admin/update-unique-picks">Update database to determine all unique picks
-                                by players.  (Only run this after all picks are in.)</a>
+                                by players.  (Only run this after all picks are in at the start of the
+                                    season and after the All-Star break.)</a>
                             </li>
                         </ul>
 
