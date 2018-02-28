@@ -8,11 +8,11 @@
                 <div class="col-md-6">
                     <h1>Create an account</h1>
 
-                    <p>After you create an account, you will be asked to login with your email and password.
-                    Your password must be between 8 and 24 characters and include one uppercase letter, one
-                        lowercase letter, a number and a special character such as
-                        !, @, #, $, %, ^, &, *, (, ), _, -, ', =, +, ,, <, ., >, /, ?
-                    </p>
+                    <div class="alert alert-warning" role="alert">After you create an account,
+                        you will be asked to login with your email and password.
+                        Your password must be between 8 and 24 characters and include one uppercase letter, one
+                        lowercase letter, a number and a special character / symbol.
+                        </div>
 
                     <p>If you include your Twitter handle, you will receive a direct message every
                     week with your score when MLBPool2 is updated.</p>
