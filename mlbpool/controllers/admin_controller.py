@@ -193,13 +193,13 @@ class AdminController(BaseController):
         vm.from_dict(self.request.POST)
 
         # Insert weekly team and player stats
-        WeeklyStatsService.get_hitter_stats()
-        WeeklyStatsService.get_pitcher_stats()
-        WeeklyStatsService.get_team_rankings()
-        WeeklyStatsService.get_league_standings()
-        WeeklyStatsService.get_tiebreaker()
-#        StandingsService.update_player_pick_points()
-#        StandingsService.update_team_pick_points()
+#        WeeklyStatsService.get_hitter_stats()
+#        WeeklyStatsService.get_pitcher_stats()
+#        WeeklyStatsService.get_team_rankings()
+#        WeeklyStatsService.get_league_standings()
+#        WeeklyStatsService.get_tiebreaker()
+        StandingsService.update_player_pick_points()
+        StandingsService.update_team_pick_points()
 
         # redirect
         self.redirect('/admin')

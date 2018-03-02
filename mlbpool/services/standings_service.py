@@ -5,6 +5,7 @@ from mlbpool.data.weekly_player_results import WeeklyPlayerResults
 from _datetime import datetime
 from mlbpool.data.seasoninfo import SeasonInfo
 from mlbpool.data.account import Account
+from mlbpool.services.gameday_service import GameDayService
 
 
 def get_seasons():
@@ -21,9 +22,10 @@ def get_week():
     # TODO This needs to be re-written - not using weeks in MLBPool
     session = DbSessionFactory.create_session()
 
-    season_row = session.query(SeasonInfo).filter(SeasonInfo.id == '1').first()
-    season_start = season_row.season_start_date
-    season_start = datetime.strptime(season_start, "%Y-%m-%d")
+    # season_row = session.query(SeasonInfo).filter(SeasonInfo.id == '1').first()
+    # season_start = season_row.season_start_date
+    # season_start = datetime.strptime(season_start, "%Y-%m-%d")
+    season_start = GameDayService.season_opener_date()
 
     diff = datetime.now() - season_start
     print(diff.days)
