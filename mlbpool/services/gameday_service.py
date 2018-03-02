@@ -60,6 +60,17 @@ class GameDayService:
         return season_opener_date
 
     @staticmethod
+    def all_star_game_date():
+        """Get the time of the season opener's game"""
+        session = DbSessionFactory.create_session()
+
+        all_star_game_date = session.query(SeasonInfo.all_star_game_date).first()
+
+        session.close()
+
+        return all_star_game_date
+
+    @staticmethod
     def timezone():
         tz = pendulum.timezone('America/New_York')
 

@@ -5,6 +5,8 @@ from mlbpool.data.picktypes import PickTypes
 from mlbpool.data.teaminfo import TeamInfo
 from mlbpool.data.player_picks import PlayerPicks
 from mlbpool.data.seasoninfo import SeasonInfo
+from mlbpool.services.time_service import TimeService
+from mlbpool.services.gameday_service import GameDayService
 
 
 class UniquePicksService:
@@ -16,25 +18,55 @@ class UniquePicksService:
         season_row = session.query(SeasonInfo).filter(SeasonInfo.id == '1').first()
         current_season = season_row.current_season
 
-        txtstr = "UPDATE PlayerPicks SET multiplier=2 WHERE team_id IN "
-        txtstr += "(SELECT team_id FROM (select DISTINCT(team_id), COUNT(team_id) AS ct FROM PlayerPicks WHERE "
-        midstr = " GROUP BY team_id)PlayerPicks WHERE ct=1) "
+        now_time = TimeService.get_time()
 
-        condstr = "pick_type=" + str(pick_type) + " AND season=" + str(current_season)
+        # Calculate Unique Picks at season start
+        if now_time < GameDayService.all_star_game_date():
 
-        if league is not None:
-            condstr += " AND league_id=" + str(league)
-            if div is not None:
-                condstr += " AND division_id=" + str(div)
-                if rank is not None:
-                    condstr += " AND rank=" + str(rank)
+            txtstr = "UPDATE PlayerPicks SET multiplier=2 WHERE team_id IN "
+            txtstr += "(SELECT team_id FROM (select DISTINCT(team_id), COUNT(team_id) AS ct FROM PlayerPicks WHERE "
+            midstr = " GROUP BY team_id)PlayerPicks WHERE ct=1) "
 
-        txtstr += condstr + midstr + "AND " + condstr
+            condstr = "pick_type=" + str(pick_type) + " AND season=" + str(current_season)
 
-        # print(txtstr)
+            if league is not None:
+                condstr += " AND league_id=" + str(league)
+                if div is not None:
+                    condstr += " AND division_id=" + str(div)
+                    if rank is not None:
+                        condstr += " AND rank=" + str(rank)
 
-        session.execute(txtstr)
-        session.commit()
+            txtstr += condstr + midstr + "AND " + condstr
+
+            # print(txtstr)
+
+            session.execute(txtstr)
+            session.commit()
+
+        else:
+
+            # TODO Add the changed=1 column to the query below
+
+            txtstr = "UPDATE PlayerPicks SET multiplier=2 WHERE team_id IN "
+            txtstr += "(SELECT team_id FROM (select DISTINCT(team_id), COUNT(team_id) AS ct FROM PlayerPicks WHERE "
+            midstr = " GROUP BY team_id)PlayerPicks WHERE ct=1) "
+
+            condstr = "pick_type=" + str(pick_type) + " AND season=" + str(current_season)
+
+            if league is not None:
+                condstr += " AND league_id=" + str(league)
+                if div is not None:
+                    condstr += " AND division_id=" + str(div)
+                    if rank is not None:
+                        condstr += " AND rank=" + str(rank)
+
+            txtstr += condstr + midstr + "AND " + condstr
+
+            # print(txtstr)
+
+            session.execute(txtstr)
+            session.commit()
+
         session.close()
 
     @classmethod
@@ -44,19 +76,46 @@ class UniquePicksService:
         season_row = session.query(SeasonInfo).filter(SeasonInfo.id == '1').first()
         current_season = season_row.current_season
 
-        txtstr = "UPDATE PlayerPicks SET multiplier=2 WHERE player_id IN "
-        txtstr += "(SELECT player_id FROM (select DISTINCT(player_id), COUNT(player_id) AS ct FROM PlayerPicks WHERE "
-        midstr = " GROUP BY player_id)PlayerPicks WHERE ct=1) "
+        now_time = TimeService.get_time()
 
-        condstr = " pick_type=" + str(pick_type) + " AND season=" + str(current_season)
+        # Calculate Unique Picks at season start
+        if now_time < GameDayService.all_star_game_date():
 
-        condstr += " AND league_id=" + str(league)
+            # TODO Add if / else statement depending on what the date is and modify the query to look at changed column
 
-        txtstr += condstr + midstr + "AND " + condstr
+            txtstr = "UPDATE PlayerPicks SET multiplier=2 WHERE player_id IN "
+            txtstr += "(SELECT player_id FROM (select DISTINCT(player_id), COUNT(player_id) AS ct FROM PlayerPicks WHERE "
+            midstr = " GROUP BY player_id)PlayerPicks WHERE ct=1) "
 
-        # print(txtstr)
+            condstr = " pick_type=" + str(pick_type) + " AND season=" + str(current_season)
 
-        session.execute(txtstr)
-        session.commit()
+            condstr += " AND league_id=" + str(league)
+
+            txtstr += condstr + midstr + "AND " + condstr
+
+            # print(txtstr)
+
+            session.execute(txtstr)
+            session.commit()
+
+        else:
+
+            # TODO Add the changed=1 column to the query below
+
+            txtstr = "UPDATE PlayerPicks SET multiplier=2 WHERE player_id IN "
+            txtstr += "(SELECT player_id FROM (select DISTINCT(player_id), COUNT(player_id) AS ct FROM PlayerPicks WHERE "
+            midstr = " GROUP BY player_id)PlayerPicks WHERE ct=1) "
+
+            condstr = " pick_type=" + str(pick_type) + " AND season=" + str(current_season)
+
+            condstr += " AND league_id=" + str(league)
+
+            txtstr += condstr + midstr + "AND " + condstr
+
+            # print(txtstr)
+
+            session.execute(txtstr)
+            session.commit()
+
         session.close()
 
