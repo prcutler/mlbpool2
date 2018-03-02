@@ -5,7 +5,7 @@ import mlbpool.data.config as config
 from requests.auth import HTTPBasicAuth
 from mlbpool.data.seasoninfo import SeasonInfo
 from mlbpool.data.weekly_team_stats import WeeklyTeamStats
-import datetime
+import pendulum
 
 
 def get_seasons():
@@ -22,11 +22,8 @@ def get_seasons():
 def get_update_date():
     """Get the date of the update to insert into the database"""
 
-    # TODO Move to Pendulum and determine how I want the update to show up since MLB does not have to be weekly
-
-    today = datetime.date.today()
-    one_day = datetime.timedelta(days=1)
-    stats_date = today - one_day
+    today = pendulum.now()
+    stats_date = today.subtract(days=1)
 
     return stats_date
 
