@@ -45,7 +45,7 @@ class UniquePicksService:
 
         else:
 
-            # TODO Add the changed=1 column to the query below
+            # TODO Add the changed=1 column to the query below AND give players half the point value for changed picks
 
             txtstr = "UPDATE PlayerPicks SET multiplier=2 WHERE team_id IN "
             txtstr += "(SELECT team_id FROM (select DISTINCT(team_id), COUNT(team_id) AS ct FROM PlayerPicks WHERE "
@@ -100,7 +100,7 @@ class UniquePicksService:
 
         else:
 
-            # TODO Add the changed=1 column to the query below
+            # TODO Add the changed=1 column to the query below AND give players half the point value for changed picks
 
             txtstr = "UPDATE PlayerPicks SET multiplier=2 WHERE player_id IN "
             txtstr += "(SELECT player_id FROM (select DISTINCT(player_id), COUNT(player_id) AS ct FROM PlayerPicks WHERE "
