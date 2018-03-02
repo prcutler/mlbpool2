@@ -77,6 +77,8 @@ class WeeklyStatsService:
 
             session.commit()
 
+            session.close()
+
     @staticmethod
     def get_pitcher_stats():
         """Get cumulative Pitcher stats (wins and ERA) from MySportsFeeds and insert into the database"""
@@ -114,6 +116,8 @@ class WeeklyStatsService:
             session.add(weekly_player_stats)
 
             session.commit()
+
+            session.close()
 
     # Get the weekly rank for each team in each division sorted by division
     @staticmethod
@@ -212,6 +216,8 @@ class WeeklyStatsService:
             session.add(weekly_team_stats)
             session.commit()
 
+            session.close()
+
     @staticmethod
     def get_league_standings():
         """Get the rank of each team in each league (1-15) and also how many games each team has played"""
@@ -260,6 +266,8 @@ class WeeklyStatsService:
 
             session.commit()
 
+        session.close()
+
     @staticmethod
     def get_tiebreaker():
         session = DbSessionFactory.create_session()
@@ -284,6 +292,8 @@ class WeeklyStatsService:
                 .update({"tiebreaker_twin_wins": twins_wins})
 
             session.commit()
+
+            session.close()
 
 
 
