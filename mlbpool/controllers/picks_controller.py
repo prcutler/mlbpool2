@@ -184,9 +184,9 @@ class PicksController(BaseController):
 
         # Log that a user submitted picks
 
-    #        self.log.notice("Picks submitted by {}.".format(self.logged_in_user.email))
+        #        self.log.notice("Picks submitted by {}.".format(self.logged_in_user.email))
 
-    # redirect
+        # redirect
         self.redirect('/picks/completed')
 
     @pyramid_handlers.action(renderer='templates/picks/too-late.pt',
@@ -232,8 +232,8 @@ class PicksController(BaseController):
             self.redirect('/picks/submit-picks')
 
         elif find_changes == 1:
-                print(find_changes)
-                self.redirect('/picks/too-many')
+            print(find_changes)
+            self.redirect('/picks/too-many')
 
         else:
 
@@ -352,7 +352,7 @@ class PicksController(BaseController):
                 vm.al_wildcard1_pick, vm.nl_wildcard1_pick,
                 vm.al_wildcard2_pick, vm.nl_wildcard2_pick)
 
-#            print(now_time, total_changes, "Why is this not working?")
+            #            print(now_time, total_changes, "Why is this not working?")
 
             if total_changes >= 14:
                 self.redirect('/picks/too-many')
@@ -360,27 +360,27 @@ class PicksController(BaseController):
             else:
 
                 PlayerPicksService.change_player_picks(vm.al_east_winner_pick, vm.al_east_second_pick,
-                                                                   vm.al_east_last_pick,
-                                                                   vm.al_central_winner_pick, vm.al_central_second_pick,
-                                                                   vm.al_central_last_pick,
-                                                                   vm.al_west_winner_pick, vm.al_west_second_pick,
-                                                                   vm.al_west_last_pick,
-                                                                   vm.nl_east_winner_pick, vm.nl_east_second_pick,
-                                                                   vm.nl_east_last_pick,
-                                                                   vm.nl_central_winner_pick, vm.nl_central_second_pick,
-                                                                   vm.nl_central_last_pick,
-                                                                   vm.nl_west_winner_pick, vm.nl_west_second_pick,
-                                                                   vm.nl_west_last_pick,
-                                                                   vm.al_hr_pick, vm.nl_hr_pick,
-                                                                   vm.al_rbi_pick, vm.nl_rbi_pick,
-                                                                   vm.al_ba_pick, vm.nl_ba_pick,
-                                                                   vm.al_p_wins_pick, vm.nl_p_wins_pick,
-                                                                   vm.al_era_pick, vm.nl_era_pick,
-                                                                   vm.al_wildcard1_pick, vm.al_wildcard2_pick,
-                                                                   vm.nl_wildcard1_pick, vm.nl_wildcard2_pick,
-                                                                   vm.al_wins_pick, vm.nl_wins_pick,
-                                                                   vm.al_losses_pick, vm.nl_losses_pick,
-                                                                   vm.user_id)
+                                                       vm.al_east_last_pick,
+                                                       vm.al_central_winner_pick, vm.al_central_second_pick,
+                                                       vm.al_central_last_pick,
+                                                       vm.al_west_winner_pick, vm.al_west_second_pick,
+                                                       vm.al_west_last_pick,
+                                                       vm.nl_east_winner_pick, vm.nl_east_second_pick,
+                                                       vm.nl_east_last_pick,
+                                                       vm.nl_central_winner_pick, vm.nl_central_second_pick,
+                                                       vm.nl_central_last_pick,
+                                                       vm.nl_west_winner_pick, vm.nl_west_second_pick,
+                                                       vm.nl_west_last_pick,
+                                                       vm.al_hr_pick, vm.nl_hr_pick,
+                                                       vm.al_rbi_pick, vm.nl_rbi_pick,
+                                                       vm.al_ba_pick, vm.nl_ba_pick,
+                                                       vm.al_p_wins_pick, vm.nl_p_wins_pick,
+                                                       vm.al_era_pick, vm.nl_era_pick,
+                                                       vm.al_wildcard1_pick, vm.al_wildcard2_pick,
+                                                       vm.nl_wildcard1_pick, vm.nl_wildcard2_pick,
+                                                       vm.al_wins_pick, vm.nl_wins_pick,
+                                                       vm.al_losses_pick, vm.nl_losses_pick,
+                                                       vm.user_id)
         else:
 
             PlayerPicksService.change_player_picks(vm.al_east_winner_pick, vm.al_east_second_pick,
@@ -410,9 +410,9 @@ class PicksController(BaseController):
 
         # Log that a user changed picks
 
-    #        self.log.notice("Picks changed by {}.".format(self.logged_in_user.email))
+        #        self.log.notice("Picks changed by {}.".format(self.logged_in_user.email))
 
-    # redirect
+        # redirect
         self.redirect('/account')
 
     @pyramid_handlers.action(renderer='templates/picks/too-many.pt',
