@@ -127,7 +127,7 @@ class AdminController(BaseController):
                              request_method='GET',
                              name='update_mlbplayers')
     def update_mlb_players(self):
-        """After updating to a new season, get a list of all MLB playes for that season"""
+        """After updating to a new season, get a list of all MLB players for that season"""
         session = DbSessionFactory.create_session()
         su__query = session.query(Account.id).filter(Account.is_super_user == 1)\
             .filter(Account.id == self.logged_in_user_id).first()
@@ -145,7 +145,7 @@ class AdminController(BaseController):
                              request_method='POST',
                              name='update_mlbplayers')
     def update_mlb_players_post(self):
-        """After updating to a new season, get a list of all MLB playes for that season"""
+        """After updating to a new season, get a list of all MLB players for that season"""
         vm = UpdateMLBPlayersViewModel()
         vm.from_dict(self.request.POST)
 
@@ -188,7 +188,7 @@ class AdminController(BaseController):
                              request_method='POST',
                              name='update-weekly-stats')
     def update_weekly_stats_post(self):
-        """Call all the mthods to update all stats in the database"""
+        """Call all the methods to update all stats in the database"""
         vm = UpdateWeeklyStats()
         vm.from_dict(self.request.POST)
 
