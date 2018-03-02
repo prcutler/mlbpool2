@@ -9,7 +9,7 @@ from mlbpool.data.seasoninfo import SeasonInfo
 from mlbpool.data.account import Account
 from mlbpool.services.gameday_service import GameDayService
 from mlbpool.services.count_service import CountService
-import pendulum
+from mlbpool.services.time_service import TimeService
 
 
 class PicksController(BaseController):
@@ -62,7 +62,7 @@ class PicksController(BaseController):
         # Use this one for production:
         # now_time = pendulum.now(tz=pendulum.timezone('America/New_York'))
         # Use this one for testing:
-        now_time = pendulum.create(2017, 3, 17, 18, 59, tz='America/New_York')
+        now_time = TimeService.get_time()
 
         # Check if the season has already started
         if now_time > season_start_date:
@@ -237,12 +237,7 @@ class PicksController(BaseController):
 
         else:
 
-            # Change now_time for testing
-            # Use this one for production:
-            # now_time = pendulum.now(tz=pendulum.timezone('America/New_York'))
-            # Use this one for testing:
-            now_time = pendulum.create(2017, 7, 10, 18, 59, tz='America/New_York')
-            # print("Change picks now_time is:", now_time)
+            now_time = TimeService.get_time()
 
             if now_time < GameDayService.season_opener_date() and GameDayService.all_star_break(now_time) is False:
 
@@ -330,11 +325,7 @@ class PicksController(BaseController):
         vm.user_id = self.logged_in_user_id
         vm.season = season
 
-        # Change now_time for testing
-        # Use this one for production:
-        # now_time = pendulum.now(tz=pendulum.timezone('America/New_York'))
-        # Use this one for testing:
-        now_time = pendulum.create(2017, 7, 10, 18, 59, tz='America/New_York')
+        now_time = TimeService.get_time()
 
         if GameDayService.season_opener_date() < now_time:
             total_changes = CountService.change_picks_count(
@@ -354,7 +345,7 @@ class PicksController(BaseController):
 
             #            print(now_time, total_changes, "Why is this not working?")
 
-            if total_changes >= 14:
+            if total_changes >= 13:
                 self.redirect('/picks/too-many')
 
             else:
