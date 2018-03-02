@@ -1,4 +1,8 @@
 import pendulum
+from pendulum import Pendulum
+
+# Needed for pymysql to understand Pendulum datetimes
+pymysql.converters.conversions[Pendulum] = pymysql.converters.escape_datetime
 
 
 class TimeService:

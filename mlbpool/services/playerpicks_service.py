@@ -7,9 +7,7 @@ from mlbpool.services.gameday_service import GameDayService
 import pendulum
 import pymysql.converters
 from pendulum import Pendulum
-
-# Needed for pymysql to understand Pendulum datetimes
-pymysql.converters.conversions[Pendulum] = pymysql.converters.escape_datetime
+from mlbpool.services.time_service import TimeService
 
 
 class PlayerPicksService:
@@ -106,12 +104,7 @@ class PlayerPicksService:
         season_row = session.query(SeasonInfo.current_season).filter(SeasonInfo.id == 1).first()
         season = season_row.current_season
 
-        # Change now_time for testing
-        # Use this one for production:
-        # now_time = pendulum.now(tz=pendulum.timezone('America/New_York'))
-        # Use this one for testing:
-        now_time = pendulum.create(2018, 3, 10, 18, 59, tz='America/New_York')
-        print("Season opener date:", GameDayService.season_opener_date(), "Now time", now_time)
+        now_time = TimeService.get_time()
 
         # Add American League team picks
         al_east_winner_db = PlayerPicks(user_id=user_id, season=season, date_submitted=now_time, league_id=0,
@@ -326,12 +319,7 @@ class PlayerPicksService:
         changed should be 1.  UniquePicksService will then assign it half points.  Also, if the season has not 
         started need to update the original_pick column (which is not done at the All-Star break)"""
 
-        # Change now_time for testing
-        # Use this one for production:
-        # now_time = pendulum.now(tz=pendulum.timezone('America/New_York'))
-        # Use this one for testing:
-        now_time = pendulum.create(2017, 7, 10, 18, 59, tz='America/New_York')
-        print("Season opener date:", GameDayService.season_opener_date(), "Now time", now_time)
+        now_time = TimeService.get_time()
 
         if GameDayService.season_opener_date() > now_time:
             """Update the picks passed from change-picks.  If the season start date is later than the current time, 
