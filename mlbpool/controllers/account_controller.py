@@ -95,7 +95,7 @@ class AccountController(BaseController):
             return vm.to_dict()
 
         account = AccountService.create_account(vm.email, vm.first_name, vm.last_name, vm.password, vm.twitter)
-#        print("Registered new user: " + account.email)
+        print("Registered new user: " + account.email)
         cookie_auth.set_auth(self.request, account.id)
 
         message = f'Registered new MLBPool2 user:  {account.first_name} {account.last_name} {account.email}'

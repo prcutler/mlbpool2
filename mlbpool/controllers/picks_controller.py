@@ -10,6 +10,7 @@ from mlbpool.data.account import Account
 from mlbpool.services.gameday_service import GameDayService
 from mlbpool.services.count_service import CountService
 from mlbpool.services.time_service import TimeService
+from mlbpool.services.slack_service import SlackService
 
 
 class PicksController(BaseController):
@@ -157,6 +158,13 @@ class PicksController(BaseController):
         # Pass a player's picks to the service to be inserted in the db
 
         vm.user_id = self.logged_in_user_id
+        get_first_name = session.query(Account.first_name).filter(Account.id == self.logged_in_user_id) \
+            .first()
+        first_name = get_first_name[0]
+
+        get_last_name = session.query(Account.last_name).filter(Account.id == self.logged_in_user_id) \
+            .first()
+        last_name = get_first_name[0]
 
         player_picks = PlayerPicksService.get_player_picks(vm.al_east_winner_pick, vm.al_east_second_pick,
                                                            vm.al_east_last_pick,
@@ -184,7 +192,12 @@ class PicksController(BaseController):
 
         # Log that a user submitted picks
 
-        #        self.log.notice("Picks submitted by {}.".format(self.logged_in_user.email))
+        self.log.notice("Picks submitted by {}.".format(self.logged_in_user.email))
+
+        message = f'Picks submitted by MLBPool2 user:  {first_name} {last_name}'
+        print(message)
+
+        SlackService.send_message(message)
 
         # redirect
         self.redirect('/picks/completed')
@@ -397,11 +410,24 @@ class PicksController(BaseController):
                                                    vm.al_losses_pick, vm.nl_losses_pick,
                                                    vm.user_id)
 
-        session.close()
-
         # Log that a user changed picks
 
-        #        self.log.notice("Picks changed by {}.".format(self.logged_in_user.email))
+        self.log.notice("Picks changed by {}.".format(self.logged_in_user.email))
+
+        get_first_name = session.query(Account.first_name).filter(Account.id == self.logged_in_user_id) \
+            .first()
+        first_name = get_first_name[0]
+
+        get_last_name = session.query(Account.last_name).filter(Account.id == self.logged_in_user_id) \
+            .first()
+        last_name = get_last_name[0]
+
+        message = f'Picks updated by MLBPool2 user:  {first_name} {last_name}'
+        print(message)
+
+        SlackService.send_message(message)
+
+        session.close()
 
         # redirect
         self.redirect('/account')
