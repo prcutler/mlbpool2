@@ -157,6 +157,8 @@ class PicksController(BaseController):
 
         # Pass a player's picks to the service to be inserted in the db
 
+        session = DbSessionFactory.create_session()
+
         vm.user_id = self.logged_in_user_id
         get_first_name = session.query(Account.first_name).filter(Account.id == self.logged_in_user_id) \
             .first()
@@ -164,7 +166,7 @@ class PicksController(BaseController):
 
         get_last_name = session.query(Account.last_name).filter(Account.id == self.logged_in_user_id) \
             .first()
-        last_name = get_first_name[0]
+        last_name = get_last_name[0]
 
         player_picks = PlayerPicksService.get_player_picks(vm.al_east_winner_pick, vm.al_east_second_pick,
                                                            vm.al_east_last_pick,
@@ -198,6 +200,8 @@ class PicksController(BaseController):
         print(message)
 
         SlackService.send_message(message)
+
+        session.close()
 
         # redirect
         self.redirect('/picks/completed')
