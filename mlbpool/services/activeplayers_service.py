@@ -20,7 +20,7 @@ class ActivePlayersService:
         season = season_row.current_season
 
         response = requests.get('https://api.mysportsfeeds.com/v1.2/pull/mlb/' + str(season) +
-                                '-regular/active_players.json',
+                                '-regular/roster_players.json',
                                 auth=HTTPBasicAuth(secret.msf_username, secret.msf_pw))
 
         player_info = response.json()
