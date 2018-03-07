@@ -4,7 +4,7 @@ from requests.auth import HTTPBasicAuth
 from mlbpool.data.seasoninfo import SeasonInfo
 from mlbpool.data.dbsession import DbSessionFactory
 import mlbpool.data.config as config
-from dateutil import parser
+from mlbpool.services.time_service import TimeService
 
 
 # Set the timezone we will be working with
@@ -14,7 +14,7 @@ timezone = pendulum.timezone('America/New_York')
 # Use this one for production:
 # now_time = pendulum.now(tz=pendulum.timezone('America/New_York'))
 # Use this one for testing:
-now_time = pendulum.create(2017, 3, 17, 12, 15, tz='America/New_York')
+now_time = TimeService.get_time()
 
 
 def season_opener():
