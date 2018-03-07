@@ -83,9 +83,11 @@ class UniquePicksService:
 
             # TODO Add if / else statement depending on what the date is and modify the query to look at changed column
 
+            # Unique picks are 2 players - trying ct = 2 (instead of ct=1
+
             txtstr = "UPDATE PlayerPicks SET multiplier=2 WHERE player_id IN "
             txtstr += "(SELECT player_id FROM (select DISTINCT(player_id), COUNT(player_id) AS ct FROM PlayerPicks WHERE "
-            midstr = " GROUP BY player_id)PlayerPicks WHERE ct=1) "
+            midstr = " GROUP BY player_id)PlayerPicks WHERE ct=2) "
 
             condstr = " pick_type=" + str(pick_type) + " AND season=" + str(current_season)
 
