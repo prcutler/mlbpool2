@@ -22,6 +22,8 @@ class PlayerPicksService:
         division_team_list = session.query(TeamInfo).filter(TeamInfo.league_id == league_id) \
             .filter(TeamInfo.division_id == division_id).order_by(TeamInfo.name).all()
 
+        session.close()
+
         return division_team_list
 
     @staticmethod
@@ -36,6 +38,8 @@ class PlayerPicksService:
             .filter(ActiveMLBPlayers.position != position) \
             .filter(ActiveMLBPlayers.season == SeasonInfo.current_season) \
             .order_by(ActiveMLBPlayers.lastname).all()
+
+        session.close()
 
         return player_list
 
@@ -52,6 +56,8 @@ class PlayerPicksService:
             .filter(ActiveMLBPlayers.season == SeasonInfo.current_season) \
             .order_by(ActiveMLBPlayers.lastname).all()
 
+        session.close()
+
         return player_list
 
     @staticmethod
@@ -60,6 +66,8 @@ class PlayerPicksService:
         session = DbSessionFactory.create_session()
 
         al_wildcard_list = session.query(TeamInfo).filter(TeamInfo.league_id == 0).order_by(TeamInfo.name).all()
+
+        session.close()
 
         return al_wildcard_list
 
@@ -70,6 +78,8 @@ class PlayerPicksService:
 
         nl_wildcard_list = session.query(TeamInfo).filter(TeamInfo.league_id == 1).order_by(TeamInfo.name).all()
 
+        session.close()
+
         return nl_wildcard_list
 
     @staticmethod
@@ -78,6 +88,8 @@ class PlayerPicksService:
         session = DbSessionFactory.create_session()
         season_row = session.query(SeasonInfo.current_season).filter(SeasonInfo.id == 1).first()
         season = season_row.current_season
+
+        session.close()
 
         return season
 
