@@ -6,6 +6,8 @@ from requests.auth import HTTPBasicAuth
 from mlbpool.data.seasoninfo import SeasonInfo
 from mlbpool.data.weekly_team_stats import WeeklyTeamStats
 import pendulum
+from mlbpool.data.weekly_al_player_stats import WeeklyALPlayerStats
+from mlbpool.data.weekly_nl_player_stats import WeeklyNLPlayerStats
 
 
 def get_seasons():
@@ -33,7 +35,7 @@ class WeeklyStatsService:
     Get weekly stats for each player for hitting (batting average, home runs and RBIs) and pitching (ERA and
     wins by pitcher)"""
     @staticmethod
-    def get_hitter_stats():
+    def get_al_hitter_stats():
         """Get stats for hitters (home runs, batting average and ERA) from MySportsFeeds and insert into the database"""
 
         session = DbSessionFactory.create_session()
@@ -44,7 +46,7 @@ class WeeklyStatsService:
 
         response = requests.get('https://api.mysportsfeeds.com/v1.2/pull/mlb/' + str(season) +
                                 '-regular/cumulative_player_stats.json?playerstats=HR,AVG,RBI,PA'
-                                '&position=C,1B,2B,SS,3B,OF',
+                                '&position=C,1B,2B,SS,3B,OF&team=BAL,BOS,NYY,TB,CLE,DET,KC,CWS,MIN,TEX,HOU,SEA,LAA,OAK',
                                 auth=HTTPBasicAuth(config.msf_username, config.msf_pw))
 
         player_json = response.json()
@@ -64,11 +66,11 @@ class WeeklyStatsService:
 
             update_date = get_update_date()
 
-            weekly_player_stats = WeeklyMLBPlayerStats(player_id=player_id, season=season, home_runs=home_runs,
-                                                       RBI=RBI, batting_average=batting_average,
-                                                       plate_appearances=plate_appearances,
-                                                       player_games_played=player_games_played,
-                                                       update_date=update_date)
+            weekly_player_stats = WeeklyALPlayerStats(player_id=player_id, season=season, home_runs=home_runs,
+                                                      RBI=RBI, batting_average=batting_average,
+                                                      plate_appearances=plate_appearances,
+                                                      player_games_played=player_games_played,
+                                                      update_date=update_date)
 
             session.add(weekly_player_stats)
 
@@ -77,7 +79,7 @@ class WeeklyStatsService:
             session.close()
 
     @staticmethod
-    def get_pitcher_stats():
+    def get_al_pitcher_stats():
         """Get cumulative Pitcher stats (wins and ERA) from MySportsFeeds and insert into the database"""
 
         session = DbSessionFactory.create_session()
@@ -87,7 +89,8 @@ class WeeklyStatsService:
         season_start = session.query(SeasonInfo).filter(SeasonInfo.season_start_date == '1').first()
 
         response = requests.get('https://api.mysportsfeeds.com/v1.2/pull/mlb/' + str(season) +
-                                '-regular/cumulative_player_stats.json?playerstats=W,ERA,IP&position=P',
+                                '-regular/cumulative_player_stats.json?playerstats=W,ERA,IP&position=P'
+                                '&team=&team=BAL,BOS,NYY,TB,CLE,DET,KC,CWS,MIN,TEX,HOU,SEA,LAA,OAK',
                                 auth=HTTPBasicAuth(config.msf_username, config.msf_pw))
 
         player_json = response.json()
@@ -105,10 +108,96 @@ class WeeklyStatsService:
 
             update_date = get_update_date()
 
-            weekly_player_stats = WeeklyMLBPlayerStats(player_id=player_id, season=season,
-                                                       ERA=ERA, pitcher_wins=pitcher_wins,
-                                                       innings_pitched=innings_pitched,
-                                                       update_date=update_date)
+            weekly_player_stats = WeeklyALPlayerStats(player_id=player_id, season=season,
+                                                      ERA=ERA, pitcher_wins=pitcher_wins,
+                                                      innings_pitched=innings_pitched,
+                                                      update_date=update_date)
+
+            session.add(weekly_player_stats)
+
+            session.commit()
+
+            session.close()
+
+    @staticmethod
+    def get_nl_hitter_stats():
+        """Get stats for hitters (home runs, batting average and ERA) from MySportsFeeds and insert into the database"""
+
+        session = DbSessionFactory.create_session()
+
+        season_row = session.query(SeasonInfo).filter(SeasonInfo.id == '1').first()
+        season = season_row.current_season
+        season_start = session.query(SeasonInfo).filter(SeasonInfo.season_start_date == '1').first()
+
+        response = requests.get('https://api.mysportsfeeds.com/v1.2/pull/mlb/' + str(season) +
+                                '-regular/cumulative_player_stats.json?playerstats=HR,AVG,RBI,PA'
+                                '&position=C,1B,2B,SS,3B,OF'
+                                '&team=WAS,NYM,MIA,PHI,ATL,CHC,PIT,STL,MIL,CIN,SF,LAD,COL,SD,ARI',
+                                auth=HTTPBasicAuth(config.msf_username, config.msf_pw))
+
+        player_json = response.json()
+        player_data = player_json["cumulativeplayerstats"]["playerstatsentry"]
+
+        for players in player_data:
+            try:
+                player_id = players["player"]["ID"]
+                home_runs = players["stats"]["Homeruns"]["#text"]
+                RBI = players["stats"]["RunsBattedIn"]["#text"]
+                batting_average = players["stats"]["BattingAvg"]["#text"]
+                plate_appearances = players["stats"]["PlateAppearances"]["#text"]
+                player_games_played = players["stats"]["GamesPlayed"]["#text"]
+
+            except KeyError:
+                continue
+
+            update_date = get_update_date()
+
+            weekly_player_stats = WeeklyNLPlayerStats(player_id=player_id, season=season, home_runs=home_runs,
+                                                      RBI=RBI, batting_average=batting_average,
+                                                      plate_appearances=plate_appearances,
+                                                      player_games_played=player_games_played,
+                                                      update_date=update_date)
+
+            session.add(weekly_player_stats)
+
+            session.commit()
+
+            session.close()
+
+    @staticmethod
+    def get_nl_pitcher_stats():
+        """Get cumulative Pitcher stats (wins and ERA) from MySportsFeeds and insert into the database"""
+
+        session = DbSessionFactory.create_session()
+
+        season_row = session.query(SeasonInfo).filter(SeasonInfo.id == '1').first()
+        season = season_row.current_season
+        season_start = session.query(SeasonInfo).filter(SeasonInfo.season_start_date == '1').first()
+
+        response = requests.get('https://api.mysportsfeeds.com/v1.2/pull/mlb/' + str(season) +
+                                '-regular/cumulative_player_stats.json?playerstats=W,ERA,IP&position=P'
+                                '&team=&team=WAS,NYM,MIA,PHI,ATL,CHC,PIT,STL,MIL,CIN,SF,LAD,COL,SD,ARI',
+                                auth=HTTPBasicAuth(config.msf_username, config.msf_pw))
+
+        player_json = response.json()
+        player_data = player_json["cumulativeplayerstats"]["playerstatsentry"]
+
+        for players in player_data:
+            try:
+                player_id = players["player"]["ID"]
+                ERA = players["stats"]["EarnedRunAvg"]["#text"]
+                pitcher_wins = players["stats"]["Wins"]["#text"]
+                innings_pitched = players["stats"]["InningsPitched"]["#text"]
+
+            except KeyError:
+                continue
+
+            update_date = get_update_date()
+
+            weekly_player_stats = WeeklyNLPlayerStats(player_id=player_id, season=season,
+                                                      ERA=ERA, pitcher_wins=pitcher_wins,
+                                                      innings_pitched=innings_pitched,
+                                                      update_date=update_date)
 
             session.add(weekly_player_stats)
 
