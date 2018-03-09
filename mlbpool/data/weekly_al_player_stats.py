@@ -4,7 +4,7 @@ import sqlalchemy
 
 # Store all individual MLB Player stats in this table
 class WeeklyALPlayerStats(SqlAlchemyBase):
-    __tablename__ = 'WeeklyMLBPlayerStats'
+    __tablename__ = 'WeeklyALPlayerStats'
     primary_key = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)
     season = sqlalchemy.Column(sqlalchemy.Integer, index=True)
     update_date = sqlalchemy.Column(sqlalchemy.Date, index=True)
