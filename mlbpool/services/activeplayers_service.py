@@ -24,7 +24,7 @@ class ActivePlayersService:
                                 auth=HTTPBasicAuth(secret.msf_username, secret.msf_pw))
 
         player_info = response.json()
-        player_list = player_info["activeplayers"]["playerentry"]
+        player_list = player_info["rosterplayers"]["playerentry"]
 
         for players in player_list:
             try:
