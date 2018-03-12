@@ -360,9 +360,9 @@ class PicksController(BaseController):
                 vm.al_wildcard1_pick, vm.nl_wildcard1_pick,
                 vm.al_wildcard2_pick, vm.nl_wildcard2_pick)
 
-            #            print(now_time, total_changes, "Why is this not working?")
+            print(now_time, 'Total number of changes is', total_changes)
 
-            if total_changes >= 13:
+            if total_changes >= 15:
                 self.redirect('/picks/too-many')
 
             else:
