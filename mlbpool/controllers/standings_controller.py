@@ -5,6 +5,7 @@ from mlbpool.services.standings_service import StandingsService
 from mlbpool.data.dbsession import DbSessionFactory
 from mlbpool.data.seasoninfo import SeasonInfo
 from mlbpool.data.weekly_player_results import WeeklyPlayerResults
+from mlbpool.data.player_picks import PlayerPicks
 from mlbpool.viewmodels.standings_season_points_viewmodel import StandingsPointsViewModel
 
 
@@ -29,14 +30,13 @@ class StandingsController(BaseController):
         current_standings = StandingsService.display_weekly_standings()
 
         session = DbSessionFactory.create_session()
-        season_row = session.query(SeasonInfo.current_season).filter(SeasonInfo.id == season).first()
-        season_history = season_row.current_season
+#         season_history = session.query(PlayerPicks.season).distinct(PlayerPicks.season)
 
         date_query = session.query(WeeklyPlayerResults.update_date)\
             .order_by(WeeklyPlayerResults.update_date.desc()).first()
         date_updated = date_query[0]
 
-        return {'current_standings': current_standings, 'season': season_history, 'date_updated': date_updated}
+        return {'current_standings': current_standings, 'season': season, 'date_updated': date_updated}
 
     @pyramid_handlers.action(renderer='templates/standings/player-standings.pt',
                              request_method='GET',

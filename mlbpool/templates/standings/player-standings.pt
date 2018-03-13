@@ -22,9 +22,9 @@
                            <span tal:repeat="p player_standings" tal:switch="p.pick_type">
 
                             <tr tal:case="1">
-                                <td tal:condition="(p.rank==1)" tal:content="string:${p.conference} ${p.division} Winner"></td>
-                                <td tal:condition="(p.rank==2)" tal:content="string:${p.conference} ${p.division} Second Place"></td>
-                                <td tal:condition="(p.rank==4)" tal:content="string:${p.conference} ${p.division} Last Place"></td>
+                                <td tal:condition="(p.rank==1)" tal:content="string:${p.league} ${p.division} Winner"></td>
+                                <td tal:condition="(p.rank==2)" tal:content="string:${p.league} ${p.division} Second Place"></td>
+                                <td tal:condition="(p.rank==5)" tal:content="string:${p.league} ${p.division} Last Place"></td>
 
                                 <td tal:content="string:${p.name}"></td>
                                 <td tal:condition="(p.multiplier==1)" tal:content="string:No"></td>
@@ -34,7 +34,15 @@
                             </tr>
 
                               <tr tal:case="3">
-                                  <td tal:content="string:${p.conference} Most points scored in season"></td>
+                                  <td tal:content="string:${p.league} Most Wins"></td>
+                                  <td tal:content="string:${p.name}"></td>
+                                  <td tal:condition="(p.multiplier==1)" tal:content="string:No"></td>
+                                  <td tal:condition="(p.multiplier==2)" tal:content="string:Yes"></td>
+                                  <td tal:content="string:${p.points}"></td>
+                              </tr>
+
+                               <tr tal:case="3">
+                                  <td tal:content="string:${p.league} Most Losses"></td>
                                   <td tal:content="string:${p.name}"></td>
                                   <td tal:condition="(p.multiplier==1)" tal:content="string:No"></td>
                                   <td tal:condition="(p.multiplier==2)" tal:content="string:Yes"></td>
@@ -42,7 +50,7 @@
                               </tr>
 
                             <tr tal:case="4">
-                                <td tal:content="string:${p.conference} Passing yards"></td>
+                                <td tal:content="string:${p.league} Home Runs"></td>
                                 <td tal:content="string:${p.firstname} ${p.lastname}"></td>
                                 <td tal:condition="(p.multiplier==1)" tal:content="string:No"></td>
                                 <td tal:condition="(p.multiplier==2)" tal:content="string:Yes"></td>
@@ -50,35 +58,35 @@
                             </tr>
 
                             <tr tal:case="5">
-                                <td tal:content="string:${p.conference} Rushing yards"></td>
+                                <td tal:content="string:${p.league} Batting Averages"></td>
                                 <td tal:content="string:${p.firstname} ${p.lastname}"></td>
                                 <td tal:condition="(p.multiplier==1)" tal:content="string:No"></td>
                                 <td tal:condition="(p.multiplier==2)" tal:content="string:Yes"></td>
                                 <td tal:content="string:${p.points}"></td>
                             </tr>
                             <tr tal:case="6">
-                                <td tal:content="string:${p.conference} Receiving yards"></td>
+                                <td tal:content="string:${p.league} RBIs"></td>
                                 <td tal:content="string:${p.firstname} ${p.lastname}"></td>
                                 <td tal:condition="(p.multiplier==1)" tal:content="string:No"></td>
                                 <td tal:condition="(p.multiplier==2)" tal:content="string:Yes"></td>
                                 <td tal:content="string:${p.points}"></td>
                             </tr>
                             <tr tal:case="7">
-                                <td tal:content="string:${p.conference} Sacks"></td>
+                                <td tal:content="string:${p.league} Pitcher Wins"></td>
                                 <td tal:content="string:${p.firstname} ${p.lastname}"></td>
                                 <td tal:condition="(p.multiplier==1)" tal:content="string:No"></td>
                                 <td tal:condition="(p.multiplier==2)" tal:content="string:Yes"></td>
                                 <td tal:content="string:${p.points}"></td>
                             </tr>
                             <tr tal:case="8">
-                                <td tal:content="string:${p.conference} Interceptions"></td>
+                                <td tal:content="string:${p.league} ERA"></td>
                                 <td tal:content="string:${p.firstname} ${p.lastname}"></td>
                                 <td tal:condition="(p.multiplier==1)" tal:content="string:No"></td>
                                 <td tal:condition="(p.multiplier==2)" tal:content="string:Yes"></td>
                                 <td tal:content="string:${p.points}"></td>
                             </tr>
                             <tr tal:case="9">
-                                <td tal:content="string:${p.conference} Wildcard"></td>
+                                <td tal:content="string:${p.league} Wildcard"></td>
                                 <td tal:content="string: ${p.name}"></td>
                                 <td tal:condition="(p.multiplier==1)" tal:content="string:No"></td>
                                 <td tal:condition="(p.multiplier==2)" tal:content="string:Yes"></td>

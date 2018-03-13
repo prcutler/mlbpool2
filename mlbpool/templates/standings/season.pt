@@ -7,7 +7,7 @@
                 <div class="col-md-6">
 
 
-                    <h1>${season} Week Standings through ${date_updated}</h1>
+                    <h1>${season} Standings through ${date_updated}</h1>
 
                       <table class="table table-striped">
                           <thead>
@@ -19,7 +19,7 @@
                           <tbody>
                            <span tal:repeat="s current_standings" >
                                <tr>
-                                   <td><a href="standings/player-standings/${s.id}">${s.first_name} ${s.last_name}</a></td>
+                                   <td><a href="../player-standings/${s.id}">${s.first_name} ${s.last_name}</a></td>
                                    <td tal:content="string:${s.total_points}"></td>
                                </tr>
                        </span>

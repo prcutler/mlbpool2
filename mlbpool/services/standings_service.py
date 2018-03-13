@@ -46,9 +46,9 @@ class StandingsService:
 
         sqlstr = "SELECT coalesce(w.points_earned,0) as points, a.first_name, a.last_name, w.pick_id, p.pick_type, p.rank, p.multiplier, t.name, "
         sqlstr += "c.league, d.division, ap.firstname, ap.lastname "
-        sqlstr += "FROM PlayerPicks p, Account a "
+        sqlstr += "FROM (PlayerPicks p, Account a) "
         sqlstr += "LEFT JOIN WeeklyPlayerResults w on p.pick_id = w.pick_id "
-        sqlstr += "AND w.week = (SELECT MAX(week) from WeeklyPlayerResults  WHERE season=" + str(season) + ") "
+        sqlstr += "AND w.update_date = (SELECT MAX(update_date) from WeeklyPlayerResults  WHERE season=" + str(season) + ") "
         sqlstr += "LEFT JOIN  DivisionInfo d on p.division_id=d.division_id "
         sqlstr += "LEFT JOIN LeagueInfo c ON p.league_id= c.league_id "
         sqlstr += "LEFT JOIN TeamInfo t ON p.team_id = t.team_id "
@@ -76,7 +76,7 @@ class StandingsService:
         sqlstr = "SELECT SUM(w.points_earned) as total_points, a.first_name, a.last_name, a.id from WeeklyPlayerResults w, PlayerPicks p, Account a "
         sqlstr += "WHERE w.pick_id = p.pick_id AND p.user_id = a.id "
         sqlstr += "AND w.season = " + str(season) + " "
-        sqlstr += "AND w.week = (SELECT MAX(week) from WeeklyPlayerResults WHERE season = " + str(season) + ") "
+        sqlstr += "AND w.update_date = (SELECT MAX(update_date) from WeeklyPlayerResults WHERE season = " + str(season) + ") "
         sqlstr += "GROUP BY p.user_id "
         sqlstr += "ORDER BY total_points DESC"
 
@@ -113,7 +113,7 @@ class StandingsService:
             # start with pick type 4 and continue through 8
 
             if i == 4:
-                cattype = "homeruns"
+                cattype = "home_runs"
             elif i == 5:
                 cattype ="batting_average"
             elif i == 6:
@@ -124,32 +124,32 @@ class StandingsService:
                 cattype = "ERA"
 
 
-            sqlstr = "INSERT INTO WeeklyPlayerResults (pick_id, season, week, points_earned) "
-            sqlstr += "SELECT t1.pick_id as pick_id, t1.season as season, t1.week as week, pts.points*t1.multiplier as points_earned "
+            sqlstr = "INSERT INTO WeeklyPlayerResults (pick_id, season, update_date, points_earned) "
+            sqlstr += "SELECT t1.pick_id as pick_id, t1.season as season, t1.update_date as update_date, (pts.points*t1.multiplier*t1.changed) as points_earned "
             sqlstr += "FROM "
-            sqlstr += "(SELECT p.pick_id, p.user_id, p.multiplier, p.player_id, "
+            sqlstr += "(SELECT p.pick_id, p.user_id, p.multiplier, IF(p.changed=1,0.5,1) as changed, p.player_id, "
             sqlstr += "(SELECT count(*) from WeeklyMLBPlayerStats as w2, ActiveMLBPlayers as ap, "
             sqlstr += "TeamInfo as t "
             sqlstr += "WHERE "
-            sqlstr += "w2.week = " + str(week) + " "
+            sqlstr += "w2.update_date = (SELECT MAX(update_date) from WeeklyMLBPlayerStats WHERE season = " + str(season) + ") "
             sqlstr += "AND w2.season = " + str(season) + " "
             sqlstr += "AND w2.player_id = ap.player_id "
             sqlstr += "AND ap.team_id = t.team_id "
             sqlstr += "AND t.league_id = " + str(league) + " "
             sqlstr += "AND W2." + cattype + ">w." + cattype + ")+1 as rank, "
-            sqlstr += "w.week, "
+            sqlstr += "w.update_date, "
             sqlstr += "w.season "
             sqlstr += "FROM WeeklyMLBPlayerStats w, PlayerPicks p "
             sqlstr += "WHERE w.player_id = p.player_id "
             sqlstr += "AND  w.season = " + str(season) + " "
-            sqlstr += "AND w.week = " + str(week) + " "
+            sqlstr += "AND w.update_date = (SELECT MAX(update_date) from WeeklyMLBPlayerStats WHERE season = " + str(season) + ") "
             sqlstr += "AND p.pick_type = " + str(i) + " "
             sqlstr += "AND p.league_id = " + str(league) + " "
-            sqlstr += "AND w." + cattype + " not null "
+            sqlstr += "AND w." + cattype + " IS NOT NULL "
             sqlstr += "ORDER BY rank) as t1, PickTypePoints pts "
             sqlstr += "WHERE "
             sqlstr += "pts.pick_type_id = " + str(i) + " "
-            sqlstr += "AND t1.rank = pts.place"
+            sqlstr += "AND t1.rank = pts.rank"
 
             session.execute(sqlstr)
             session.commit()
@@ -168,66 +168,63 @@ class StandingsService:
         session = DbSessionFactory.create_session()
 
         season = get_seasons()
-        week = get_week()
+        #week = get_week()
 
         # this does all type 1 points
-        sqlstr = "INSERT INTO WeeklyPlayerResults(pick_id, season, week, points_earned) "
-        sqlstr += "SELECT pp.pick_id, w.season, w.week, p.points * pp.multiplier as points_earned "
+        sqlstr = "INSERT INTO WeeklyPlayerResults(pick_id, season, update_date, points_earned) "
+        sqlstr += "SELECT pp.pick_id, w.season, w.update_date, p.points * pp.multiplier* (IF(pp.changed=1,0.5,1)) as points_earned "
         sqlstr += "FROM PlayerPicks pp "
         sqlstr += "LEFT JOIN WeeklyTeamStats w on pp.rank=w.division_rank and pp.team_id=w.team_id "
         sqlstr += "LEFT JOIN TeamInfo t on pp.team_id= t.team_id "
         sqlstr += "LEFT JOIN PickTypePoints p on pp.pick_type = p.pick_type_id "
         sqlstr += "WHERE pp.pick_type = 1 "
         sqlstr += "AND w.season = " + str(season) + " "
-        sqlstr += "AND w.week = " + str(week) + " "
+        sqlstr += "AND w.update_date = (SELECT MAX(update_date) from WeeklyTeamStats WHERE season = " + str(season) + ") "
         sqlstr += "AND pp.league_id = t.league_id "
         sqlstr += "AND pp.division_id = t.division_id "
-        sqlstr += "AND p.place = w.division_rank "
+        sqlstr += "AND p.rank = w.division_rank "
         sqlstr += "ORDER BY pp.user_id"
 
         session.execute(sqlstr)
         session.commit()
 
-        # type 3 team wins points:
-        # TODO Need a similar function for type 2 - team losses - Kelly
-        league = 0
-        while league < 2:
-            sqlstr = "INSERT INTO WeeklyPlayerResults(pick_id, season, week, points_earned) "
-            sqlstr += "SELECT t1.pick_id as pick_id, t1.season as season, t1.week as week, pts.points * t1.multiplier as points_earned "
-            sqlstr += "FROM (SELECT p.pick_id, p.user_id, p.multiplier, p.team_id, "
-            sqlstr += "(SELECT count(*) FROM WeeklyTeamStats as w2, TeamInfo as t "
-            sqlstr += "WHERE w2.team_id = t.team_id "
-            sqlstr += "AND w2.week = " + str(week) + " "
-            sqlstr += "AND w2.season = " + str(season) + " "
-            sqlstr += "AND t.league_id = " + str(league) + " "
-            sqlstr += "AND w2.points_for > w.points_for)+1 as rank, "
-            sqlstr += "w.week, w.season "
-            sqlstr += "FROM WeeklyTeamStats w, PlayerPicks p "
-            sqlstr += "WHERE w.team_id = p.team_id "
-            sqlstr += "AND w.season = " + str(season) + " "
-            sqlstr += "AND w.week = " + str(week) + " "
-            sqlstr += "AND p.pick_type = 3 "
-            sqlstr += "AND p.league_id = " + str(league) + " "
-            sqlstr += "AND w.points_for not null "
-            sqlstr += "ORDER BY rank) as t1, PickTypePoints pts "
-            sqlstr += "WHERE "
-            sqlstr += "pts.pick_type_id = 3 "
-            sqlstr += "AND t1.rank = pts.place"
+        # type 2 team loss points:
+        sqlstr = "INSERT INTO WeeklyPlayerResults(pick_id, season, update_date, points_earned) "
+        sqlstr += "SELECT pp.pick_id, w.season, w.update_date, p.points * pp.multiplier * (IF(pp.changed=1, 0.5, 1)) as points_earned "
+        sqlstr += "FROM PlayerPicks pp LEFT JOIN WeeklyTeamStats w on pp.team_id = w.team_id "
+        sqlstr += "LEFT JOIN PickTypePoints p on pp.pick_type = p.pick_type_id "
+        sqlstr += "WHERE pp.pick_type = 2 "
+        sqlstr += "AND w.season = " + str(season) + " "
+        sqlstr += "AND w.update_date = (SELECT MAX(update_date) from WeeklyTeamStats WHERE season = " + str(
+            season) + ") "
+        sqlstr += "AND w.league_rank = 15"
 
-            session.execute(sqlstr)
-            session.commit()
-            league += 1
+        session.execute(sqlstr)
+        session.commit()
+
+        # type 3 team wins points:
+        sqlstr = "INSERT INTO WeeklyPlayerResults(pick_id, season, update_date, points_earned) "
+        sqlstr += "SELECT pp.pick_id, w.season, w.update_date, p.points * pp.multiplier * (IF(pp.changed=1, 0.5, 1)) as points_earned "
+        sqlstr += "FROM PlayerPicks pp LEFT JOIN WeeklyTeamStats w on pp.team_id = w.team_id "
+        sqlstr += "LEFT JOIN PickTypePoints p on pp.pick_type = p.pick_type_id "
+        sqlstr += "WHERE pp.pick_type = 3 "
+        sqlstr += "AND w.season = " + str(season) + " "
+        sqlstr += "AND w.update_date = (SELECT MAX(update_date) from WeeklyTeamStats WHERE season = " + str(season) + ") "
+        sqlstr += "AND w.league_rank = 1"
+
+        session.execute(sqlstr)
+        session.commit()
+
 
         # type 9 points - wildcard - (rank 4,5 - NFLPool was 5,6)
-        sqlstr = "INSERT INTO WeeklyPlayerResults (pick_id, season, week, points_earned) "
-        sqlstr += "SELECT p.pick_id, w.season, w.week, pts.points*p.multiplier as points_earned from PlayerPicks p, WeeklyTeamStats w, PickTypePoints pts "
+        sqlstr = "INSERT INTO WeeklyPlayerResults (pick_id, season, update_date, points_earned) "
+        sqlstr += "SELECT p.pick_id, w.season, w.update_date, pts.points*p.multiplier*IF(p.changed=1,0.5,1) as points_earned from PlayerPicks p, WeeklyTeamStats w, PickTypePoints pts "
         sqlstr += "WHERE p.pick_type = 9 "
         sqlstr += "AND p.pick_type = pts.pick_type_id "
         sqlstr += "AND w.league_rank in (4,5) "
         sqlstr += "AND w.team_id = p.team_id "
         sqlstr += "AND w.season = " + str(season) + " "
-        sqlstr += "AND w.week = " + str(week)
-
+        sqlstr += "AND w.update_date = (SELECT MAX(update_date) from WeeklyMLBPlayerStats WHERE season = " + str(season) + ") "
         session.execute(sqlstr)
         session.commit()
 
