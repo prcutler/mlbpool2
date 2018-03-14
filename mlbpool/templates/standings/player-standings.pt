@@ -41,7 +41,7 @@
                                   <td tal:content="string:${p.points}"></td>
                               </tr>
 
-                               <tr tal:case="3">
+                               <tr tal:case="2">
                                   <td tal:content="string:${p.league} Most Losses"></td>
                                   <td tal:content="string:${p.name}"></td>
                                   <td tal:condition="(p.multiplier==1)" tal:content="string:No"></td>
