@@ -816,8 +816,6 @@ class PlayerPicksService:
             """If the season has started, update picks at the All-Star Break.  Do not change the original pick column
             and update the changed column to 1."""
 
-            # TODO Should I be updating the date of when the pick was changed?
-
             # Update the AL East Winner Pick
             for pick in session.query(PlayerPicks.team_id).filter(PlayerPicks.user_id == user_id) \
                     .filter(PlayerPicks.season == season) \

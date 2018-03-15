@@ -191,7 +191,7 @@ class NewInstallService:
                 in each league, their rank would be 15th and assign rank == 15."""
 
                 rank = 15
-                points = 10
+                points = 20
 
                 pick_type_points = PickTypePoints(pick_type_id=pick_type_id, rank=rank, points=points)
                 session.add(pick_type_points)
@@ -204,7 +204,7 @@ class NewInstallService:
                 in each league, their rank would be 1st and assign rank == 1."""
 
                 rank = 1
-                points = 10
+                points = 20
 
                 pick_type_points = PickTypePoints(pick_type_id=pick_type_id, rank=rank, points=points)
                 session.add(pick_type_points)

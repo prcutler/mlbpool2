@@ -193,11 +193,11 @@ class AdminController(BaseController):
         vm.from_dict(self.request.POST)
 
         # Insert weekly team and player stats
-        WeeklyStatsService.get_hitter_stats()
-        WeeklyStatsService.get_pitcher_stats()
-        WeeklyStatsService.get_team_rankings()
-        WeeklyStatsService.get_league_standings()
-        WeeklyStatsService.get_tiebreaker()
+        #WeeklyStatsService.get_hitter_stats()
+        #WeeklyStatsService.get_pitcher_stats()
+        #WeeklyStatsService.get_team_rankings()
+        #WeeklyStatsService.get_league_standings()
+        #WeeklyStatsService.get_tiebreaker()
         StandingsService.update_player_pick_points()
         StandingsService.update_team_pick_points()
 
@@ -234,52 +234,6 @@ class AdminController(BaseController):
         vm.from_dict(self.request.POST)
 
         # Find all unique picks for each player
-        # team type picks
-        picktype = 1
-        league = 0
-        div = 1
-
-        # TODO The division numbers have changed from NFLPool to MLBPool (4 to 3) and rank is 5
-
-        while league < 2:
-            rank = 1
-            UniquePicksService.unique_team_picks(picktype, league, div, rank)
-
-            rank = 2
-            UniquePicksService.unique_team_picks(picktype, league, div, rank)
-
-            rank = 5
-            UniquePicksService.unique_team_picks(picktype, league, div, rank)
-
-            div += 1
-
-            if div > 3:
-                div = 1
-                league += 1
-
-        picktype = 2
-        league = 0
-        UniquePicksService.unique_team_picks(picktype, league)
-
-        league = 1
-        UniquePicksService.unique_team_picks(picktype, league)
-
-        picktype = 3
-        league = 0
-        UniquePicksService.unique_team_picks(picktype, league)
-
-        league = 1
-        UniquePicksService.unique_team_picks(picktype, league)
-
-        picktype = 9
-        league = 0
-        UniquePicksService.unique_team_picks(picktype, league)
-
-        league = 1
-        UniquePicksService.unique_team_picks(picktype, league)
-
-        picktype = 10
-        UniquePicksService.unique_team_picks(picktype)
 
         picktype = 4
         league = 0

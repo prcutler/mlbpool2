@@ -90,8 +90,7 @@ class UniquePicksService:
 
         # Calculate Unique Picks at season start
         if now_time < all_star_game:
-
-            # TODO Add if / else statement depending on what the date is and modify the query to look at changed column
+            print("HI!\n")
 
             # Unique picks are 2 players - trying ct = 2 (instead of ct=1
 
@@ -111,9 +110,7 @@ class UniquePicksService:
             session.commit()
 
         else:
-
-            # TODO Add the changed=1 column to the query below AND give players half the point value for changed picks
-
+            print("running the second one\n")
             txtstr = "UPDATE PlayerPicks SET multiplier=2 WHERE changed=1 and player_id IN "
             txtstr += "(SELECT player_id FROM (select DISTINCT(player_id), COUNT(player_id) AS ct FROM PlayerPicks WHERE "
             midstr = " GROUP BY player_id)PlayerPicks WHERE ct<3) "
