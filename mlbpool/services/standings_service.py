@@ -2,6 +2,8 @@ from mlbpool.data.dbsession import DbSessionFactory
 from sqlalchemy.orm import joinedload
 from mlbpool.data.player_picks import PlayerPicks
 from mlbpool.data.weekly_player_results import WeeklyPlayerResults
+from sqlalchemy import func
+from mlbpool.data.weekly_mlbplayer_stats import WeeklyMLBPlayerStats
 from _datetime import datetime
 from mlbpool.data.seasoninfo import SeasonInfo
 from mlbpool.data.account import Account
@@ -17,6 +19,13 @@ def get_seasons():
 
     return current_season
 
+def get_update_players_date(season):
+    session = DbSessionFactory.create_session()
+    qry = session.query(func.max(WeeklyMLBPlayerStats.update_date).label("max"))
+    res=qry.one()
+    latest_date = res.max
+    session.close()
+    return latest_date
 
 def get_week():
     # TODO This needs to be re-written - not using weeks in MLBPool
@@ -44,11 +53,11 @@ class StandingsService:
         if season is None:
             season = get_seasons()
 
-        sqlstr = "SELECT coalesce(w.points_earned,0) as points, a.first_name, a.last_name, w.pick_id, p.pick_type, p.rank, p.multiplier, t.name, "
+        sqlstr = "SELECT DISTINCT(w.pick_id), coalesce(w.points_earned,0) as points, a.first_name, a.last_name, p.pick_type, p.rank, p.multiplier, t.name, "
         sqlstr += "c.league, d.division, ap.firstname, ap.lastname "
         sqlstr += "FROM (PlayerPicks p, Account a) "
         sqlstr += "LEFT JOIN WeeklyPlayerResults w on p.pick_id = w.pick_id "
-        sqlstr += "AND w.update_date = (SELECT MAX(update_date) from WeeklyPlayerResults  WHERE season=" + str(season) + ") "
+        sqlstr += "AND w.update_date = (SELECT MAX(update_date) from WeeklyPlayerResults WHERE season=" + str(season) + ") "
         sqlstr += "LEFT JOIN  DivisionInfo d on p.division_id=d.division_id "
         sqlstr += "LEFT JOIN LeagueInfo c ON p.league_id= c.league_id "
         sqlstr += "LEFT JOIN TeamInfo t ON p.team_id = t.team_id "
@@ -57,6 +66,8 @@ class StandingsService:
         sqlstr += "p.user_id = a.id "
         sqlstr += "AND p.season = " + str(season) + " "
         sqlstr += "AND p.user_id = '" + player_id +"'"
+
+        print(sqlstr)
 
         session = DbSessionFactory.create_session()
         standings = session.execute(sqlstr)
@@ -96,12 +107,12 @@ class StandingsService:
         """ Batting Average qualifier - A player must have 3.1 plate appearances (PA) per team game (
         for a total of 502 over the current 162-game season) to qualify for the batting title.
         Plate Appearances is a column in WeeklyMLBPlayers.  team_games_played is in WeeklyTeamStats.
-
         A pitcher to pitch one inning per game played by their team. In most years, that is 162 innings.
         team_games_played is in WeeklyTeamStats."""
 
         season = get_seasons()
-        week = get_week()
+
+        last_update = get_update_players_date(season)
 
         session = DbSessionFactory.create_session()
 
@@ -124,32 +135,101 @@ class StandingsService:
                 cattype = "ERA"
 
 
-            sqlstr = "INSERT INTO WeeklyPlayerResults (pick_id, season, update_date, points_earned) "
-            sqlstr += "SELECT t1.pick_id as pick_id, t1.season as season, t1.update_date as update_date, (pts.points*t1.multiplier*t1.changed) as points_earned "
-            sqlstr += "FROM "
-            sqlstr += "(SELECT p.pick_id, p.user_id, p.multiplier, IF(p.changed=1,0.5,1) as changed, p.player_id, "
-            sqlstr += "(SELECT count(*) from WeeklyMLBPlayerStats as w2, ActiveMLBPlayers as ap, "
-            sqlstr += "TeamInfo as t "
-            sqlstr += "WHERE "
-            sqlstr += "w2.update_date = (SELECT MAX(update_date) from WeeklyMLBPlayerStats WHERE season = " + str(season) + ") "
-            sqlstr += "AND w2.season = " + str(season) + " "
-            sqlstr += "AND w2.player_id = ap.player_id "
-            sqlstr += "AND ap.team_id = t.team_id "
-            sqlstr += "AND t.league_id = " + str(league) + " "
-            sqlstr += "AND W2." + cattype + ">w." + cattype + ")+1 as rank, "
-            sqlstr += "w.update_date, "
-            sqlstr += "w.season "
-            sqlstr += "FROM WeeklyMLBPlayerStats w, PlayerPicks p "
-            sqlstr += "WHERE w.player_id = p.player_id "
-            sqlstr += "AND  w.season = " + str(season) + " "
-            sqlstr += "AND w.update_date = (SELECT MAX(update_date) from WeeklyMLBPlayerStats WHERE season = " + str(season) + ") "
-            sqlstr += "AND p.pick_type = " + str(i) + " "
-            sqlstr += "AND p.league_id = " + str(league) + " "
-            sqlstr += "AND w." + cattype + " IS NOT NULL "
-            sqlstr += "ORDER BY rank) as t1, PickTypePoints pts "
-            sqlstr += "WHERE "
-            sqlstr += "pts.pick_type_id = " + str(i) + " "
-            sqlstr += "AND t1.rank = pts.rank"
+            #print(last_update)
+            if i == 4 or i == 6 or i ==7:
+                sqlstr = "INSERT INTO WeeklyPlayerResults (pick_id, season, update_date, points_earned) "
+                sqlstr += "SELECT t1.pick_id as pick_id, t1.season as season, t1.update_date as update_date, (pts.points*t1.multiplier*t1.changed) as points_earned "
+                sqlstr += "FROM "
+                sqlstr += "(SELECT p.pick_id, p.user_id, p.multiplier, IF(p.changed=1,0.5,1) as changed, p.player_id, "
+                sqlstr += "(SELECT count(*) from WeeklyMLBPlayerStats as w2, ActiveMLBPlayers as ap, "
+                sqlstr += "TeamInfo as t "
+                sqlstr += "WHERE "
+                sqlstr += "w2.update_date = '" + str(last_update) + "' "
+                sqlstr += "AND w2.season = " + str(season) + " "
+                sqlstr += "AND w2.player_id = ap.player_id "
+                sqlstr += "AND ap.team_id = t.team_id "
+                sqlstr += "AND t.league_id = " + str(league) + " "
+                sqlstr += "AND W2." + cattype + ">w." + cattype + ")+1 as rank, "
+                sqlstr += "w.update_date, "
+                sqlstr += "w.season "
+                sqlstr += "FROM WeeklyMLBPlayerStats w, PlayerPicks p "
+                sqlstr += "WHERE w.player_id = p.player_id "
+                sqlstr += "AND  w.season = " + str(season) + " "
+                sqlstr += "AND w.update_date = '" + str(last_update) + "' "
+                sqlstr += "AND p.pick_type = " + str(i) + " "
+                sqlstr += "AND p.league_id = " + str(league) + " "
+                sqlstr += "AND w." + cattype + " IS NOT NULL "
+                sqlstr += "ORDER BY rank) as t1, PickTypePoints pts "
+                sqlstr += "WHERE "
+                sqlstr += "pts.pick_type_id = " + str(i) + " "
+                sqlstr += "AND t1.rank = pts.rank"
+
+            elif i == 5:
+                sqlstr = "INSERT INTO WeeklyPlayerResults (pick_id, season, update_date, points_earned) "
+                sqlstr += "SELECT t1.pick_id as pick_id, t1.season as season, t1.update_date as update_date, (pts.points*t1.multiplier*t1.changed) as points_earned "
+                sqlstr += "FROM "
+                sqlstr += "(SELECT p.pick_id, p.user_id, p.multiplier, IF(p.changed=1,0.5,1) as changed, p.player_id, "
+                sqlstr += "(SELECT count(*) from WeeklyMLBPlayerStats as w2, ActiveMLBPlayers as ap, "
+                sqlstr += "TeamInfo as t, WeeklyTeamStats as wt  "
+                sqlstr += "WHERE "
+                sqlstr += "w2.update_date = '" + str(last_update) + "' "
+                sqlstr += "AND w." + cattype + " IS NOT NULL "
+                sqlstr += "AND w2.season = " + str(season) + " "
+                sqlstr += "AND w2.player_id = ap.player_id "
+                sqlstr += "AND ap.team_id = t.team_id "
+                sqlstr += "AND ap.team_id = wt.team_id "
+                sqlstr += "AND wt.update_date = '" + str(last_update) + "' "
+                sqlstr += "AND t.league_id = " + str(league) + " "
+                sqlstr += "AND w2.plate_appearances >= (3.1*wt.team_games_played) "
+                sqlstr += "AND W2." + cattype + ">w." + cattype + ")+1 as rank, "
+                sqlstr += "w.update_date, "
+                sqlstr += "w.season "
+                sqlstr += "FROM WeeklyMLBPlayerStats w, PlayerPicks p "
+                sqlstr += "WHERE w.player_id = p.player_id "
+                sqlstr += "AND  w.season = " + str(season) + " "
+                sqlstr += "AND w.update_date = '" + str(last_update) + "' "
+                sqlstr += "AND p.pick_type = " + str(i) + " "
+                sqlstr += "AND p.league_id = " + str(league) + " "
+                sqlstr += "AND w." + cattype + " IS NOT NULL "
+                sqlstr += "ORDER BY rank) as t1, PickTypePoints pts "
+                sqlstr += "WHERE "
+                sqlstr += "pts.pick_type_id = " + str(i) + " "
+                sqlstr += "AND t1.rank = pts.rank"
+
+            elif i == 8:
+                sqlstr = "INSERT INTO WeeklyPlayerResults (pick_id, season, update_date, points_earned) "
+                sqlstr += "SELECT t1.pick_id as pick_id, t1.season as season, t1.update_date as update_date, (pts.points*t1.multiplier*t1.changed) as points_earned "
+                sqlstr += "FROM "
+                sqlstr += "(SELECT p.pick_id, p.user_id, p.multiplier, IF(p.changed=1,0.5,1) as changed, p.player_id, "
+                sqlstr += "(SELECT count(*) from WeeklyMLBPlayerStats as w2, ActiveMLBPlayers as ap, "
+                sqlstr += "TeamInfo as t, WeeklyTeamStats as wt  "
+                sqlstr += "WHERE "
+                sqlstr += "w2.update_date = '" + str(last_update) + "' "
+                sqlstr += "AND w." + cattype + " IS NOT NULL "
+                sqlstr += "AND w." + cattype + " <> 0 "
+                sqlstr += "AND w2.season = " + str(season) + " "
+                sqlstr += "AND w2.player_id = ap.player_id "
+                sqlstr += "AND ap.team_id = t.team_id "
+                sqlstr += "AND ap.team_id = wt.team_id "
+                sqlstr += "AND w2.innings_pitched >= wt.team_games_played "
+                sqlstr += "AND wt.update_date = '" + str(last_update) + "' "
+                sqlstr += "AND t.league_id = " + str(league) + " "
+                sqlstr += "AND w2." + cattype + "<w." + cattype + ")+1 as rank, "
+                sqlstr += "w.update_date, "
+                sqlstr += "w.season "
+                sqlstr += "FROM WeeklyMLBPlayerStats w, PlayerPicks p "
+                sqlstr += "WHERE w.player_id = p.player_id "
+                sqlstr += "AND w.season = " + str(season) + " "
+                sqlstr += "AND w.update_date = '" + str(last_update) + "' "
+                sqlstr += "AND p.pick_type = " + str(i) + " "
+                sqlstr += "AND p.league_id = " + str(league) + " "
+                sqlstr += "AND w." + cattype + " IS NOT NULL "
+                sqlstr += "ORDER BY rank) as t1, PickTypePoints pts "
+                sqlstr += "WHERE "
+                sqlstr += "pts.pick_type_id = " + str(i) + " "
+                sqlstr += "AND t1.rank = pts.rank"
+
+            print(sqlstr)
 
             session.execute(sqlstr)
             session.commit()
@@ -241,5 +321,3 @@ class StandingsService:
         session.close()
 
         return seasons_played
-
-
