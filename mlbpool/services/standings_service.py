@@ -229,7 +229,7 @@ class StandingsService:
                 sqlstr += "pts.pick_type_id = " + str(i) + " "
                 sqlstr += "AND t1.rank = pts.rank"
 
-            print(sqlstr)
+            #print(sqlstr)
 
             session.execute(sqlstr)
             session.commit()

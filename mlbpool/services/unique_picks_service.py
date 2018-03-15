@@ -90,7 +90,6 @@ class UniquePicksService:
 
         # Calculate Unique Picks at season start
         if now_time < all_star_game:
-            print("HI!\n")
 
             # Unique picks are 2 players - trying ct = 2 (instead of ct=1
 
@@ -110,7 +109,6 @@ class UniquePicksService:
             session.commit()
 
         else:
-            print("running the second one\n")
             txtstr = "UPDATE PlayerPicks SET multiplier=2 WHERE changed=1 and player_id IN "
             txtstr += "(SELECT player_id FROM (select DISTINCT(player_id), COUNT(player_id) AS ct FROM PlayerPicks WHERE "
             midstr = " GROUP BY player_id)PlayerPicks WHERE ct<3) "

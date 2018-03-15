@@ -10,6 +10,7 @@ from mlbpool.data.weekly_al_player_stats import WeeklyALPlayerStats
 from mlbpool.data.weekly_nl_player_stats import WeeklyNLPlayerStats
 
 
+
 def get_seasons():
     """Get the current active season from the database"""
     session = DbSessionFactory.create_session()
@@ -471,4 +472,62 @@ class WeeklyStatsService:
             session.close()
 
 
+    @staticmethod
+    def trade_adjustments():
+        season = get_seasons()
 
+        session = DbSessionFactory.create_session()
+        #ASSUMES players are either pitcher or not
+        # update all except batting average
+        sqlstr = "UPDATE WeeklyMLBPlayerStats w "
+        sqlstr += "INNER JOIN InterleagueTrades i "
+        sqlstr += "ON i.player_id = w.player_id AND i.season=w.season "
+        sqlstr += "SET w.home_runs = (w.home_runs - i.home_runs), "
+        sqlstr += "w.at_bats = (w.at_bats - i.at_bats), "
+        sqlstr += "w.hits = (w.hits - i.hits), "
+        sqlstr += "w.plate_appearances = (w.RBI - i.RBI) "
+        sqlstr += "WHERE w.batting_average IS NOT NULL "
+        sqlstr += "AND w.season=" + str(season)
+        session.execute(sqlstr)
+        session.commit()
+        #print(sqlstr)
+
+        # update batting average
+        sqlstr = "UPDATE WeeklyMLBPlayerStats w "
+        sqlstr += "INNER JOIN InterleagueTrades i "
+        sqlstr += "ON i.player_id = w.player_id AND i.season=w.season "
+        sqlstr += "SET w.batting_average = (w.hits / w.at_bats) "
+        sqlstr += "WHERE w.batting_average IS NOT NULL "
+        sqlstr += "AND w.season=" + str(season)
+        session.execute(sqlstr)
+        session.commit()
+        #print(sqlstr)
+
+        #pitchers
+        sqlstr = "UPDATE WeeklyMLBPlayerStats w "
+        sqlstr += "INNER JOIN InterleagueTrades i "
+        sqlstr += "ON i.player_id = w.player_id AND i.season=w.season "
+        sqlstr += "SET w.pitcher_wins = (w.pitcher_wins-i.pitcher_wins), "
+        sqlstr += "w.earned_runs = (w.earned_runs-i.earned_runs), "
+        sqlstr += "w.innings_pitched=(w.innings_pitched-i.innings_pitched) "
+        sqlstr += "WHERE w.ERA IS NOT NULL "
+        sqlstr += "AND w.season=" + str(season)
+        session.execute(sqlstr)
+        session.commit()
+        #print(sqlstr)
+
+        #pitchers update ERA
+        sqlstr = "UPDATE WeeklyMLBPlayerStats w "
+        sqlstr += "INNER JOIN InterleagueTrades i "
+        sqlstr += "ON i.player_id = w.player_id AND i.season=w.season "
+        sqlstr += "SET "
+        sqlstr += "w.ERA = ROUND(((w.earned_runs/w.innings_pitched)*9),2) "
+        sqlstr += "WHERE w.ERA IS NOT NULL "
+        sqlstr += "AND w.season=" + str(season)
+
+        #print(sqlstr)
+
+        session.execute(sqlstr)
+        session.commit()
+
+        session.close()

@@ -198,6 +198,8 @@ class AdminController(BaseController):
         #WeeklyStatsService.get_team_rankings()
         #WeeklyStatsService.get_league_standings()
         #WeeklyStatsService.get_tiebreaker()
+
+        WeeklyStatsService.trade_adjustments()
         StandingsService.update_player_pick_points()
         StandingsService.update_team_pick_points()
 
