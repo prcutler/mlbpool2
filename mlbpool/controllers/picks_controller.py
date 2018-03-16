@@ -250,7 +250,7 @@ class PicksController(BaseController):
 
         elif find_changes == 1:
             print(find_changes)
-            self.redirect('/picks/too-many')
+            self.redirect('/picks/too-late-break')
 
         else:
 
@@ -439,6 +439,22 @@ class PicksController(BaseController):
     @pyramid_handlers.action(renderer='templates/picks/too-many.pt',
                              request_method='GET',
                              name='too-many')
+    def too_many(self):
+        if not self.logged_in_user_id:
+            print("Cannot view account page, you must be logged in")
+            self.redirect('/account/signin')
+
+        session = DbSessionFactory.create_session()
+        season_row = session.query(SeasonInfo.current_season).filter(SeasonInfo.id == '1').first()
+        season = season_row.current_season
+
+        session.close()
+
+        return {'season': season}
+
+    @pyramid_handlers.action(renderer='templates/picks/too-late-break.pt',
+                             request_method='GET',
+                             name='too-late-break')
     def too_many(self):
         if not self.logged_in_user_id:
             print("Cannot view account page, you must be logged in")

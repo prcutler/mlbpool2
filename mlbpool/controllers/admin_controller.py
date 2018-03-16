@@ -84,10 +84,10 @@ class AdminController(BaseController):
         vm.from_dict(self.request.POST)
 
         # Insert team info
-        NewInstallService.get_team_info()
+ #       NewInstallService.get_team_info()
         NewInstallService.create_division_info()
-        NewInstallService.create_league_info()
-        NewInstallService.create_pick_types()
+ #       NewInstallService.create_league_info()
+ #       NewInstallService.create_pick_types()
         NewInstallService.create_pick_type_points()
 
         # redirect
