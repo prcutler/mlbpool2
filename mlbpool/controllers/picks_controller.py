@@ -243,12 +243,12 @@ class PicksController(BaseController):
 
         find_changes = CountService.find_changes(self.logged_in_user_id)
 
-        if user_query is None and find_changes is 0:
+        if user_query is None:
 
             print("You have not submitted picks for this season")
             self.redirect('/picks/submit-picks')
 
-        elif find_changes == 1:
+        elif find_changes is True:
             print(find_changes)
             self.redirect('/picks/too-late-break')
 

@@ -13,13 +13,16 @@ class CountService:
         season = season_row.current_season
 
         try:
-            for pick in session.query(PlayerPicks.changed).filter(PlayerPicks.user_id == user_id) \
-                    .filter(PlayerPicks.season == season) \
-                    .filter(PlayerPicks.pick_type == 1) \
-                    .filter(PlayerPicks.rank == 1) \
-                    .filter(PlayerPicks.league_id == 0) \
-                    .filter(PlayerPicks.division_id == 1).first():
 
+            for pick in session.query(PlayerPicks.changed).filter(PlayerPicks.user_id == user_id)\
+                    .filter(PlayerPicks.season == season).filter(PlayerPicks.changed).all():
+                print(pick)
+                if pick[0] == 1:
+                    pick = True
+                else:
+                    pick = False
+
+                print(pick)
                 return pick
 
         except TypeError:
