@@ -193,11 +193,11 @@ class AdminController(BaseController):
         vm.from_dict(self.request.POST)
 
         # Insert weekly team and player stats
-        #WeeklyStatsService.get_hitter_stats()
-        #WeeklyStatsService.get_pitcher_stats()
-        #WeeklyStatsService.get_team_rankings()
-        #WeeklyStatsService.get_league_standings()
-        #WeeklyStatsService.get_tiebreaker()
+        WeeklyStatsService.get_hitter_stats()
+        WeeklyStatsService.get_pitcher_stats()
+        WeeklyStatsService.get_team_rankings()
+        WeeklyStatsService.get_league_standings()
+        WeeklyStatsService.get_tiebreaker()
 
         WeeklyStatsService.trade_adjustments()
         StandingsService.update_player_pick_points()
@@ -246,6 +246,40 @@ class AdminController(BaseController):
             if league > 1:
                 picktype += 1
                 league = 0
+
+        # redirect
+        self.redirect('/admin')
+
+    @pyramid_handlers.action(renderer='templates/admin/update-unique-picks.pt',
+                             request_method='GET',
+                             name='trades')
+    def trades(self):
+        """Move a player from one league to another when traded during the season and create split stats."""
+        session = DbSessionFactory.create_session()
+        su__query = session.query(Account.id).filter(Account.is_super_user == 1)\
+            .filter(Account.id == self.logged_in_user_id).first()
+
+        if su__query is None:
+            print("You must be an administrator to view this page")
+            self.redirect('/home')
+
+        # TODO UPdate the ViewModel
+
+        vm = UniquePicksViewModel()
+
+        session.close()
+
+        return vm.to_dict()
+
+    @pyramid_handlers.action(renderer='templates/admin/update-unique-picks.pt',
+                             request_method='POST',
+                             name='trades')
+    def update_unique_picks_post(self):
+        """POST request to update the database with the trade information to create the player split."""
+        vm = UniquePicksViewModel()
+        vm.from_dict(self.request.POST)
+
+        # TODO Update the viewmodel and call the trade service
 
         # redirect
         self.redirect('/admin')
