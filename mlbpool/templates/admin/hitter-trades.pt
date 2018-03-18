@@ -12,11 +12,11 @@
                 <form class="form-horizontal" action="" method="POST">
                 <div class="form-group">
 
-                    <p>Player: <select class="form-control" name="player_stats">
+                    <p>Player: <select class="form-control" name="player_id">
                                 <option tal:repeat="a hitters" value="${a.player_id}">${a.firstname}
                                 ${a.lastname} ${a.position} ${a.team_abbr}</option>
                              </select></p>
-                    <p>New Team: <select class="form-control" name="team">
+                    <p>New Team: <select class="form-control" name="team_id">
                                 <option tal:repeat="b teams" value="${b.team_id}">${b.name}
                                 </option></select></p>
                     <p>Home Runs: <input type="text" name="hr" /></p>
