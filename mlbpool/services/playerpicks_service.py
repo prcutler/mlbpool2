@@ -4,9 +4,6 @@ from mlbpool.data.activeplayers import ActiveMLBPlayers
 from mlbpool.data.seasoninfo import SeasonInfo
 from mlbpool.data.player_picks import PlayerPicks
 from mlbpool.services.gameday_service import GameDayService
-import pendulum
-import pymysql.converters
-from pendulum import Pendulum
 from mlbpool.services.time_service import TimeService
 
 

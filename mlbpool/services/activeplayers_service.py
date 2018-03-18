@@ -43,3 +43,16 @@ class ActivePlayersService:
 
             session.commit()
             session.close()
+
+    @staticmethod
+    def player_list():
+
+        session = DbSessionFactory.create_session()
+
+        season_row = session.query(SeasonInfo).filter(SeasonInfo.id == '1').first()
+        season = season_row.current_season
+
+        all_players = session.query(ActiveMLBPlayers).filter(ActiveMLBPlayers.season == season)\
+            .order_by(ActiveMLBPlayers.lastname).all()
+
+        return all_players

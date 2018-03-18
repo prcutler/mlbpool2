@@ -12,6 +12,7 @@ from mlbpool.services.admin_service import AccountService
 from mlbpool.viewmodels.update_weekly_stats_viewmodel import UpdateWeeklyStats
 from mlbpool.services.weekly_msf_data import WeeklyStatsService
 from mlbpool.viewmodels.update_unique_picks_viewmodel import UniquePicksViewModel
+from mlbpool.viewmodels.trades_viewmodel import TradesViewModel
 from mlbpool.services.unique_picks_service import UniquePicksService
 from mlbpool.services.standings_service import StandingsService
 from mlbpool.data.seasoninfo import SeasonInfo
@@ -255,6 +256,8 @@ class AdminController(BaseController):
                              name='trades')
     def trades(self):
         """Move a player from one league to another when traded during the season and create split stats."""
+        vm = TradesViewModel()
+
         session = DbSessionFactory.create_session()
         su__query = session.query(Account.id).filter(Account.is_super_user == 1)\
             .filter(Account.id == self.logged_in_user_id).first()
@@ -263,23 +266,19 @@ class AdminController(BaseController):
             print("You must be an administrator to view this page")
             self.redirect('/home')
 
-        # TODO UPdate the ViewModel
-
-        vm = UniquePicksViewModel()
+        player_list = ActivePlayersService.player_list()
 
         session.close()
 
-        return vm.to_dict()
+        return {'players': player_list}
 
     @pyramid_handlers.action(renderer='templates/admin/update-unique-picks.pt',
                              request_method='POST',
                              name='trades')
-    def update_unique_picks_post(self):
+    def trades_post(self):
         """POST request to update the database with the trade information to create the player split."""
-        vm = UniquePicksViewModel()
+        vm = TradesViewModel()
         vm.from_dict(self.request.POST)
-
-        # TODO Update the viewmodel and call the trade service
 
         # redirect
         self.redirect('/admin')
