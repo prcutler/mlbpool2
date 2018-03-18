@@ -99,7 +99,12 @@ class TradeService:
 
         session = DbSessionFactory.create_session()
 
-        pitcher_trade = InterleagueTrades(season=season, player_id=player_id, team_id=team_id,
+        for player in session.query(ActiveMLBPlayers.player_id).filter(ActiveMLBPlayers.player_id == player_id)\
+                .filter(season == season):
+            session.query(ActiveMLBPlayers.player_id).filter(ActiveMLBPlayers.team_id).update({'team_id': team_id})
+
+        # Update the InterLeague Trade Table
+        pitcher_trade = InterleagueTrades(season=season, player_id=player_id,
                                           player_games_played=games, pitcher_wins=p_wins, ERA=era, earned_runs=er,
                                           innings_pitched=ip)
         session.add(pitcher_trade)
@@ -109,4 +114,20 @@ class TradeService:
     @classmethod
     def get_hitter_trade(cls, player_id: int, team_id: int, season: int, hr: int, ba: float, ab: int, hits: int,
                          pa: int, games: int, rbi: int):
-        pass
+
+        session = DbSessionFactory.create_session()
+
+        # Update the player's team to the new team
+        for player in session.query(ActiveMLBPlayers.player_id).filter(ActiveMLBPlayers.player_id == player_id)\
+                .filter(season == season):
+            session.query(ActiveMLBPlayers.player_id).filter(ActiveMLBPlayers.team_id).update({'team_id': team_id})
+
+        # Update the InterLeague Trade Table
+        hitter_trade = InterleagueTrades(player_id=player_id, season=season, home_runs=hr, batting_average=ba,
+                                         at_bats=ab, hits=hits, plate_appearances=pa, player_games_played=games,
+                                         rbi=rbi)
+
+        session.add(hitter_trade)
+
+        session.close()
+
