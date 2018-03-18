@@ -284,7 +284,7 @@ class AdminController(BaseController):
         vm = TradesViewModel()
         vm.from_dict(self.request.POST)
 
-        pitcher_trade = TradeService.get_pitcher_trade(vm.player_id, vm.team_id, vm.season,
+        pitcher_trade = TradeService.get_pitcher_trade(vm.player_id, vm.team_id,
                                                        vm.games, vm.p_wins, vm.era, vm.er, vm.ip)
 
         # redirect
@@ -322,7 +322,7 @@ class AdminController(BaseController):
         vm = TradesViewModel()
         vm.from_dict(self.request.POST)
 
-        hitter_trade = TradeService.get_hitter_trade(vm.player_id, vm.team_id, vm.season,
+        hitter_trade = TradeService.get_hitter_trade(vm.player_id, vm.team_id,
                                                      vm.hr, vm.ba, vm.ab, vm.hits, vm.pa, vm.games, vm.rbi)
 
         # redirect

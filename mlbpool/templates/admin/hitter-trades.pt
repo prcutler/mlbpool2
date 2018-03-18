@@ -28,7 +28,11 @@
                     <p>RBIs: <input type="text" name="rbi" /></p>
                 </div>
 
+                    <button type="submit" class="btn-success">Submit</button>
+
         </form>
+
+
 
         </div>
         </div>

@@ -5,6 +5,7 @@ from mlbpool.data.divisioninfo import DivisionInfo
 from mlbpool.data.leagueinfo import LeagueInfo
 from mlbpool.data.teaminfo import TeamInfo
 from mlbpool.data.interleaguetrades import InterleagueTrades
+from mlbpool.services.time_service import TimeService
 
 
 class TradeService:
@@ -93,11 +94,16 @@ class TradeService:
         session.close()
 
     @classmethod
-    def get_pitcher_trade(cls, season: int, player_id: int, team_id: int, games: int, p_wins: int,
-                          era: float, er: int, ip: int):
+    def get_pitcher_trade(cls, player_id: int, team_id: int, games: int, p_wins: int,
+                          era: float, er: int, ip: float):
         # Update the database with the new information
 
         session = DbSessionFactory.create_session()
+
+        season_row = session.query(SeasonInfo.current_season).filter(SeasonInfo.id == 1).first()
+        season = season_row.current_season
+
+        dt = TimeService.get_time()
 
         for player in session.query(ActiveMLBPlayers.player_id).filter(ActiveMLBPlayers.player_id == player_id)\
                 .filter(season == season):
@@ -106,28 +112,37 @@ class TradeService:
         # Update the InterLeague Trade Table
         pitcher_trade = InterleagueTrades(season=season, player_id=player_id,
                                           player_games_played=games, pitcher_wins=p_wins, ERA=era, earned_runs=er,
-                                          innings_pitched=ip)
+                                          innings_pitched=ip, update_date=dt)
         session.add(pitcher_trade)
 
+        session.commit()
         session.close()
 
     @classmethod
-    def get_hitter_trade(cls, player_id: int, team_id: int, season: int, hr: int, ba: float, ab: int, hits: int,
+    def get_hitter_trade(cls, player_id: int, team_id: int, hr: int, ba: float, ab: int, hits: int,
                          pa: int, games: int, rbi: int):
 
         session = DbSessionFactory.create_session()
+
+        season_row = session.query(SeasonInfo.current_season).filter(SeasonInfo.id == 1).first()
+        season = season_row.current_season
+
+        dt = TimeService.get_time()
 
         # Update the player's team to the new team
         for player in session.query(ActiveMLBPlayers.player_id).filter(ActiveMLBPlayers.player_id == player_id)\
                 .filter(season == season):
             session.query(ActiveMLBPlayers.player_id).filter(ActiveMLBPlayers.team_id).update({'team_id': team_id})
 
+        print(player_id, team_id, hr, ba, ab, pa, season, hits, games, rbi)
+
         # Update the InterLeague Trade Table
         hitter_trade = InterleagueTrades(player_id=player_id, season=season, home_runs=hr, batting_average=ba,
                                          at_bats=ab, hits=hits, plate_appearances=pa, player_games_played=games,
-                                         rbi=rbi)
+                                         RBI=rbi, update_date=dt)
 
         session.add(hitter_trade)
 
+        session.commit()
         session.close()
 

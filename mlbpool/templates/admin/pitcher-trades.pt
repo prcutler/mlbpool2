@@ -25,7 +25,11 @@
                         <p>Innings Pitched: <input type="text" name="ip" /></p>
                     </div>
 
+            <button type="submit" class="btn-success">Submit</button>
+
         </form>
+
+
 
         </div>
         </div>
