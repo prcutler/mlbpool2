@@ -1,7 +1,7 @@
 import requests
 from mlbpool.data.dbsession import DbSessionFactory
 from mlbpool.data.activeplayers import ActiveMLBPlayers
-import mlbpool.data.config as secret
+import mlbpool.data.config as config
 from requests.auth import HTTPBasicAuth
 from mlbpool.data.seasoninfo import SeasonInfo
 
@@ -21,7 +21,7 @@ class ActivePlayersService:
 
         response = requests.get('https://api.mysportsfeeds.com/v1.2/pull/mlb/' + str(season) +
                                 '-regular/roster_players.json',
-                                auth=HTTPBasicAuth(secret.msf_username, secret.msf_pw))
+                                auth=HTTPBasicAuth(config.msf_username, config.msf_pw))
 
         player_info = response.json()
         player_list = player_info["rosterplayers"]["playerentry"]
@@ -44,15 +44,3 @@ class ActivePlayersService:
             session.commit()
             session.close()
 
-    @staticmethod
-    def player_list():
-
-        session = DbSessionFactory.create_session()
-
-        season_row = session.query(SeasonInfo).filter(SeasonInfo.id == '1').first()
-        season = season_row.current_season
-
-        all_players = session.query(ActiveMLBPlayers).filter(ActiveMLBPlayers.season == season)\
-            .order_by(ActiveMLBPlayers.lastname).all()
-
-        return all_players

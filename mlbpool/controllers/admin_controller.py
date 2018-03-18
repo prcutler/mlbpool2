@@ -18,6 +18,7 @@ from mlbpool.services.standings_service import StandingsService
 from mlbpool.data.seasoninfo import SeasonInfo
 from mlbpool.services.gameday_service import GameDayService
 from mlbpool.services.time_service import TimeService
+from mlbpool.services.trade_service import TradeService
 
 
 class AdminController(BaseController):
@@ -251,10 +252,10 @@ class AdminController(BaseController):
         # redirect
         self.redirect('/admin')
 
-    @pyramid_handlers.action(renderer='templates/admin/update-unique-picks.pt',
+    @pyramid_handlers.action(renderer='templates/admin/pitcher-trades.pt',
                              request_method='GET',
-                             name='trades')
-    def trades(self):
+                             name='pitcher-trades')
+    def pitcher_trades(self):
         """Move a player from one league to another when traded during the season and create split stats."""
         vm = TradesViewModel()
 
@@ -266,19 +267,63 @@ class AdminController(BaseController):
             print("You must be an administrator to view this page")
             self.redirect('/home')
 
-        player_list = ActivePlayersService.player_list()
+        pitchers = TradeService.pitcher_list()
+        divisions = TradeService.division_list()
+        leagues = TradeService.league_list()
+        teams = TradeService.team_list()
 
         session.close()
 
-        return {'players': player_list}
+        return {'pitchers': pitchers, 'teams': teams}
 
-    @pyramid_handlers.action(renderer='templates/admin/update-unique-picks.pt',
+    @pyramid_handlers.action(renderer='templates/admin/pitcher-trades',
                              request_method='POST',
-                             name='trades')
-    def trades_post(self):
+                             name='pitcher-trades')
+    def pitcher_trades_post(self):
         """POST request to update the database with the trade information to create the player split."""
         vm = TradesViewModel()
         vm.from_dict(self.request.POST)
+
+        pitcher_trade = TradeService.get_pitcher_trade(vm.player_id, vm.team_id, vm.season,
+                                                       vm.games, vm.p_wins, vm.era, vm.er, vm.ip)
+
+        # redirect
+        self.redirect('/admin')
+
+    @pyramid_handlers.action(renderer='templates/admin/hitter-trades.pt',
+                             request_method='GET',
+                             name='hitter-trades')
+    def hitter_trades(self):
+        """Move a player from one league to another when traded during the season and create split stats."""
+        vm = TradesViewModel()
+
+        session = DbSessionFactory.create_session()
+        su__query = session.query(Account.id).filter(Account.is_super_user == 1)\
+            .filter(Account.id == self.logged_in_user_id).first()
+
+        if su__query is None:
+            print("You must be an administrator to view this page")
+            self.redirect('/home')
+
+        hitters = TradeService.hitter_list()
+        divisions = TradeService.division_list()
+        leagues = TradeService.league_list()
+        teams = TradeService.team_list()
+
+        session.close()
+
+        return {'hitters': hitters, 'teams': teams}
+
+    @pyramid_handlers.action(renderer='templates/admin/hitter-trades',
+                             request_method='POST',
+                             name='hitter-trades')
+    def hitter_trades_post(self):
+        """POST request to update the database with the trade information to create the player split."""
+        vm = TradesViewModel()
+        vm.from_dict(self.request.POST)
+
+        hitter_trade = TradeService.get_hitter_trade(vm.player_id, vm.team_id, vm.season,
+                                                     vm.hr, vm.ba, vm.ab, vm.hits, vm.pa, vm.games, vm.rbi)
 
         # redirect
         self.redirect('/admin')

@@ -1,0 +1,33 @@
+<div metal:use-macro="view.layout">
+    <div metal:fill-slot="main_content">
+
+        <div class="container full-page-content">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+
+        <h1>Trades</h1>
+            <div align="center">
+            <h2>Choose Player and Enter Stats Before Player Was Traded</h2></div>
+
+        <form class="form-horizontal" action="" method="POST">
+                    <div class="form-group">
+
+                        <p>Player: <select class="form-control" name="player_stats">
+                                    <option tal:repeat="a pitchers" value="${a.player_id}">${a.firstname}
+                                    ${a.lastname} ${a.position} ${a.team_abbr}</option>
+                                 </select></p>
+                        <p>New Team: <select class="form-control" name="team">
+                                    <option tal:repeat="b teams" value="${b.team_id}">${b.name}
+                                    </option></select></p>
+                        <p>Pitcher Wins: <input type="text" name="p_wins" /></p>
+                        <p>ERA: <input type="text" name="era" /></p>
+                        <p>Earned Runs: <input type="text" name="er" /></p>
+                        <p>Innings Pitched: <input type="text" name="ip" /></p>
+                    </div>
+
+        </form>
+
+        </div>
+        </div>
+    </div>
+</div>
