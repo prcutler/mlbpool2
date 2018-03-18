@@ -4,6 +4,7 @@ from mlbpool.data.seasoninfo import SeasonInfo
 from mlbpool.data.divisioninfo import DivisionInfo
 from mlbpool.data.leagueinfo import LeagueInfo
 from mlbpool.data.teaminfo import TeamInfo
+from mlbpool.data.interleaguetrades import InterleagueTrades
 
 
 class TradeService:
@@ -94,7 +95,16 @@ class TradeService:
     @classmethod
     def get_pitcher_trade(cls, season: int, player_id: int, team_id: int, games: int, p_wins: int,
                           era: float, er: int, ip: int):
-        pass
+        # Update the database with the new information
+
+        session = DbSessionFactory.create_session()
+
+        pitcher_trade = InterleagueTrades(season=season, player_id=player_id, team_id=team_id,
+                                          player_games_played=games, pitcher_wins=p_wins, ERA=era, earned_runs=er,
+                                          innings_pitched=ip)
+        session.add(pitcher_trade)
+
+        session.close()
 
     @classmethod
     def get_hitter_trade(cls, player_id: int, team_id: int, season: int, hr: int, ba: float, ab: int, hits: int,
