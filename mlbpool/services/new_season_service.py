@@ -32,11 +32,13 @@ class NewSeasonService:
 
             gameday_json = response.json()
             gameday_data = gameday_json["fullgameschedule"]["gameentry"][0]
+            last_game_data = gameday_json["fullgameschedule"]["gameentry"][-1]
 
             first_game_date = gameday_data["date"]
             first_game_time = gameday_data["time"]
             away_team = gameday_data["awayTeam"]["Name"]
             home_team = gameday_data["homeTeam"]["Name"]
+            last_game_date = last_game_data["date"]
 
             first_game = first_game_date + "T" + first_game_time[:-2]
             first_game_calc = pendulum.from_format(first_game, '%Y-%m-%dT%H:%M')
@@ -46,7 +48,7 @@ class NewSeasonService:
 
             new_season = SeasonInfo(season_start_date=first_game, season_start_time=first_game_time,
                                     home_team=home_team, away_team=away_team, current_season=season,
-                                    all_star_game_date=all_star_game_date)
+                                    all_star_game_date=all_star_game_date, season_end_date=last_game_date)
 
             # TODO Add log for new_season
 
@@ -62,11 +64,13 @@ class NewSeasonService:
 
             gameday_json = response.json()
             gameday_data = gameday_json["fullgameschedule"]["gameentry"][0]
+            last_game_data = gameday_json["fullgameschedule"]["gameentry"][-1]
 
             first_game_date = gameday_data["date"]
             first_game_time = gameday_data["time"]
             away_team = gameday_data["awayTeam"]["Name"]
             home_team = gameday_data["homeTeam"]["Name"]
+            last_game_date = last_game_data["date"]
 
             first_game = first_game_date + "T" + first_game_time[:-2]
             # print("First game str concatenation:", first_game)
@@ -82,6 +86,7 @@ class NewSeasonService:
             update_row.season_start_time = first_game_time
             update_row.away_team = away_team
             update_row.home_team = home_team
+            update_row.season_end_date = last_game_date
 
             # TODO Add log for new season
 

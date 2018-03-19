@@ -11,3 +11,4 @@ class SeasonInfo(SqlAlchemyBase):
     home_team = sqlalchemy.Column(sqlalchemy.String(16))
     away_team = sqlalchemy.Column(sqlalchemy.String(16))
     all_star_game_date = sqlalchemy.Column(sqlalchemy.DATE)
+    season_end_date = sqlalchemy.Column(sqlalchemy.DATE)
