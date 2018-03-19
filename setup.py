@@ -32,7 +32,7 @@ tests_require = [
     ]
 
 setup(name='mlbpool',
-      version='0.0',
+      version='1.0',
       description='mlbpool',
       long_description=README + '\n\n' + CHANGES,
       classifiers=[
@@ -41,8 +41,8 @@ setup(name='mlbpool',
           "Topic :: Internet :: WWW/HTTP",
           "Topic :: Internet :: WWW/HTTP :: WSGI :: Application",
       ],
-      author='',
-      author_email='',
+      author='Paul Cutler',
+      author_email='paul.r.cutler@gmail.com',
       url='',
       keywords='web pyramid pylons',
       packages=find_packages(),
