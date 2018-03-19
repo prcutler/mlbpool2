@@ -1,6 +1,6 @@
 import datetime
 import uuid
-from sqlalchemy import Column, String, Boolean, DateTime
+from sqlalchemy import Column, String, Boolean, DateTime, Integer
 from mlbpool.data.modelbase import SqlAlchemyBase
 
 
@@ -18,3 +18,4 @@ class Account(SqlAlchemyBase):
     email_confirmed = Column(Boolean, nullable=False, default=False)
     is_super_user = Column(Boolean, nullable=False, default=False)
     twitter = Column(String(16), nullable=True)
+    paid = Column(Integer, default=0)

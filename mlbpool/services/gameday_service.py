@@ -1,9 +1,6 @@
 import pendulum
-import requests
-from requests.auth import HTTPBasicAuth
 from mlbpool.data.seasoninfo import SeasonInfo
 from mlbpool.data.dbsession import DbSessionFactory
-import mlbpool.data.config as config
 from mlbpool.services.time_service import TimeService
 
 
@@ -99,10 +96,7 @@ class GameDayService:
         now = now_time
 
         delta = season_start_date - now
-
         days = delta.days
-        hours = delta.hours
-        minutes = delta.minutes
 
         return days
 
@@ -113,10 +107,7 @@ class GameDayService:
         now = now_time
 
         delta = season_start_date - now
-
-        days = delta.days
         hours = delta.hours
-        minutes = delta.minutes
 
         return hours
 
@@ -127,9 +118,6 @@ class GameDayService:
         now = now_time
 
         delta = season_start_date - now
-
-        days = delta.days
-        hours = delta.hours
         minutes = delta.minutes
 
         return minutes

@@ -19,6 +19,7 @@ from mlbpool.data.seasoninfo import SeasonInfo
 from mlbpool.services.gameday_service import GameDayService
 from mlbpool.services.time_service import TimeService
 from mlbpool.services.trade_service import TradeService
+from mlbpool.viewmodels.admin_update_viewmodel import AdminViewModel
 
 
 class AdminController(BaseController):
@@ -51,10 +52,9 @@ class AdminController(BaseController):
             # Use the string above in a Pendulum instance and get the time deltas needed
             now_time = TimeService.get_time()
 
-            delta = season_start_date - now_time
-            days = delta.days
-            hours = delta.hours
-            minutes = delta.minutes
+            days = GameDayService.delta_days()
+            hours = GameDayService.delta_hours()
+            minutes = GameDayService.delta_minutes()
 
             return {'picks_due': picks_due, 'time_due': time_due, 'days': days, 'hours': hours, 'minutes': minutes,
                     'first_name': first_name, 'season_info': season_info}
@@ -86,10 +86,10 @@ class AdminController(BaseController):
         vm.from_dict(self.request.POST)
 
         # Insert team info
- #       NewInstallService.get_team_info()
+        NewInstallService.get_team_info()
         NewInstallService.create_division_info()
- #       NewInstallService.create_league_info()
- #       NewInstallService.create_pick_types()
+        NewInstallService.create_league_info()
+        NewInstallService.create_pick_types()
         NewInstallService.create_pick_type_points()
 
         # redirect
@@ -163,7 +163,18 @@ class AdminController(BaseController):
                              name='account-list')
     def list_accounts(self):
         """Show list of accounts"""
+
+        session = DbSessionFactory.create_session()
+        su__query = session.query(Account.id).filter(Account.is_super_user == 1)\
+            .filter(Account.id == self.logged_in_user_id).first()
+
+        if su__query is None:
+            print("You must be an administrator to view this page")
+            self.redirect('/home')
+
         account_list = AccountService.get_all_accounts()
+
+        session.close()
 
         return {'account_list': account_list}
 
@@ -268,8 +279,6 @@ class AdminController(BaseController):
             self.redirect('/home')
 
         pitchers = TradeService.pitcher_list()
-        divisions = TradeService.division_list()
-        leagues = TradeService.league_list()
         teams = TradeService.team_list()
 
         session.close()
@@ -306,8 +315,6 @@ class AdminController(BaseController):
             self.redirect('/home')
 
         hitters = TradeService.hitter_list()
-        divisions = TradeService.division_list()
-        leagues = TradeService.league_list()
         teams = TradeService.team_list()
 
         session.close()
@@ -322,8 +329,62 @@ class AdminController(BaseController):
         vm = TradesViewModel()
         vm.from_dict(self.request.POST)
 
+        session = DbSessionFactory.create_session()
+        su__query = session.query(Account.id).filter(Account.is_super_user == 1)\
+            .filter(Account.id == self.logged_in_user_id).first()
+
+        if su__query is None:
+            print("You must be an administrator to view this page")
+            self.redirect('/home')
+
         hitter_trade = TradeService.get_hitter_trade(vm.player_id, vm.team_id,
                                                      vm.hr, vm.ba, vm.ab, vm.hits, vm.pa, vm.games, vm.rbi)
+
+        session.close()
+
+        # redirect
+        self.redirect('/admin')
+
+    @pyramid_handlers.action(renderer='templates/admin/update-admin.pt',
+                             request_method='GET',
+                             name='update-admin')
+    def make_admin(self):
+        """Move a player from one league to another when traded during the season and create split stats."""
+        vm = AdminViewModel()
+
+        session = DbSessionFactory.create_session()
+        su__query = session.query(Account.id).filter(Account.is_super_user == 1)\
+            .filter(Account.id == self.logged_in_user_id).first()
+
+        if su__query is None:
+            print("You must be an administrator to view this page")
+            self.redirect('/home')
+
+        pool_player_list = AccountService.get_all_accounts()
+
+        session.close()
+
+        return {'players': pool_player_list}
+
+    @pyramid_handlers.action(renderer='templates/admin/update-admin',
+                             request_method='POST',
+                             name='update-admin')
+    def update_admin(self):
+        """POST request to update the database with the trade information to create the player split."""
+        vm = AdminViewModel()
+        vm.from_dict(self.request.POST)
+
+        session = DbSessionFactory.create_session()
+        su__query = session.query(Account.id).filter(Account.is_super_user == 1)\
+            .filter(Account.id == self.logged_in_user_id).first()
+
+        if su__query is None:
+            print("You must be an administrator to view this page")
+            self.redirect('/home')
+
+        update_admin = AccountService.update_admin(vm.new_admin)
+
+        session.close()
 
         # redirect
         self.redirect('/admin')

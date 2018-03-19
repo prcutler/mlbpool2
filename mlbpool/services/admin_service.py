@@ -27,3 +27,14 @@ class AccountService:
         session.close()
 
         return account_list
+
+    @classmethod
+    def update_admin(cls, new_admin: str):
+
+        session = DbSessionFactory.create_session()
+
+        for player in session.query(Account.id).filter(Account.id == new_admin):
+            session.query(Account.id).filter(Account.id == new_admin).update({"is_super_user": 1})
+
+        session.commit()
+        session.close()
