@@ -134,8 +134,6 @@ class TradeService:
                 .filter(season == season):
             session.query(ActiveMLBPlayers.player_id).filter(ActiveMLBPlayers.team_id).update({'team_id': team_id})
 
-        print(player_id, team_id, hr, ba, ab, pa, season, hits, games, rbi)
-
         # Update the InterLeague Trade Table
         hitter_trade = InterleagueTrades(player_id=player_id, season=season, home_runs=hr, batting_average=ba,
                                          at_bats=ab, hits=hits, plate_appearances=pa, player_games_played=games,
