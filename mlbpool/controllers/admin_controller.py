@@ -349,7 +349,7 @@ class AdminController(BaseController):
                              request_method='GET',
                              name='update-admin')
     def make_admin(self):
-        """Move a player from one league to another when traded during the season and create split stats."""
+        """GET request to make a pool player an administrator."""
         vm = AdminViewModel()
 
         session = DbSessionFactory.create_session()
@@ -370,7 +370,7 @@ class AdminController(BaseController):
                              request_method='POST',
                              name='update-admin')
     def update_admin(self):
-        """POST request to update the database with the trade information to create the player split."""
+        """POST request to update the database to make a pool player an administrator."""
         vm = AdminViewModel()
         vm.from_dict(self.request.POST)
 
@@ -382,7 +382,51 @@ class AdminController(BaseController):
             print("You must be an administrator to view this page")
             self.redirect('/home')
 
-        update_admin = AccountService.update_admin(vm.new_admin)
+        update_admin = AccountService.update_admin(vm.user_id)
+
+        session.close()
+
+        # redirect
+        self.redirect('/admin')
+
+    @pyramid_handlers.action(renderer='templates/admin/update-paid.pt',
+                             request_method='GET',
+                             name='update-paid')
+    def payment(self):
+        """Update if a player has paid the season fee."""
+        vm = AdminViewModel()
+
+        session = DbSessionFactory.create_session()
+        su__query = session.query(Account.id).filter(Account.is_super_user == 1)\
+            .filter(Account.id == self.logged_in_user_id).first()
+
+        if su__query is None:
+            print("You must be an administrator to view this page")
+            self.redirect('/home')
+
+        player_list = AccountService.get_all_accounts()
+
+        session.close()
+
+        return {'players': player_list}
+
+    @pyramid_handlers.action(renderer='templates/admin/update-paid',
+                             request_method='POST',
+                             name='update-paid')
+    def update_paid(self):
+        """POST request to update if a MLBPool2 player has paid the season fee."""
+        vm = AdminViewModel()
+        vm.from_dict(self.request.POST)
+
+        session = DbSessionFactory.create_session()
+        su__query = session.query(Account.id).filter(Account.is_super_user == 1)\
+            .filter(Account.id == self.logged_in_user_id).first()
+
+        if su__query is None:
+            print("You must be an administrator to view this page")
+            self.redirect('/home')
+
+        update_paid = AccountService.update_paid(vm.user_id)
 
         session.close()
 

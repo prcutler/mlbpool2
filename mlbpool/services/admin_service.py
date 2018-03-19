@@ -29,12 +29,23 @@ class AccountService:
         return account_list
 
     @classmethod
-    def update_admin(cls, new_admin: str):
+    def update_admin(cls, user_id: str):
 
         session = DbSessionFactory.create_session()
 
-        for player in session.query(Account.id).filter(Account.id == new_admin):
-            session.query(Account.id).filter(Account.id == new_admin).update({"is_super_user": 1})
+        for player in session.query(Account.id).filter(Account.id == user_id):
+            session.query(Account.id).filter(Account.id == user_id).update({"is_super_user": 1})
+
+        session.commit()
+        session.close()
+
+    @classmethod
+    def update_paid(cls, user_id: str):
+
+        session = DbSessionFactory.create_session()
+
+        for player in session.query(Account.id).filter(Account.id == user_id):
+            session.query(Account.id).filter(Account.id == user_id).update({"paid": 1})
 
         session.commit()
         session.close()
