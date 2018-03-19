@@ -59,6 +59,8 @@ class AdminController(BaseController):
             return {'picks_due': picks_due, 'time_due': time_due, 'days': days, 'hours': hours, 'minutes': minutes,
                     'first_name': first_name, 'season_info': season_info}
 
+        session.close()
+
     # GET /admin/new_install
     @pyramid_handlers.action(renderer='templates/admin/new_install.pt',
                              request_method='GET',
@@ -72,6 +74,8 @@ class AdminController(BaseController):
         if su__query is None:
             print("You must be an administrator to view this page")
             self.redirect('/home')
+
+        session.close()
 
         vm = NewInstallViewModel()
         return vm.to_dict()
@@ -107,6 +111,8 @@ class AdminController(BaseController):
         if su__query is None:
             print("You must be an administrator to view this page")
             self.redirect('/home')
+
+        session.close()
 
         vm = NewSeasonViewModel()
         return vm.to_dict()
