@@ -106,7 +106,6 @@ def add_controller_routes(config, ctrl, prefix):
     config.add_handler(prefix + 'ctrl_id', '/' + prefix + '/{action}/{id}', handler=ctrl)
 
 
-
 def init_includes(config):
     config.include('pyramid_chameleon')
     config.include('pyramid_handlers')
@@ -119,30 +118,27 @@ def log_package_versions():
     # update from setup.py when changed!
     # This list is the closure of all dependencies,
     # taken from: pip list --format json
-    requires = [{"name": "arrow", "version": "0.10.0"}, {"name": "binaryornot", "version": "0.4.3"},
-                {"name": "certifi", "version": "2017.4.17"}, {"name": "Chameleon", "version": "3.1"},
-                {"name": "chardet", "version": "3.0.4"}, {"name": "click", "version": "6.7"},
-                {"name": "cookiecutter", "version": "1.5.1"}, {"name": "future", "version": "0.16.0"},
-                {"name": "html2text", "version": "2016.9.19"}, {"name": "hupper", "version": "1.0"},
-                {"name": "idna", "version": "2.5"}, {"name": "Jinja2", "version": "2.9.6"},
-                {"name": "jinja2-time", "version": "0.2.0"}, {"name": "Logbook", "version": "1.1.0"},
-                {"name": "mailer", "version": "0.8.1"}, {"name": "Mako", "version": "1.0.6"},
-                {"name": "MarkupSafe", "version": "1.0"}, {"name": "mlbpool", "version": "0.0"},
-                {"name": "passlib", "version": "1.7.1"}, {"name": "PasteDeploy", "version": "1.5.2"},
-                {"name": "pip", "version": "9.0.1"}, {"name": "plaster", "version": "0.5"},
-                {"name": "plaster-pastedeploy", "version": "0.4.1"}, {"name": "poyo", "version": "0.4.1"},
-                {"name": "Pygments", "version": "2.2.0"}, {"name": "pymongo", "version": "3.4.0"},
-                {"name": "pyramid", "version": "1.9.1"}, {"name": "pyramid-chameleon", "version": "0.3"},
-                {"name": "pyramid-debugtoolbar", "version": "4.2.1"}, {"name": "pyramid-handlers", "version": "0.5"},
-                {"name": "pyramid-jinja2", "version": "2.7"}, {"name": "pyramid-mako", "version": "1.0.2"},
-                {"name": "python-dateutil", "version": "2.6.0"}, {"name": "repoze.lru", "version": "0.6"},
-                {"name": "requests", "version": "2.18.1"}, {"name": "rollbar", "version": "0.13.12"},
-                {"name": "setuptools", "version": "36.2.0"}, {"name": "six", "version": "1.10.0"},
-                {"name": "SQLAlchemy", "version": "1.1.12"}, {"name": "translationstring", "version": "1.3"},
-                {"name": "urllib3", "version": "1.21.1"}, {"name": "venusian", "version": "1.1.0"},
-                {"name": "waitress", "version": "1.0.2"}, {"name": "WebOb", "version": "1.7.3"},
-                {"name": "whichcraft", "version": "0.4.1"}, {"name": "zope.deprecation", "version": "4.2.0"},
-                {"name": "zope.interface", "version": "4.4.2"}]
+    requires = [{"name": "certifi", "version": "2017.11.5"}, {"name": "Chameleon", "version": "3.2"},
+                {"name": "chardet", "version": "3.0.4"}, {"name": "html2text", "version": "2018.1.9"},
+                {"name": "hupper", "version": "1.0"}, {"name": "idna", "version": "2.6"},
+                {"name": "Logbook", "version": "1.1.0"}, {"name": "mailer", "version": "0.8.1"},
+                {"name": "Mako", "version": "1.0.7"}, {"name": "MarkupSafe", "version": "1.0"},
+                {"name": "mlbpool", "version": "0.0"}, {"name": "passlib", "version": "1.7.1"},
+                {"name": "PasteDeploy", "version": "1.5.2"}, {"name": "pendulum", "version": "1.4.1"},
+                {"name": "pip", "version": "9.0.1"}, {"name": "plaster", "version": "1.0"},
+                {"name": "plaster-pastedeploy", "version": "0.4.2"}, {"name": "Pygments", "version": "2.2.0"},
+                {"name": "PyMySQL", "version": "0.8.0"}, {"name": "pyramid", "version": "1.9.1"},
+                {"name": "pyramid-chameleon", "version": "0.3"}, {"name": "pyramid-debugtoolbar", "version": "4.3"},
+                {"name": "pyramid-handlers", "version": "0.5"}, {"name": "pyramid-mako", "version": "1.0.2"},
+                {"name": "python-dateutil", "version": "2.6.1"}, {"name": "pytz", "version": "2018.3"},
+                {"name": "pytzdata", "version": "2018.3"}, {"name": "repoze.lru", "version": "0.7"},
+                {"name": "requests", "version": "2.18.4"}, {"name": "rollbar", "version": "0.13.17"},
+                {"name": "setuptools", "version": "38.4.0"}, {"name": "six", "version": "1.11.0"},
+                {"name": "SQLAlchemy", "version": "1.2.0"}, {"name": "translationstring", "version": "1.3"},
+                {"name": "tzlocal", "version": "1.5.1"}, {"name": "urllib3", "version": "1.22"},
+                {"name": "venusian", "version": "1.1.0"}, {"name": "waitress", "version": "1.1.0"},
+                {"name": "WebOb", "version": "1.8.0rc1"}, {"name": "wheel", "version": "0.30.0"},
+                {"name": "zope.deprecation", "version": "4.3.0"}, {"name": "zope.interface", "version": "4.4.3"}]
 
     requires.sort(key=lambda d: d['name'].lower())
     t0 = datetime.datetime.now()
