@@ -52,7 +52,6 @@ class GameDayService:
         """Get the time of the season opener's game"""
 
         season_opener_date = season_opener()
-        # print("season_opener_date function", season_opener_date)
 
         return season_opener_date
 
@@ -66,6 +65,19 @@ class GameDayService:
         session.close()
 
         return all_star_game_date
+
+    @staticmethod
+    def last_game_date():
+        session = DbSessionFactory.create_session()
+
+        last_game_date = session.query(SeasonInfo.season_end_date).first()
+        last_game_info = str(last_game_date[0])
+        last_game = pendulum.parse(last_game_info)
+        print(last_game)
+
+        session.close()
+
+        return last_game
 
     @staticmethod
     def timezone():

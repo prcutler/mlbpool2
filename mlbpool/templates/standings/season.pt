@@ -7,7 +7,8 @@
                 <div class="col-md-6">
 
 
-                    <h1>${season} Standings through ${date_updated}</h1>
+                    <h1>${season} Standings</h1>
+                    <h2 align="center">Last updated: ${date_updated}</h2>
 
                       <table class="table table-striped">
                           <thead>
