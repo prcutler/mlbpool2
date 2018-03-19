@@ -6,6 +6,7 @@ from mlbpool.data.dbsession import DbSessionFactory
 from mlbpool.data.weekly_player_results import WeeklyPlayerResults
 from mlbpool.viewmodels.standings_season_points_viewmodel import StandingsPointsViewModel
 from mlbpool.services.gameday_service import GameDayService
+import pendulum
 
 
 class StandingsController(BaseController):
@@ -26,6 +27,8 @@ class StandingsController(BaseController):
         vm.from_dict(self.data_dict)
 
         season = self.request.matchdict['id']
+        season_year = pendulum.parse(season)
+
         current_standings = StandingsService.display_weekly_standings(season)
 
         session = DbSessionFactory.create_session()
@@ -37,7 +40,8 @@ class StandingsController(BaseController):
             self.redirect('/home')
 
         else:
-            if date_query[0] > GameDayService.last_game_date():
+
+            if season_year < GameDayService.season_opener_date():
                 date_updated = 'Final Standings'
 
             else:
