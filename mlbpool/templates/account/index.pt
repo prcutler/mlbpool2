@@ -31,7 +31,7 @@
                         ${time_due} EST.</li>
                     </ul>
                     <ul>
-                        <b><a href="/picks/change-picks">Change your picks</a> - if the season has not started yet, you
+                        <li><a href="/picks/change-picks">Change your picks</a> - if the season has not started yet, you
                             can change your picks as many times as you want.  You can also change them <b>once</b>
                             during the All-Star Break and they will be worth half the points.</li>
                     </ul>
