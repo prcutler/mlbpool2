@@ -3,9 +3,7 @@ from mlbpool.controllers.base_controller import BaseController
 from mlbpool.viewmodels.standings_viewmodel import StandingsViewModel
 from mlbpool.services.standings_service import StandingsService
 from mlbpool.data.dbsession import DbSessionFactory
-from mlbpool.data.seasoninfo import SeasonInfo
 from mlbpool.data.weekly_player_results import WeeklyPlayerResults
-from mlbpool.data.player_picks import PlayerPicks
 from mlbpool.viewmodels.standings_season_points_viewmodel import StandingsPointsViewModel
 
 

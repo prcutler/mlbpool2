@@ -1,13 +1,8 @@
 from mlbpool.data.dbsession import DbSessionFactory
-from sqlalchemy.orm import joinedload
 from mlbpool.data.player_picks import PlayerPicks
-from mlbpool.data.weekly_player_results import WeeklyPlayerResults
 from sqlalchemy import func
 from mlbpool.data.weekly_mlbplayer_stats import WeeklyMLBPlayerStats
-from _datetime import datetime
 from mlbpool.data.seasoninfo import SeasonInfo
-from mlbpool.data.account import Account
-from mlbpool.services.gameday_service import GameDayService
 
 
 def get_seasons():
@@ -19,6 +14,7 @@ def get_seasons():
 
     return current_season
 
+
 def get_update_players_date(season):
     session = DbSessionFactory.create_session()
     qry = session.query(func.max(WeeklyMLBPlayerStats.update_date).label("max"))
@@ -26,26 +22,6 @@ def get_update_players_date(season):
     latest_date = res.max
     session.close()
     return latest_date
-
-def get_week():
-    # TODO This needs to be re-written - not using weeks in MLBPool
-    session = DbSessionFactory.create_session()
-
-    # season_row = session.query(SeasonInfo).filter(SeasonInfo.id == '1').first()
-    # season_start = season_row.season_start_date
-    # season_start = datetime.strptime(season_start, "%Y-%m-%d")
-    season_start = GameDayService.season_opener_date()
-
-    diff = datetime.now() - season_start
-    print(diff.days)
-    week = int((diff.days / 7) + 1)
-    print(week)
-
-#    week = 17           # ------------------------------- TESTING ------------------- remove this line after test.
-
-    session.close()
-
-    return week
 
 
 class StandingsService:
@@ -134,8 +110,6 @@ class StandingsService:
             elif i == 8:
                 cattype = "ERA"
 
-
-            #print(last_update)
             if i == 4 or i == 6 or i ==7:
                 sqlstr = "INSERT INTO WeeklyPlayerResults (pick_id, season, update_date, points_earned) "
                 sqlstr += "SELECT t1.pick_id as pick_id, t1.season as season, t1.update_date as update_date, (pts.points*t1.multiplier*t1.changed) as points_earned "
@@ -229,8 +203,6 @@ class StandingsService:
                 sqlstr += "pts.pick_type_id = " + str(i) + " "
                 sqlstr += "AND t1.rank = pts.rank"
 
-            #print(sqlstr)
-
             session.execute(sqlstr)
             session.commit()
 
@@ -248,7 +220,6 @@ class StandingsService:
         session = DbSessionFactory.create_session()
 
         season = get_seasons()
-        #week = get_week()
 
         # this does all type 1 points
         sqlstr = "INSERT INTO WeeklyPlayerResults(pick_id, season, update_date, points_earned) "
@@ -294,7 +265,6 @@ class StandingsService:
 
         session.execute(sqlstr)
         session.commit()
-
 
         # type 9 points - wildcard - (rank 4,5 - NFLPool was 5,6)
         sqlstr = "INSERT INTO WeeklyPlayerResults (pick_id, season, update_date, points_earned) "
