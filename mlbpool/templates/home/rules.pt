@@ -38,15 +38,15 @@
                 <p> If two or less players make the same pick, you will be eligible for
                     double points in that category.  For instance, if you are one of two players to pick Joe Mauer
                     for home runs, and he somehow ends up in the mix, you would earn 60 points instead of 30
-                    (if he ends in 1st place), 40 instead of 20 (2nd place), or 20 instead of 10
+                    (if he ends in 1st place), 40 instead of 20 (2nd place), or 20 instead of 10 (3rd place)
                     <b>if no one else has chosen him</b>.  This applies to all individual picks and you can
                     earn points (and double points if you are the only one to pick that player) if the player
-                    you choose finishes in first, second or third.  If you one of two players to pick
-                    the Miami Marlins to finish first in the NL East, you would earn 100 points, instead of 50.
+                    you choose finishes in first, second or third.  Team picks, such as the division winners,
+                    best record, or wildcard picks are not eligible for the double points bonus.
                     </p>
                     <p>If you and another MLBPool2 player have the same pick at the beginning of the season
                     and one of you changes that pick at the All-Star break, the original pick does not
-                    become unique.</p>
+                    qualify for the double points bonus.</p>
                     <p>You can view your picks from your <a href="/account">account page</a> and there
                     is a column that shows if your pick is unique.  This is updated after the season starts and
                     after the All-Star break ends.  Your unique picks could change at the All-Star break if
