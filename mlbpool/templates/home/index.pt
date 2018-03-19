@@ -43,7 +43,7 @@
                         their divisions, which teams will make the playoffs, and individual leaders such as
                         batting average, home runs, ERA and more.
                     <br><br>
-                        That's it!  No daily lineups.  No agonizing who to start or worrying about who is hurt.
+                        That's it!  No daily lineups.  No agonizing whom to start or worrying about who is hurt.
                         Sit back, watch some baseball, update your picks at the All-Star break, and check the standings
                         as the season unfolds and see if your picks were right.
                     </p>
@@ -96,7 +96,8 @@
                 <div class="col-lg-5 col-sm-6">
                     <div class="clearfix"></div>
                     <h2 class="section-heading">Get Started</h2>
-                    <p class="lead">What are you waiting for?  Create your account today and get ready to get your picks in.</p>
+                    <p class="lead">What are you waiting for?  Create your account today and get ready to get
+                        your picks in.</p>
                 </div>
                 <div class="col-lg-5 col-lg-offset-2 col-sm-6">
                     <img class="img-responsive" src="/static/img/mike-trout.jpg" alt="">
@@ -121,13 +122,16 @@
                 <div class="col-lg-6">
                     <ul class="list-inline banner-social-buttons">
                         <li>
-                            <a href="https://slackin-obsllpwzff.now.sh/" class="btn btn-default btn-lg"><i class="fa fa-slack fa-fw"></i> <span class="network-name">Slack</span></a>
+                            <a href="https://slackin-kyuhafxtaw.now.sh/" class="btn btn-default btn-lg">
+                                <i class="fa fa-slack fa-fw"></i> <span class="network-name">Slack</span></a>
                         </li>
                         <li>
-                            <a href="https://twitter.com/nflpoolxyz" class="btn btn-default btn-lg"><i class="fa fa-twitter fa-fw"></i> <span class="network-name">Twitter</span></a>
+                            <a href="https://twitter.com/nflpoolxyz" class="btn btn-default btn-lg">
+                                <i class="fa fa-twitter fa-fw"></i> <span class="network-name">Twitter</span></a>
                         </li>
                         <li>
-                            <a href="https://github.com/prcutler/nflpool" class="btn btn-default btn-lg"><i class="fa fa-github fa-fw"></i> <span class="network-name">Github</span></a>
+                            <a href="https://github.com/prcutler/mlbpool2" class="btn btn-default btn-lg">
+                                <i class="fa fa-github fa-fw"></i> <span class="network-name">Github</span></a>
                         </li>
                     </ul>
                 </div>
