@@ -137,6 +137,9 @@ class StandingsService:
                 sqlstr += "WHERE "
                 sqlstr += "pts.pick_type_id = " + str(i) + " "
                 sqlstr += "AND t1.rank = pts.rank"
+                session.execute(sqlstr)
+                session.commit()
+
 
             elif i == 5:
                 sqlstr = "INSERT INTO WeeklyPlayerResults (pick_id, season, update_date, points_earned) "
@@ -169,6 +172,9 @@ class StandingsService:
                 sqlstr += "WHERE "
                 sqlstr += "pts.pick_type_id = " + str(i) + " "
                 sqlstr += "AND t1.rank = pts.rank"
+                session.execute(sqlstr)
+                session.commit()
+
 
             elif i == 8:
                 sqlstr = "INSERT INTO WeeklyPlayerResults (pick_id, season, update_date, points_earned) "
@@ -202,14 +208,14 @@ class StandingsService:
                 sqlstr += "WHERE "
                 sqlstr += "pts.pick_type_id = " + str(i) + " "
                 sqlstr += "AND t1.rank = pts.rank"
+                session.execute(sqlstr)
+                session.commit()
 
-            session.execute(sqlstr)
-            session.commit()
 
             # increment counters
             if i == 8:
                 league += 1
-                i = 0
+                i = 3
 
             i += 1
 
@@ -273,8 +279,10 @@ class StandingsService:
         sqlstr += "AND p.pick_type = pts.pick_type_id "
         sqlstr += "AND w.league_rank in (4,5) "
         sqlstr += "AND w.team_id = p.team_id "
+        sqlstr += "AND pts.rank = p.rank "
         sqlstr += "AND w.season = " + str(season) + " "
         sqlstr += "AND w.update_date = (SELECT MAX(update_date) from WeeklyMLBPlayerStats WHERE season = " + str(season) + ") "
+
         session.execute(sqlstr)
         session.commit()
 
