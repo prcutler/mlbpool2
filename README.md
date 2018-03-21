@@ -1,4 +1,4 @@
-[![Documentation Status](http://mlbpool2.readthedocs.io/en/latest/?badge=latest)](http://mlbpool2.readthedocs.io/en/latest/?badge=latest)
+[![Documentation Status](https://readthedocs.org/projects/mlbpool2/badge/?version=latest)](http://mlbpool2.readthedocs.io/en/latest/?badge=latest)
 [![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)
 
 # MLBPool2
