@@ -10,6 +10,9 @@ Welcome to MLBPool2's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+   user-docs/index
+   developer-docs/index
+
 
 
 Indices and tables
