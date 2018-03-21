@@ -23,6 +23,7 @@ requires = [
     'rollbar',
     'sphinx',
     'sphinx-autobuild',
+    'sphinx_rtd_theme',
     'sqlalchemy',
     'waitress',
     ]
