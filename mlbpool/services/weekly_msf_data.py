@@ -299,13 +299,12 @@ class WeeklyStatsService:
 
             session.close()
 
-
     @staticmethod
     def trade_adjustments():
         season = get_seasons()
 
         session = DbSessionFactory.create_session()
-        #ASSUMES players are either pitcher or not
+        # ASSUMES players are either pitcher or not
         # update all except batting average
         sqlstr = "UPDATE WeeklyMLBPlayerStats w "
         sqlstr += "INNER JOIN InterleagueTrades i "
@@ -331,7 +330,7 @@ class WeeklyStatsService:
         session.commit()
         #print(sqlstr)
 
-        #pitchers
+        # pitchers
         sqlstr = "UPDATE WeeklyMLBPlayerStats w "
         sqlstr += "INNER JOIN InterleagueTrades i "
         sqlstr += "ON i.player_id = w.player_id AND i.season=w.season "
@@ -344,7 +343,7 @@ class WeeklyStatsService:
         session.commit()
         #print(sqlstr)
 
-        #pitchers update ERA
+        # pitchers update ERA
         sqlstr = "UPDATE WeeklyMLBPlayerStats w "
         sqlstr += "INNER JOIN InterleagueTrades i "
         sqlstr += "ON i.player_id = w.player_id AND i.season=w.season "
@@ -353,7 +352,7 @@ class WeeklyStatsService:
         sqlstr += "WHERE w.ERA IS NOT NULL "
         sqlstr += "AND w.season=" + str(season)
 
-        #print(sqlstr)
+        # print(sqlstr)
 
         session.execute(sqlstr)
         session.commit()
