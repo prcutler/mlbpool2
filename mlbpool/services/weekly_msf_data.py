@@ -241,7 +241,8 @@ class WeeklyStatsService:
         for al_teams in teamlist:
             team_id = int(data["conferenceteamstandings"]["conference"][0]["teamentry"][x]["team"]["ID"])
             league_rank = data["conferenceteamstandings"]["conference"][0]["teamentry"][x]["rank"]
-            games_played = data["conferenceteamstandings"]["conference"][0]["teamentry"][x]["stats"]["GamesPlayed"]["#text"]
+            games_played = data["conferenceteamstandings"]["conference"][0]["teamentry"][x]["stats"][
+                "GamesPlayed"]["#text"]
 
             x += 1
 
@@ -256,7 +257,8 @@ class WeeklyStatsService:
         for nl_team_list in teamlist:
             team_id = int(data["conferenceteamstandings"]["conference"][1]["teamentry"][y]["team"]["ID"])
             league_rank = data["conferenceteamstandings"]["conference"][1]["teamentry"][y]["rank"]
-            games_played = data["conferenceteamstandings"]["conference"][1]["teamentry"][y]["stats"]["GamesPlayed"]["#text"]
+            games_played = data["conferenceteamstandings"]["conference"][1]["teamentry"][y]["stats"]["GamesPlayed"][
+                "#text"]
 
             y += 1
 
