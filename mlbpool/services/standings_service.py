@@ -78,8 +78,6 @@ class StandingsService:
 
     @staticmethod
     def update_player_pick_points():
-
-        # TODO Kelly - Is this where we add / calculate the ERA and BA qualifiers?
         """ Batting Average qualifier - A player must have 3.1 plate appearances (PA) per team game (
         for a total of 502 over the current 162-game season) to qualify for the batting title.
         Plate Appearances is a column in WeeklyMLBPlayers.  team_games_played is in WeeklyTeamStats.
@@ -140,7 +138,6 @@ class StandingsService:
                 session.execute(sqlstr)
                 session.commit()
 
-
             elif i == 5:
                 sqlstr = "INSERT INTO WeeklyPlayerResults (pick_id, season, update_date, points_earned) "
                 sqlstr += "SELECT t1.pick_id as pick_id, t1.season as season, t1.update_date as update_date, (pts.points*t1.multiplier*t1.changed) as points_earned "
@@ -174,7 +171,6 @@ class StandingsService:
                 sqlstr += "AND t1.rank = pts.rank"
                 session.execute(sqlstr)
                 session.commit()
-
 
             elif i == 8:
                 sqlstr = "INSERT INTO WeeklyPlayerResults (pick_id, season, update_date, points_earned) "
@@ -210,7 +206,6 @@ class StandingsService:
                 sqlstr += "AND t1.rank = pts.rank"
                 session.execute(sqlstr)
                 session.commit()
-
 
             # increment counters
             if i == 8:
