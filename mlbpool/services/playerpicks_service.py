@@ -770,6 +770,7 @@ class PlayerPicksService:
                 session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
                     .filter(PlayerPicks.pick_type == 9) \
                     .filter(PlayerPicks.league_id == 0) \
+                    .filter(PlayerPicks.rank == 1) \
                     .update(
                     {"team_id": al_wildcard1_pick, "date_submitted": now_time, "original_pick": al_wildcard1_pick})
 
@@ -782,6 +783,7 @@ class PlayerPicksService:
                 session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
                     .filter(PlayerPicks.pick_type == 9) \
                     .filter(PlayerPicks.league_id == 0) \
+                    .filter(PlayerPicks.rank == 2) \
                     .update(
                     {"team_id": al_wildcard2_pick, "date_submitted": now_time, "original_pick": al_wildcard2_pick})
 
@@ -794,6 +796,7 @@ class PlayerPicksService:
                 session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
                     .filter(PlayerPicks.pick_type == 9) \
                     .filter(PlayerPicks.league_id == 1) \
+                    .filter(PlayerPicks.rank == 1) \
                     .update(
                     {"team_id": nl_wildcard1_pick, "date_submitted": now_time, "original_pick": nl_wildcard1_pick})
 
@@ -806,6 +809,7 @@ class PlayerPicksService:
                 session.query(PlayerPicks).filter(PlayerPicks.user_id == user_id) \
                     .filter(PlayerPicks.pick_type == 9) \
                     .filter(PlayerPicks.league_id == 1) \
+                    .filter(PlayerPicks.rank == 2) \
                     .update(
                     {"team_id": nl_wildcard2_pick, "date_submitted": now_time, "original_pick": nl_wildcard2_pick})
 
