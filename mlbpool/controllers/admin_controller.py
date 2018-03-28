@@ -131,10 +131,10 @@ class AdminController(BaseController):
         # redirect
         self.redirect('/admin/update_mlbplayers')
 
-    @pyramid_handlers.action(renderer='templates/admin/update_mlbplayers.pt',
+    @pyramid_handlers.action(renderer='templates/admin/add_mlbplayers.pt',
                              request_method='GET',
-                             name='update_mlbplayers')
-    def update_mlb_players(self):
+                             name='add_mlbplayers')
+    def add_mlb_players(self):
         """After updating to a new season, get a list of all MLB players for that season"""
         session = DbSessionFactory.create_session()
         su__query = session.query(Account.id).filter(Account.is_super_user == 1)\
@@ -149,10 +149,10 @@ class AdminController(BaseController):
         vm = UpdateMLBPlayersViewModel()
         return vm.to_dict()
 
-    @pyramid_handlers.action(renderer='templates/admin/update_mlbplayers.pt',
+    @pyramid_handlers.action(renderer='templates/admin/add_mlbplayers.pt',
                              request_method='POST',
-                             name='update_mlbplayers')
-    def update_mlb_players_post(self):
+                             name='add_mlbplayers')
+    def add_mlb_players_post(self):
         """After updating to a new season, get a list of all MLB players for that season"""
         vm = UpdateMLBPlayersViewModel()
         vm.from_dict(self.request.POST)
@@ -438,3 +438,35 @@ class AdminController(BaseController):
 
         # redirect
         self.redirect('/admin')
+
+    @pyramid_handlers.action(renderer='templates/admin/update_mlbplayers.pt',
+                             request_method='GET',
+                             name='update_mlbplayers')
+    def update_mlb_players(self):
+        """If MLB players have been added, run this to add any players that may not have been processed"""
+        session = DbSessionFactory.create_session()
+        su__query = session.query(Account.id).filter(Account.is_super_user == 1)\
+            .filter(Account.id == self.logged_in_user_id).first()
+
+        if su__query is None:
+            print("You must be an administrator to view this page")
+            self.redirect('/home')
+
+        session.close()
+
+        vm = UpdateMLBPlayersViewModel()
+        return vm.to_dict()
+
+    @pyramid_handlers.action(renderer='templates/admin/update_mlbplayers.pt',
+                             request_method='POST',
+                             name='update_mlbplayers')
+    def update_mlb_post(self):
+        """After updating to a new season, get a list of all MLB players for that season"""
+        vm = UpdateMLBPlayersViewModel()
+        vm.from_dict(self.request.POST)
+
+        # Insert MLBPlayer info
+        ActivePlayersService.update_mlbplayers()
+
+        # redirect
+        self.redirect('/admin/')
