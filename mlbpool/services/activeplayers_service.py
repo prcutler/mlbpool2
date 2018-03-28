@@ -76,18 +76,16 @@ class ActivePlayersService:
             except KeyError:
                 continue
 
-            for active_players in current_players:
-                if player_id == active_players:
-                    print(player_id, active_players)
-                    pass
+            if int(player_id) not in current_players:
 
-                else:
+                updated_players = ActiveMLBPlayers(firstname=firstname, lastname=lastname, player_id=player_id,
+                                                   team_id=team_id, position=position, season=season)
 
-                    updated_players = ActiveMLBPlayers(firstname=firstname, lastname=lastname, player_id=player_id,
-                                                       team_id=team_id, position=position, season=season)
+                session.add(updated_players)
 
-                    session.add(updated_players)
+                session.commit()
 
-                    session.commit()
+            else:
+                pass
 
             session.close()
