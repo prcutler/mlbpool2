@@ -461,7 +461,7 @@ class AdminController(BaseController):
                              request_method='POST',
                              name='update_mlbplayers')
     def update_mlb_post(self):
-        """After updating to a new season, get a list of all MLB players for that season"""
+        """If MLB players have been added, run this to add any players that may not have been processed"""
         vm = UpdateMLBPlayersViewModel()
         vm.from_dict(self.request.POST)
 
