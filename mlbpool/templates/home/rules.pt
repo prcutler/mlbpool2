@@ -34,6 +34,15 @@
                     If he is second in home runs, you earn 20 points.
                     If he is third, you get 10 points.  You will choose an individual leader in each category for
                     both leagues (AL and NL).</p>
+                <p>
+                    For batting average and ERA, MLBPool2 uses the same rules as MLB.  A MLB player only
+                    <a href="https://en.wikipedia.org/wiki/Batting_average#Qualifications_for_the_batting_title">qualifies
+                    for the batting average title</a> when he averages 3.1 plate appearances per team game.
+                    A pitcher must average throwing at least one inning per game scheduled for his team during the
+                    season (currently 162 innings per 162 games) to
+                    <a href="https://en.wikipedia.org/wiki/List_of_Major_League_Baseball_annual_ERA_leaders#endnote_Qualifyc">
+                        qualify for the ERA title.</a>.
+                </p>
             <h3>Double Points Bonus</h3>
                 <p> If two or less players make the same pick, you will be eligible for
                     double points in that category.  For instance, if you are one of two players to pick Joe Mauer
