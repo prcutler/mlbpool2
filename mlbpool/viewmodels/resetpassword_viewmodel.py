@@ -1,5 +1,4 @@
 import datetime
-
 from mlbpool.services.account_service import AccountService
 from mlbpool.viewmodels.viewmodelbase import ViewModelBase
 
@@ -25,6 +24,10 @@ class ResetPasswordViewModel(ViewModelBase):
 
     def validate(self):
         self.error_msg = None
+
+        symbol = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_', '+', '=', ',', '.', '<', '>'
+                  '?', "/"]
+
         if not self.reset:
             self.error_msg = "Reset code not found"
             return
@@ -36,6 +39,21 @@ class ResetPasswordViewModel(ViewModelBase):
             if len(self.password) < 7:
                 self.error_msg = 'You must enter a password with at least eight characters'
                 return
+            if len(self.password) >= 24:
+                self.error = 'Your password must be 24 characters or less'
+
+            if not any(char in symbol for char in self.password):
+                self.error = 'Your password should have at least one of the symbol (!, @, #, $, %, ^, &, *, (, ), _, -, '' \
+                ''=, +, ,, <, ., >, /, ?)'
+
+            if not any(char.isdigit() for char in self.password):
+                self.error = 'Your password have at least one number'
+
+            if not any(char.isupper() for char in self.password):
+                self.error = 'Your password should have at least one uppercase letter'
+
+            if not any(char.islower() for char in self.password):
+                self.error = 'Your password should have at least one lowercase letter'
 
         if self.reset.was_used:
             self.error_msg = 'This reset code has already been used.'
