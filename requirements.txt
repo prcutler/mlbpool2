@@ -37,7 +37,7 @@ pytzdata==2018.3
 PyYAML==3.12
 repoze.lru==0.7
 requests==2.18.4
-rollbar==0.13.17
+rollbar==0.13.18
 six==1.11.0
 slackclient==1.1.2
 slacker==0.9.60
