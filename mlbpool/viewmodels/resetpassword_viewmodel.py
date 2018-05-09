@@ -38,7 +38,7 @@ class ResetPasswordViewModel(ViewModelBase):
                 return
             if len(self.password) < 7:
                 self.error_msg = 'You must enter a password with at least eight characters'
-                return
+
             if len(self.password) >= 24:
                 self.error = 'Your password must be 24 characters or less'
 
