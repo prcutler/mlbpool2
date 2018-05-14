@@ -193,19 +193,25 @@ class StandingsService:
                 sqlstr += "AND w2." + cattype + "<w." + cattype + ")+1 as rank, "
                 sqlstr += "w.update_date, "
                 sqlstr += "w.season "
-                sqlstr += "FROM WeeklyMLBPlayerStats w, PlayerPicks p "
+                sqlstr += "FROM WeeklyMLBPlayerStats w, PlayerPicks p, WeeklyTeamStats wt2, ActiveMLBPlayers ap2 "
                 sqlstr += "WHERE w.player_id = p.player_id "
+                sqlstr += "AND ap2.player_id=p.player_id "
+                sqlstr += "AND ap2.team_id = wt2.team_id "
+                sqlstr += "AND w.innings_pitched >= wt2.team_games_played "
                 sqlstr += "AND w.season = " + str(season) + " "
                 sqlstr += "AND w.update_date = '" + str(last_update) + "' "
                 sqlstr += "AND p.pick_type = " + str(i) + " "
                 sqlstr += "AND p.league_id = " + str(league) + " "
                 sqlstr += "AND w." + cattype + " IS NOT NULL "
+                sqlstr += "AND w." + cattype + "<>0 "
                 sqlstr += "ORDER BY rank) as t1, PickTypePoints pts "
                 sqlstr += "WHERE "
                 sqlstr += "pts.pick_type_id = " + str(i) + " "
                 sqlstr += "AND t1.rank = pts.rank"
                 session.execute(sqlstr)
                 session.commit()
+
+                print(sqlstr)
 
             # increment counters
             if i == 8:
