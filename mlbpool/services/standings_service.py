@@ -155,7 +155,7 @@ class StandingsService:
                 sqlstr += "AND wt.update_date = '" + str(last_update) + "' "
                 sqlstr += "AND t.league_id = " + str(league) + " "
                 sqlstr += "AND w2.plate_appearances >= (3.1*wt.team_games_played) "
-                sqlstr += "AND W2." + cattype + ">w." + cattype + ")+1 as rank, "
+                sqlstr += "AND w2." + cattype + ">w." + cattype + ")+1 as rank, "
                 sqlstr += "w.update_date, "
                 sqlstr += "w.season "
                 sqlstr += "FROM WeeklyMLBPlayerStats w, PlayerPicks p "
