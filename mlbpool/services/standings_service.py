@@ -121,7 +121,7 @@ class StandingsService:
                 sqlstr += "AND w2.player_id = ap.player_id "
                 sqlstr += "AND ap.team_id = t.team_id "
                 sqlstr += "AND t.league_id = " + str(league) + " "
-                sqlstr += "AND W2." + cattype + ">w." + cattype + ")+1 as rank, "
+                sqlstr += "AND w2." + cattype + ">w." + cattype + ")+1 as rank, "
                 sqlstr += "w.update_date, "
                 sqlstr += "w.season "
                 sqlstr += "FROM WeeklyMLBPlayerStats w, PlayerPicks p "
