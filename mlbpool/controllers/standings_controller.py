@@ -6,6 +6,7 @@ from mlbpool.data.dbsession import DbSessionFactory
 from mlbpool.data.weekly_player_results import WeeklyPlayerResults
 from mlbpool.viewmodels.standings_season_points_viewmodel import StandingsPointsViewModel
 from mlbpool.services.gameday_service import GameDayService
+from mlbpool.services.time_service import TimeService
 import pendulum
 
 
@@ -41,7 +42,7 @@ class StandingsController(BaseController):
 
         else:
 
-            if season_year < GameDayService.season_opener_date():
+            if TimeService.get_time() > GameDayService.last_game_date():
                 date_updated = 'Final Standings'
 
             else:
