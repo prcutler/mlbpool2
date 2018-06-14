@@ -36,7 +36,7 @@ pytz==2018.4
 pytzdata==2018.5
 PyYAML==3.12
 repoze.lru==0.7
-requests==2.19.0
+requests==2.19.1
 rollbar==0.14.0
 six==1.11.0
 slackclient==1.2.1
