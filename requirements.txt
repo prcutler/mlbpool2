@@ -34,7 +34,7 @@ pyramid-mako==1.0.2
 python-dateutil==2.7.3
 pytz==2018.4
 pytzdata==2018.5
-PyYAML==3.12
+PyYAML==4.1
 repoze.lru==0.7
 requests==2.19.1
 rollbar==0.14.1
