@@ -67,6 +67,8 @@ class StandingsService:
         sqlstr += "GROUP BY p.user_id "
         sqlstr += "ORDER BY total_points DESC"
 
+        print(sqlstr)
+
         session = DbSessionFactory.create_session()
         standings = session.execute(sqlstr)
 
@@ -112,7 +114,7 @@ class StandingsService:
                 sqlstr = "INSERT INTO WeeklyPlayerResults (pick_id, season, update_date, points_earned) "
                 sqlstr += "SELECT t1.pick_id as pick_id, t1.season as season, t1.update_date as update_date, (pts.points*t1.multiplier*t1.changed) as points_earned "
                 sqlstr += "FROM "
-                sqlstr += "(SELECT p.pick_id, p.user_id, p.multiplier, IF(p.changed=1,0.5,1) as changed, p.player_id, "
+                sqlstr += "(SELECT DISTINCT p.pick_id, p.user_id, p.multiplier, IF(p.changed=1,0.5,1) as changed, p.player_id, "
                 sqlstr += "(SELECT count(*) from WeeklyMLBPlayerStats as w2, ActiveMLBPlayers as ap, "
                 sqlstr += "TeamInfo as t "
                 sqlstr += "WHERE "
@@ -142,7 +144,7 @@ class StandingsService:
                 sqlstr = "INSERT INTO WeeklyPlayerResults (pick_id, season, update_date, points_earned) "
                 sqlstr += "SELECT t1.pick_id as pick_id, t1.season as season, t1.update_date as update_date, (pts.points*t1.multiplier*t1.changed) as points_earned "
                 sqlstr += "FROM "
-                sqlstr += "(SELECT p.pick_id, p.user_id, p.multiplier, IF(p.changed=1,0.5,1) as changed, p.player_id, "
+                sqlstr += "(SELECT DISTINCT p.pick_id, p.user_id, p.multiplier, IF(p.changed=1,0.5,1) as changed, p.player_id, "
                 sqlstr += "(SELECT count(*) from WeeklyMLBPlayerStats as w2, ActiveMLBPlayers as ap, "
                 sqlstr += "TeamInfo as t, WeeklyTeamStats as wt  "
                 sqlstr += "WHERE "
@@ -176,7 +178,7 @@ class StandingsService:
                 sqlstr = "INSERT INTO WeeklyPlayerResults (pick_id, season, update_date, points_earned) "
                 sqlstr += "SELECT t1.pick_id as pick_id, t1.season as season, t1.update_date as update_date, (pts.points*t1.multiplier*t1.changed) as points_earned "
                 sqlstr += "FROM "
-                sqlstr += "(SELECT p.pick_id, p.user_id, p.multiplier, IF(p.changed=1,0.5,1) as changed, p.player_id, "
+                sqlstr += "(SELECT DISTINCT p.pick_id, p.user_id, p.multiplier, IF(p.changed=1,0.5,1) as changed, p.player_id, "
                 sqlstr += "(SELECT count(*) from WeeklyMLBPlayerStats as w2, ActiveMLBPlayers as ap, "
                 sqlstr += "TeamInfo as t, WeeklyTeamStats as wt  "
                 sqlstr += "WHERE "
