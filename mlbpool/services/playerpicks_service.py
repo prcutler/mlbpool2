@@ -848,7 +848,7 @@ class PlayerPicksService:
                         .filter(PlayerPicks.pick_type == 1) \
                         .filter(PlayerPicks.rank == 2).filter(PlayerPicks.league_id == 0) \
                         .filter(PlayerPicks.division_id == 1) \
-                        .update({"team_id": al_east_winner_pick, "date_submitted": now_time, "changed": 1,
+                        .update({"team_id": al_east_second_pick, "date_submitted": now_time, "changed": 1,
                                  "multiplier": 1})
 
                     print("Original pick:", pick, type(pick), "New picK:", al_east_second_pick)
@@ -866,7 +866,7 @@ class PlayerPicksService:
                         .filter(PlayerPicks.pick_type == 1) \
                         .filter(PlayerPicks.rank == 5).filter(PlayerPicks.league_id == 0) \
                         .filter(PlayerPicks.division_id == 1) \
-                        .update({"team_id": al_east_winner_pick, "date_submitted": now_time, "changed": 1,
+                        .update({"team_id": al_east_last_pick, "date_submitted": now_time, "changed": 1,
                                  "multiplier": 1})
 
 #                    print("Original pick:", pick, type(pick), "New picK:", al_east_last_pick)
@@ -902,10 +902,10 @@ class PlayerPicksService:
                         .filter(PlayerPicks.pick_type == 1) \
                         .filter(PlayerPicks.rank == 2).filter(PlayerPicks.league_id == 0) \
                         .filter(PlayerPicks.division_id == 2) \
-                        .update({"team_id": al_central_winner_pick, "date_submitted": now_time, "changed": 1,
+                        .update({"team_id": al_central_second_pick, "date_submitted": now_time, "changed": 1,
                                  "multiplier": 1})
 
-                    print("Original pick:", pick, type(pick), "New picK:", al_central_second_pick)
+#                    print("Original pick:", pick, type(pick), "New picK:", al_central_second_pick)
 
             # Update the AL Central Last Place Team
             for pick in session.query(PlayerPicks.team_id).filter(PlayerPicks.user_id == user_id) \
@@ -920,7 +920,7 @@ class PlayerPicksService:
                         .filter(PlayerPicks.pick_type == 1) \
                         .filter(PlayerPicks.rank == 5).filter(PlayerPicks.league_id == 0) \
                         .filter(PlayerPicks.division_id == 2) \
-                        .update({"team_id": al_central_winner_pick, "date_submitted": now_time, "changed": 1,
+                        .update({"team_id": al_central_last_pick, "date_submitted": now_time, "changed": 1,
                                  "multiplier": 1})
 
 #                    print("Original pick:", pick, type(pick), "New picK:", al_central_last_pick)
@@ -1010,7 +1010,7 @@ class PlayerPicksService:
                         .filter(PlayerPicks.pick_type == 1) \
                         .filter(PlayerPicks.rank == 2).filter(PlayerPicks.league_id == 1) \
                         .filter(PlayerPicks.division_id == 1) \
-                        .update({"team_id": nl_east_winner_pick, "date_submitted": now_time, "changed": 1,
+                        .update({"team_id": nl_east_second_pick, "date_submitted": now_time, "changed": 1,
                                  "multiplier": 1})
 
 #                print("Original pick:", pick, type(pick), "New picK:", nl_east_second_pick)
@@ -1028,7 +1028,7 @@ class PlayerPicksService:
                         .filter(PlayerPicks.pick_type == 1) \
                         .filter(PlayerPicks.rank == 5).filter(PlayerPicks.league_id == 1) \
                         .filter(PlayerPicks.division_id == 1) \
-                        .update({"team_id": nl_east_winner_pick, "date_submitted": now_time, "changed": 1,
+                        .update({"team_id": nl_east_last_pick, "date_submitted": now_time, "changed": 1,
                                  "multiplier": 1})
 
 #                    print("Original pick:", pick, type(pick), "New picK:", nl_east_last_pick)
@@ -1064,7 +1064,7 @@ class PlayerPicksService:
                         .filter(PlayerPicks.pick_type == 1) \
                         .filter(PlayerPicks.rank == 2).filter(PlayerPicks.league_id == 1) \
                         .filter(PlayerPicks.division_id == 2) \
-                        .update({"team_id": nl_central_winner_pick, "date_submitted": now_time, "changed": 1,
+                        .update({"team_id": nl_central_second_pick, "date_submitted": now_time, "changed": 1,
                                  "multiplier": 1})
 
                     print("Original pick:", pick, type(pick), "New picK:", nl_central_second_pick)
@@ -1082,7 +1082,7 @@ class PlayerPicksService:
                         .filter(PlayerPicks.pick_type == 1) \
                         .filter(PlayerPicks.rank == 5).filter(PlayerPicks.league_id == 1) \
                         .filter(PlayerPicks.division_id == 2) \
-                        .update({"team_id": nl_central_winner_pick, "date_submitted": now_time, "changed": 1,
+                        .update({"team_id": nl_central_last_pick, "date_submitted": now_time, "changed": 1,
                                  "multiplier": 1})
 
 #                    print("Original pick:", pick, type(pick), "New picK:", nl_central_last_pick)
