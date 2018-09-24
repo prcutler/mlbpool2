@@ -26,27 +26,25 @@ class NewSeasonService:
         if season_row.count() == 0:
             print("New install, adding a season")
 
-            response = requests.get('https://api.mysportsfeeds.com/v1.2/pull/mlb/' + str(season) +
-                                    '-regular/full_game_schedule.json',
-                                    auth=HTTPBasicAuth(config.msf_username, config.msf_pw))
+            response = requests.get('https://api.mysportsfeeds.com/v2.0/pull/mlb/' + str(season) +
+                                    '-regular/games.json',
+                                    auth=HTTPBasicAuth(config.msf_api, config.msf_v2pw))
 
             gameday_json = response.json()
-            gameday_data = gameday_json["fullgameschedule"]["gameentry"][0]
-            last_game_data = gameday_json["fullgameschedule"]["gameentry"][-1]
+            gameday_data = gameday_json["games"][0]
+            last_game_data = gameday_json["games"][-1]
 
-            first_game_date = gameday_data["date"]
-            first_game_time = gameday_data["time"]
+            first_game_date = gameday_data["schedule"]["startTime"]
+
+            season_start_date = pendulum.parse(first_game_date, tz='America/NewYork')
+            game_date = pendulum.datetime(season_start_date)
+            first_game_time = game_date.to_time_string()
+
             away_team = gameday_data["awayTeam"]["Name"]
             home_team = gameday_data["homeTeam"]["Name"]
-            last_game_date = last_game_data["date"]
+            last_game_date = last_game_data["schedule"]["startTime"]
 
-            first_game = first_game_date + "T" + first_game_time[:-2]
-            first_game_calc = pendulum.from_format(first_game, '%Y-%m-%dT%H:%M')
-
-            if 1 >= first_game_calc.hour <= 10:
-                first_game = first_game_calc.add(hours=12)
-
-            new_season = SeasonInfo(season_start_date=first_game, season_start_time=first_game_time,
+            new_season = SeasonInfo(season_start_date=season_start_date, season_start_time=first_game_time,
                                     home_team=home_team, away_team=away_team, current_season=season,
                                     all_star_game_date=all_star_game_date, season_end_date=last_game_date)
 
@@ -55,33 +53,31 @@ class NewSeasonService:
             session.add(new_season)
             session.commit()
             session.close()
+
         else:
             print("Existing season found, updating to new year")
 
-            response = requests.get('https://api.mysportsfeeds.com/v1.2/pull/mlb/' + str(season) +
-                                    '-regular/full_game_schedule.json',
-                                    auth=HTTPBasicAuth(config.msf_username, config.msf_pw))
+            response = requests.get('https://api.mysportsfeeds.com/v2.0/pull/mlb/' + str(season) +
+                                    '-regular/games.json',
+                                    auth=HTTPBasicAuth(config.msf_api, config.msf_v2pw))
 
             gameday_json = response.json()
-            gameday_data = gameday_json["fullgameschedule"]["gameentry"][0]
-            last_game_data = gameday_json["fullgameschedule"]["gameentry"][-1]
+            gameday_data = gameday_json["games"][0]
+            last_game_data = gameday_json["games"][-1]
 
-            first_game_date = gameday_data["date"]
-            first_game_time = gameday_data["time"]
+            first_game_date = gameday_data["schedule"]["startTime"]
+
+            season_start_date = pendulum.parse(first_game_date, tz='America/NewYork')
+            game_date = pendulum.datetime(season_start_date)
+            first_game_time = game_date.to_time_string()
+
             away_team = gameday_data["awayTeam"]["Name"]
             home_team = gameday_data["homeTeam"]["Name"]
-            last_game_date = last_game_data["date"]
-
-            first_game = first_game_date + "T" + first_game_time[:-2]
-            # print("First game str concatenation:", first_game)
-            first_game_calc = pendulum.from_format(first_game, '%Y-%m-%dT%H:%M')
-
-            if 1 >= first_game_calc.hour <= 10:
-                first_game = first_game_calc.add(hours=12)
+            last_game_date = last_game_data["schedule"]["startTime"]
 
             update_row = session.query(SeasonInfo).filter(SeasonInfo.id == '1').first()
             update_row.current_season = season
-            update_row.season_start_date = first_game
+            update_row.season_start_date = season_start_date
             update_row.all_star_game_date = all_star_game_date
             update_row.season_start_time = first_game_time
             update_row.away_team = away_team
