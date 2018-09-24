@@ -98,7 +98,7 @@ class AdminController(BaseController):
         NewInstallService.create_pick_type_points()
 
         # redirect
-        self.redirect('/admin/update_mlbplayers')
+        self.redirect('/admin/add_mlbplayers')
 
     @pyramid_handlers.action(renderer='templates/admin/new_season.pt',
                              request_method='GET',

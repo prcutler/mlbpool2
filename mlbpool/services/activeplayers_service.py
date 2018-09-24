@@ -19,8 +19,8 @@ class ActivePlayersService:
         season_row = session.query(SeasonInfo).filter(SeasonInfo.id == '1').first()
         season = season_row.current_season
 
-        response = requests.get('https://api.mysportsfeeds.com/v2.0/pull/mlb/' + str(season) +
-                                '-regular/players.json?season=2018&rosterstatus=assigned-to-roster',
+        response = requests.get('https://api.mysportsfeeds.com/v2.0/pull/mlb/'
+                                'players.json?season=' + str(season) + '&rosterstatus=assigned-to-roster',
                                 auth=HTTPBasicAuth(config.msf_api, config.msf_v2pw))
 
         player_info = response.json()
@@ -30,10 +30,10 @@ class ActivePlayersService:
             try:
                 firstname = players["player"]["firstName"]
                 lastname = players["player"]["lastName"]
-                player_id = players["player"]["currentTeam"]["id"]
-                team_id = players["teamAsOfDate"]["id"]
+                player_id = players["player"]["id"]
+                team_id = players["player"]["currentTeam"]["id"]
                 position = players["player"]["primaryPosition"]
-            except KeyError:
+            except TypeError:
                 continue
 
             active_players = ActiveMLBPlayers(firstname=firstname, lastname=lastname, player_id=player_id,
@@ -52,8 +52,8 @@ class ActivePlayersService:
         season_row = session.query(SeasonInfo).filter(SeasonInfo.id == '1').first()
         season = season_row.current_season
 
-        response = requests.get('https://api.mysportsfeeds.com/v2.0/pull/mlb/' + str(season) +
-                                '-regular/players.json?season=2018&rosterstatus=assigned-to-roster',
+        response = requests.get('https://api.mysportsfeeds.com/v2.0/pull/mlb/'
+                                'players.json?season=' + str(season) + '&rosterstatus=assigned-to-roster',
                                 auth=HTTPBasicAuth(config.msf_api, config.msf_v2pw))
 
         player_info = response.json()
@@ -69,8 +69,8 @@ class ActivePlayersService:
 
                 firstname = players["player"]["firstName"]
                 lastname = players["player"]["lastName"]
-                player_id = players["player"]["currentTeam"]["id"]
-                team_id = players["teamAsOfDate"]["id"]
+                player_id = players["player"]["id"]
+                team_id = players["player"]["currentTeam"]["id"]
                 position = players["player"]["primaryPosition"]
 
             except KeyError:
