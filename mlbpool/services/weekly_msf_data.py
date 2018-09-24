@@ -5,7 +5,7 @@ import mlbpool.data.config as config
 from requests.auth import HTTPBasicAuth
 from mlbpool.data.seasoninfo import SeasonInfo
 from mlbpool.data.weekly_team_stats import WeeklyTeamStats
-import pendulum
+from mlbpool.services.time_service import TimeService
 
 
 def get_seasons():
@@ -22,7 +22,7 @@ def get_seasons():
 def get_update_date():
     """Get the date of the update to insert into the database"""
 
-    today = pendulum.now()
+    today = TimeService.get_time()
     stats_date = today.subtract(days=1)
 
     return stats_date
@@ -40,26 +40,24 @@ class WeeklyStatsService:
 
         season_row = session.query(SeasonInfo).filter(SeasonInfo.id == '1').first()
         season = season_row.current_season
-        season_start = session.query(SeasonInfo).filter(SeasonInfo.season_start_date == '1').first()
 
-        response = requests.get('https://api.mysportsfeeds.com/v1.2/pull/mlb/' + str(season) +
-                                '-regular/cumulative_player_stats.json?playerstats=HR,AVG,RBI,PA,H,AB'
-                                '&position=C,1B,2B,SS,3B,OF,RF,CF,LF,DH',
-                                auth=HTTPBasicAuth(config.msf_username, config.msf_pw))
+        response = requests.get('https://api.mysportsfeeds.com/v2.0/pull/mlb/' + str(season) +
+                                '-regular/player_stats_totals.json?position=C,1B,2B,SS,3B,OF,RF,CF,LF,DH',
+                                auth=HTTPBasicAuth(config.msf_api, config.msf_v2pw))
 
         player_json = response.json()
-        player_data = player_json["cumulativeplayerstats"]["playerstatsentry"]
+        player_data = player_json["playerStatsTotals"]
 
         for players in player_data:
             try:
-                player_id = players["player"]["ID"]
-                home_runs = players["stats"]["Homeruns"]["#text"]
-                RBI = players["stats"]["RunsBattedIn"]["#text"]
-                batting_average = players["stats"]["BattingAvg"]["#text"]
-                at_bats = players["stats"]["AtBats"]["#text"]
-                hits = players["stats"]["Hits"]["#text"]
-                plate_appearances = players["stats"]["PlateAppearances"]["#text"]
-                player_games_played = players["stats"]["GamesPlayed"]["#text"]
+                player_id = players["player"]["id"]
+                home_runs = players["stats"]["batting"]["homeruns"]
+                RBI = players["stats"]["batting"]["runsBattedIn"]
+                batting_average = players["stats"]["batting"]["battingAvg"]
+                at_bats = players["stats"]["batting"]["atBats"]
+                hits = players["stats"]["batting"]["hits"]
+                plate_appearances = players["stats"]["batting"]["plateAppearances"]
+                player_games_played = players["stats"]["gamesPlayed"]
 
             except KeyError:
                 continue
@@ -87,22 +85,21 @@ class WeeklyStatsService:
 
         season_row = session.query(SeasonInfo).filter(SeasonInfo.id == '1').first()
         season = season_row.current_season
-        season_start = session.query(SeasonInfo).filter(SeasonInfo.season_start_date == '1').first()
 
-        response = requests.get('https://api.mysportsfeeds.com/v1.2/pull/mlb/' + str(season) +
-                                '-regular/cumulative_player_stats.json?playerstats=W,ERA,IP,ER&position=P',
+        response = requests.get('https://api.mysportsfeeds.com/v2.0/pull/mlb/' + str(season) +
+                                '-regular/player_stats_totals.json?position=P',
                                 auth=HTTPBasicAuth(config.msf_username, config.msf_pw))
 
         player_json = response.json()
-        player_data = player_json["cumulativeplayerstats"]["playerstatsentry"]
+        player_data = player_json["playerStatsTotals"]
 
         for players in player_data:
             try:
-                player_id = players["player"]["ID"]
-                ERA = players["stats"]["EarnedRunAvg"]["#text"]
-                pitcher_wins = players["stats"]["Wins"]["#text"]
-                earned_runs = players["stats"]["EarnedRunsAllowed"]["#text"]
-                innings_pitched = players["stats"]["InningsPitched"]["#text"]
+                player_id = players["player"]["id"]
+                ERA = players["stats"]["pitching"]["earnedRunAvg"]
+                pitcher_wins = players["stats"]["pitching"]["wins"]
+                earned_runs = players["stats"]["pitching"]["earnedRunsAllowed"]
+                innings_pitched = players["stats"]["pitching"]["inningsPitched"]
 
             except KeyError:
                 continue
@@ -128,146 +125,31 @@ class WeeklyStatsService:
 
         season_row = session.query(SeasonInfo).filter(SeasonInfo.id == '1').first()
         season = season_row.current_season
-        season_start = session.query(SeasonInfo).filter(SeasonInfo.season_start_date == '1').first()
 
-        response = requests.get('https://api.mysportsfeeds.com/v1.2/pull/mlb/' + str(season) +
-                                '-regular/division_team_standings.json?teamstats=W',
-                                auth=HTTPBasicAuth(config.msf_username, config.msf_pw))
+        response = requests.get('https://api.mysportsfeeds.com/v2.0/pull/mlb/' + str(season) +
+                                '-regular/standings.json',
+                                auth=HTTPBasicAuth(config.msf_api, config.msf_v2pw))
 
-        team_json = response.json()
-        team_data = team_json["divisionteamstandings"]["division"]
+        standings_json = response.json()
+        standings_data = standings_json["teams"]
 
         x = 0
-        y = 0
-        z = 0
-        a = 0
-        b = 0
 
-        while x < len(team_data):
-            rank = (team_data[x]["teamentry"][1]["rank"])
-            team_id = (team_data[x]["teamentry"][1]["team"]["ID"])
-            team_wins = team_data[x]["teamentry"][1]["stats"]["Wins"]["#text"]
+        for teams in standings_data:
+            team_id = standings_data[x]["team"]["id"]
+            division_rank = standings_data[x]["divisionRank"]["rank"]
+            playoff_rank = standings_data[x]["playoffRank"]["rank"]
+            team_wins = standings_data[x]["standings"]["wins"]
+            games_played = standings_data[x]["stats"]["gamesPlayed"]
+            update_date = get_update_date()
+
+            weekly_team_stats = WeeklyTeamStats(team_id=team_id, season=season, team_wins=team_wins,
+                                                division_rank=division_rank, league_rank=playoff_rank,
+                                                team_games_played=games_played, update_date=update_date)
 
             x += 1
 
-            update_date = get_update_date()
-
-            weekly_team_stats = WeeklyTeamStats(team_id=team_id, season=season, team_wins=team_wins,
-                                                division_rank=rank, update_date=update_date)
-
             session.add(weekly_team_stats)
-            session.commit()
-
-        while y < len(team_data):
-            rank = (team_data[y]["teamentry"][0]["rank"])
-            team_id = (team_data[y]["teamentry"][0]["team"]["ID"])
-            team_wins = team_data[y]["teamentry"][1]["stats"]["Wins"]["#text"]
-
-            y += 1
-
-            update_date = get_update_date()
-
-            weekly_team_stats = WeeklyTeamStats(team_id=team_id, season=season, team_wins=team_wins,
-                                                division_rank=rank, update_date=update_date)
-
-            session.add(weekly_team_stats)
-            session.commit()
-
-        while z < len(team_data):
-            rank = (team_data[z]["teamentry"][2]["rank"])
-            team_id = (team_data[z]["teamentry"][2]["team"]["ID"])
-            team_wins = team_data[z]["teamentry"][1]["stats"]["Wins"]["#text"]
-
-            z += 1
-
-            update_date = get_update_date()
-
-            weekly_team_stats = WeeklyTeamStats(team_id=team_id, season=season, team_wins=team_wins,
-                                                division_rank=rank, update_date=update_date)
-
-            session.add(weekly_team_stats)
-            session.commit()
-
-        while a < len(team_data):
-            rank = (team_data[a]["teamentry"][3]["rank"])
-            team_id = (team_data[a]["teamentry"][3]["team"]["ID"])
-            team_wins = team_data[a]["teamentry"][1]["stats"]["Wins"]["#text"]
-
-            a += 1
-
-            update_date = get_update_date()
-
-            weekly_team_stats = WeeklyTeamStats(team_id=team_id, season=season, team_wins=team_wins,
-                                                division_rank=rank, update_date=update_date)
-
-            session.add(weekly_team_stats)
-            session.commit()
-
-        while b < len(team_data):
-            rank = (team_data[b]["teamentry"][4]["rank"])
-            team_id = (team_data[b]["teamentry"][4]["team"]["ID"])
-            team_wins = team_data[b]["teamentry"][1]["stats"]["Wins"]["#text"]
-
-            b += 1
-
-            update_date = get_update_date()
-
-            weekly_team_stats = WeeklyTeamStats(team_id=team_id, season=season, team_wins=team_wins,
-                                                division_rank=rank, update_date=update_date)
-
-            session.add(weekly_team_stats)
-            session.commit()
-
-            session.close()
-
-    @staticmethod
-    def get_league_standings():
-        """Get the rank of each team in each league (1-15) and also how many games each team has played"""
-        session = DbSessionFactory.create_session()
-
-        season_row = session.query(SeasonInfo).filter(SeasonInfo.id == '1').first()
-        season = season_row.current_season
-
-        response = requests.get('https://api.mysportsfeeds.com/v1.2/pull/mlb/' + str(season) +
-                                '-regular/conference_team_standings.json?teamstats=W',
-                                auth=HTTPBasicAuth(config.msf_username, config.msf_pw))
-
-        x = 0
-        y = 0
-
-        data = response.json()
-        teamlist = data["conferenceteamstandings"]["conference"][0]["teamentry"]
-
-        for al_teams in teamlist:
-            team_id = int(data["conferenceteamstandings"]["conference"][0]["teamentry"][x]["team"]["ID"])
-            league_rank = data["conferenceteamstandings"]["conference"][0]["teamentry"][x]["rank"]
-            games_played = data["conferenceteamstandings"]["conference"][0]["teamentry"][x]["stats"][
-                "GamesPlayed"]["#text"]
-
-            x += 1
-
-            session.query(WeeklyTeamStats).filter(WeeklyTeamStats.team_id == team_id). \
-                update({"team_games_played": games_played})
-
-            session.query(WeeklyTeamStats).filter(WeeklyTeamStats.team_id == team_id). \
-                update({"league_rank": league_rank})
-
-            session.commit()
-
-        for nl_team_list in teamlist:
-            team_id = int(data["conferenceteamstandings"]["conference"][1]["teamentry"][y]["team"]["ID"])
-            league_rank = data["conferenceteamstandings"]["conference"][1]["teamentry"][y]["rank"]
-            games_played = data["conferenceteamstandings"]["conference"][1]["teamentry"][y]["stats"]["GamesPlayed"][
-                "#text"]
-
-            y += 1
-
-            session.query(WeeklyTeamStats).filter(WeeklyTeamStats.team_id == team_id). \
-                update({"team_games_played": games_played})
-
-            session.query(WeeklyTeamStats).filter(WeeklyTeamStats.team_id == team_id). \
-                update({"league_rank": league_rank})
-
             session.commit()
 
         session.close()
@@ -281,18 +163,18 @@ class WeeklyStatsService:
 
         update_date = get_update_date()
 
-        response = requests.get('https://api.mysportsfeeds.com/v1.2/pull/mlb/' + str(season) +
-                                '-regular/overall_team_standings.json?teamstats=W&team=120',
-                                auth=HTTPBasicAuth(config.msf_username, config.msf_pw))
+        response = requests.get('https://api.mysportsfeeds.com/v2.0/pull/mlb/' + str(season) +
+                                '-regular/overall_team_standings.json?team=120',
+                                auth=HTTPBasicAuth(config.msf_api, config.msf_v2pw))
 
         team_json = response.json()
-        team_data = team_json["overallteamstandings"]["teamstandingsentry"]
+        team_data = team_json["teams"]
 
         for teams in team_data:
-            twins_wins = teams["stats"]["Wins"]["#text"]
+            twins_wins = teams["standings"]["wins"]
 
             session.query(WeeklyTeamStats).filter(WeeklyTeamStats.team_id == 120)\
-                .filter(update_date == update_date) \
+                .filter(update_date == update_date).filter(season == season) \
                 .update({"tiebreaker_twin_wins": twins_wins})
 
             session.commit()
