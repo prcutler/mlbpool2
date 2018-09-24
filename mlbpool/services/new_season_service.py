@@ -36,7 +36,7 @@ class NewSeasonService:
 
             first_game_date = gameday_data["schedule"]["startTime"]
 
-            season_start_date = pendulum.parse(first_game_date, tz='America/NewYork')
+            season_start_date = pendulum.parse(first_game_date, tz='America/New_York')
             game_date = pendulum.datetime(season_start_date)
             first_game_time = game_date.to_time_string()
 
@@ -67,7 +67,7 @@ class NewSeasonService:
 
             first_game_date = gameday_data["schedule"]["startTime"]
 
-            season_start_date = pendulum.parse(first_game_date, tz='America/NewYork')
+            season_start_date = pendulum.parse(first_game_date, tz='America/New_York')
             game_date = pendulum.datetime(season_start_date)
             first_game_time = game_date.to_time_string()
 
