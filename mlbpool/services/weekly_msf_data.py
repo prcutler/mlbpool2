@@ -164,7 +164,7 @@ class WeeklyStatsService:
         update_date = get_update_date()
 
         response = requests.get('https://api.mysportsfeeds.com/v2.0/pull/mlb/' + str(season) +
-                                '-regular/overall_team_standings.json?team=120',
+                                '-regular/standings.json?team=120',
                                 auth=HTTPBasicAuth(config.msf_api, config.msf_v2pw))
 
         team_json = response.json()
