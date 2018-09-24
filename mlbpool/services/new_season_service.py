@@ -76,13 +76,15 @@ class NewSeasonService:
 
             first_game_date = gameday_data["schedule"]["startTime"]
 
-            season_start_date = pendulum.parse(first_game_date, tz='America/New_York')
-            print(season_start_date)
+            season_start_utc = pendulum.parse(first_game_date, tz='UTC')
+            season_start_date = season_start_utc.in_tz('America/New_York')
             first_game_time = season_start_date.to_time_string()
 
             away_team = gameday_data["schedule"]["awayTeam"]["abbreviation"]
             home_team = gameday_data["schedule"]["homeTeam"]["abbreviation"]
             last_game_date = last_game_data["schedule"]["startTime"]
+            last_game_utc = pendulum.parse(last_game_date, tz='UTC')
+            last_game_datetime = last_game_utc.in_tz('America/New_York')
 
             update_row = session.query(SeasonInfo).filter(SeasonInfo.id == '1').first()
             update_row.current_season = season
@@ -91,7 +93,7 @@ class NewSeasonService:
             update_row.season_start_time = first_game_time
             update_row.away_team = away_team
             update_row.home_team = home_team
-            update_row.season_end_date = last_game_date
+            update_row.season_end_date = last_game_datetime
 
             # TODO Add log for new season
 
