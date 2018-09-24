@@ -4,6 +4,10 @@ import requests
 from requests.auth import HTTPBasicAuth
 import mlbpool.data.config as config
 import pendulum
+import pymysql
+
+# Needed for pymysql to understand Pendulum datetimes
+pymysql.converters.conversions[pendulum.DateTime] = pymysql.converters.escape_datetime
 
 
 class NewSeasonService:
@@ -21,6 +25,9 @@ class NewSeasonService:
 
         new_season = SeasonInfo()
         new_season.current_season = season
+
+        all_star_game_datetime = pendulum.parse(all_star_game_date)
+
         new_season.all_star_game_date = all_star_game_date
 
         if season_row.count() == 0:
@@ -36,17 +43,19 @@ class NewSeasonService:
 
             first_game_date = gameday_data["schedule"]["startTime"]
 
-            season_start_date = pendulum.parse(first_game_date, tz='America/New_York')
-            game_date = pendulum.datetime(season_start_date)
-            first_game_time = game_date.to_time_string()
+            season_start_utc = pendulum.parse(first_game_date, tz='UTC')
+            season_start_date = season_start_utc.in_tz('America/New_York')
+            first_game_time = season_start_date.to_time_string()
 
-            away_team = gameday_data["awayTeam"]["Name"]
-            home_team = gameday_data["homeTeam"]["Name"]
+            away_team = gameday_data["schedule"]["awayTeam"]["abbreviation"]
+            home_team = gameday_data["schedule"]["homeTeam"]["abbreviation"]
             last_game_date = last_game_data["schedule"]["startTime"]
+            last_game_utc = pendulum.parse(last_game_date, tz='UTC')
+            last_game_datetime = last_game_utc.in_tz('America/New_York')
 
             new_season = SeasonInfo(season_start_date=season_start_date, season_start_time=first_game_time,
                                     home_team=home_team, away_team=away_team, current_season=season,
-                                    all_star_game_date=all_star_game_date, season_end_date=last_game_date)
+                                    all_star_game_date=all_star_game_datetime, season_end_date=last_game_datetime)
 
             # TODO Add log for new_season
 
@@ -68,11 +77,11 @@ class NewSeasonService:
             first_game_date = gameday_data["schedule"]["startTime"]
 
             season_start_date = pendulum.parse(first_game_date, tz='America/New_York')
-            game_date = pendulum.datetime(season_start_date)
-            first_game_time = game_date.to_time_string()
+            print(season_start_date)
+            first_game_time = season_start_date.to_time_string()
 
-            away_team = gameday_data["awayTeam"]["Name"]
-            home_team = gameday_data["homeTeam"]["Name"]
+            away_team = gameday_data["schedule"]["awayTeam"]["abbreviation"]
+            home_team = gameday_data["schedule"]["homeTeam"]["abbreviation"]
             last_game_date = last_game_data["schedule"]["startTime"]
 
             update_row = session.query(SeasonInfo).filter(SeasonInfo.id == '1').first()
