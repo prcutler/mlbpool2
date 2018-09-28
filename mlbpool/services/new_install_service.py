@@ -7,6 +7,7 @@ from mlbpool.data.divisioninfo import DivisionInfo
 from mlbpool.data.leagueinfo import LeagueInfo
 from mlbpool.data.picktypes import PickTypes
 from mlbpool.data.pick_type_points import PickTypePoints
+from mlbpool.data.seasoninfo import SeasonInfo
 
 
 class NewInstallService:
@@ -18,63 +19,49 @@ class NewInstallService:
     @staticmethod
     def get_team_info():
         """From MySportsFeeds get the team name, team city, team ID and abbreviation.  Loop through
-        the AFC teams (0 in the API) and NFC (1) in the API.  The Division IDs are self created.  This method
+        all teams in the API.  The Division IDs are self created.  This method
         will fill the TeamInfo table in the database."""
 
         session = DbSessionFactory.create_session()
+        season_query = session.query(SeasonInfo.current_season).first()
+        season = season_query[0]
 
         x = 0
-        y = 0
 
         response = requests.get(
-            'https://api.mysportsfeeds.com/v1.2/pull/mlb/2018-regular/conference_team_standings.json',
-            auth=HTTPBasicAuth(config.msf_username, config.msf_pw))
+            'https://api.mysportsfeeds.com/v2.0/pull/mlb/' + str(season) + '-regular/standings.json',
+            auth=HTTPBasicAuth(config.msf_api, config.msf_v2pw))
 
         data = response.json()
 
-        teamlist = data["conferenceteamstandings"]["conference"][0]["teamentry"]
+        teamlist = data["teams"]
 
         # Create a loop to extract each team name (American League first, then National League)
 
-        for al_team_list in teamlist:
-            al_team_name = data["conferenceteamstandings"]["conference"][0]["teamentry"][x]["team"]["Name"]
-            al_team_city = data["conferenceteamstandings"]["conference"][0]["teamentry"][x]["team"]["City"]
-            al_team_id = int(data["conferenceteamstandings"]["conference"][0]["teamentry"][x]["team"]["ID"])
-            al_team_abbr = data["conferenceteamstandings"]["conference"][0]["teamentry"][x]["team"]["Abbreviation"]
+        for team_list in teamlist:
+            team_name = teamlist[x]["team"]["name"]
+            team_city = teamlist[x]["team"]["city"]
+            team_id = int(teamlist[x]["team"]["id"])
+            team_abbr = teamlist[x]["team"]["abbreviation"]
+            conference_name = teamlist[x]["conferenceRank"]["conferenceName"]
+            division_name = teamlist[x]["divisionRank"]["divisionName"]
 
-            if al_team_id <= 115:
+            if division_name == 'East':
                 division_id = 1
-            elif al_team_id <= 120:
+            elif division_name == 'Central':
                 division_id = 2
             else:
                 division_id = 3
 
-            x = x + 1
-
-            team_info = TeamInfo(city=al_team_city, team_id=al_team_id, team_abbr=al_team_abbr,
-                                 name=al_team_name, league_id=0, division_id=division_id)
-
-            session.add(team_info)
-
-            session.commit()
-
-        for nl_team_list in teamlist:
-            nl_team_name = data["conferenceteamstandings"]["conference"][1]["teamentry"][y]["team"]["Name"]
-            nl_team_city = data["conferenceteamstandings"]["conference"][1]["teamentry"][y]["team"]["City"]
-            nl_team_id = int(data["conferenceteamstandings"]["conference"][1]["teamentry"][y]["team"]["ID"])
-            nl_team_abbr = data["conferenceteamstandings"]["conference"][1]["teamentry"][y]["team"]["Abbreviation"]
-
-            if nl_team_id <= 130:
-                division_id = 1
-            elif nl_team_id <= 135:
-                division_id = 2
+            if conference_name == 'American League':
+                league_id = 0
             else:
-                division_id = 3
+                league_id = 1
 
-            y = y + 1
+            x += 1
 
-            team_info = TeamInfo(city=nl_team_city, team_id=nl_team_id, team_abbr=nl_team_abbr,
-                                 name=nl_team_name, league_id=1, division_id=division_id)
+            team_info = TeamInfo(city=team_city, team_id=team_id, team_abbr=team_abbr,
+                                 name=team_name, league_id=league_id, division_id=division_id)
 
             session.add(team_info)
 

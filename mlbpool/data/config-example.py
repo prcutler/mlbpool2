@@ -14,3 +14,6 @@ db_pw = ''
 
 Enter the webhook URL of your Slack application
 slack_webhook_url = ''
+
+msf_api = ''
+msf_v2pw = 'MYSPORTSFEEDS'

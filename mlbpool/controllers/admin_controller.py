@@ -20,6 +20,7 @@ from mlbpool.services.gameday_service import GameDayService
 from mlbpool.services.time_service import TimeService
 from mlbpool.services.trade_service import TradeService
 from mlbpool.viewmodels.admin_update_viewmodel import AdminViewModel
+from mlbpool.data.teaminfo import TeamInfo
 
 
 class AdminController(BaseController):
@@ -41,7 +42,7 @@ class AdminController(BaseController):
         season_info = session.query(SeasonInfo).all()
 
         if GameDayService.admin_check() is None:
-            self.redirect('/admin/new_install')
+            self.redirect('/admin/new_season')
 
         else:
 
@@ -97,7 +98,7 @@ class AdminController(BaseController):
         NewInstallService.create_pick_type_points()
 
         # redirect
-        self.redirect('/admin/new_season')
+        self.redirect('/admin/add_mlbplayers')
 
     @pyramid_handlers.action(renderer='templates/admin/new_season.pt',
                              request_method='GET',
@@ -129,8 +130,18 @@ class AdminController(BaseController):
         AccountService.reset_paid()
         NewSeasonService.create_season(vm.new_season_input, vm.season_all_star_game_date_input)
 
-        # redirect
-        self.redirect('/admin/update_mlbplayers')
+        session = DbSessionFactory.create_session()
+
+        team_data = session.query(TeamInfo.team_id).first()
+
+        if team_data is None:
+            session.close()
+            self.redirect('/admin/new_install')
+        else:
+            session.close()
+            self.redirect('/admin/update_mlbplayers')
+
+        session.close()
 
     @pyramid_handlers.action(renderer='templates/admin/add_mlbplayers.pt',
                              request_method='GET',
@@ -159,7 +170,7 @@ class AdminController(BaseController):
         vm.from_dict(self.request.POST)
 
         # Insert MLBPlayer info
-        active_players = ActivePlayersService.add_active_mlbplayers(vm.firstname, vm.lastname, vm.player_id,
+        ActivePlayersService.add_active_mlbplayers(vm.firstname, vm.lastname, vm.player_id,
                                                                     vm.team_id, vm.position, vm.season)
 
         # redirect
@@ -216,7 +227,6 @@ class AdminController(BaseController):
         WeeklyStatsService.get_hitter_stats()
         WeeklyStatsService.get_pitcher_stats()
         WeeklyStatsService.get_team_rankings()
-        WeeklyStatsService.get_league_standings()
         WeeklyStatsService.get_tiebreaker()
 
         # WeeklyStatsService.trade_adjustments()
@@ -300,8 +310,7 @@ class AdminController(BaseController):
         vm = TradesViewModel()
         vm.from_dict(self.request.POST)
 
-        pitcher_trade = TradeService.get_pitcher_trade(vm.player_id, vm.team_id,
-                                                       vm.games, vm.p_wins, vm.era, vm.er, vm.ip)
+        TradeService.get_pitcher_trade(vm.player_id, vm.team_id, vm.games, vm.p_wins, vm.era, vm.er, vm.ip)
 
         # redirect
         self.redirect('/admin')
@@ -344,8 +353,7 @@ class AdminController(BaseController):
             print("You must be an administrator to view this page")
             self.redirect('/home')
 
-        hitter_trade = TradeService.get_hitter_trade(vm.player_id, vm.team_id,
-                                                     vm.hr, vm.ba, vm.ab, vm.hits, vm.pa, vm.games, vm.rbi)
+        TradeService.get_hitter_trade(vm.player_id, vm.team_id, vm.hr, vm.ba, vm.ab, vm.hits, vm.pa, vm.games, vm.rbi)
 
         session.close()
 
@@ -389,7 +397,7 @@ class AdminController(BaseController):
             print("You must be an administrator to view this page")
             self.redirect('/home')
 
-        update_admin = AccountService.update_admin(vm.user_id)
+        AccountService.update_admin(vm.user_id)
 
         session.close()
 
@@ -433,7 +441,7 @@ class AdminController(BaseController):
             print("You must be an administrator to view this page")
             self.redirect('/home')
 
-        update_paid = AccountService.update_paid(vm.user_id)
+        AccountService.update_paid(vm.user_id)
 
         session.close()
 

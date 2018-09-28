@@ -19,21 +19,21 @@ class ActivePlayersService:
         season_row = session.query(SeasonInfo).filter(SeasonInfo.id == '1').first()
         season = season_row.current_season
 
-        response = requests.get('https://api.mysportsfeeds.com/v1.2/pull/mlb/' + str(season) +
-                                '-regular/roster_players.json',
-                                auth=HTTPBasicAuth(config.msf_username, config.msf_pw))
+        response = requests.get('https://api.mysportsfeeds.com/v2.0/pull/mlb/'
+                                'players.json?season=' + str(season) + '&rosterstatus=assigned-to-roster',
+                                auth=HTTPBasicAuth(config.msf_api, config.msf_v2pw))
 
         player_info = response.json()
-        player_list = player_info["rosterplayers"]["playerentry"]
+        player_list = player_info["players"]
 
         for players in player_list:
             try:
-                firstname = players["player"]["FirstName"]
-                lastname = players["player"]["LastName"]
-                player_id = players["player"]["ID"]
-                team_id = players["team"]["ID"]
-                position = players["player"]["Position"]
-            except KeyError:
+                firstname = players["player"]["firstName"]
+                lastname = players["player"]["lastName"]
+                player_id = players["player"]["id"]
+                team_id = players["player"]["currentTeam"]["id"]
+                position = players["player"]["primaryPosition"]
+            except TypeError:
                 continue
 
             active_players = ActiveMLBPlayers(firstname=firstname, lastname=lastname, player_id=player_id,
@@ -52,12 +52,12 @@ class ActivePlayersService:
         season_row = session.query(SeasonInfo).filter(SeasonInfo.id == '1').first()
         season = season_row.current_season
 
-        response = requests.get('https://api.mysportsfeeds.com/v1.2/pull/mlb/' + str(season) +
-                                '-regular/roster_players.json',
-                                auth=HTTPBasicAuth(config.msf_username, config.msf_pw))
+        response = requests.get('https://api.mysportsfeeds.com/v2.0/pull/mlb/'
+                                'players.json?season=' + str(season) + '&rosterstatus=assigned-to-roster',
+                                auth=HTTPBasicAuth(config.msf_api, config.msf_v2pw))
 
         player_info = response.json()
-        player_list = player_info["rosterplayers"]["playerentry"]
+        player_list = player_info["players"]
 
         player_tuple = session.query(ActiveMLBPlayers.player_id).filter(ActiveMLBPlayers.season == season).all()
         current_players = [sql_players for sql_players, in player_tuple]
@@ -67,11 +67,11 @@ class ActivePlayersService:
 
             try:
 
-                firstname = players["player"]["FirstName"]
-                lastname = players["player"]["LastName"]
-                player_id = players["player"]["ID"]
-                team_id = players["team"]["ID"]
-                position = players["player"]["Position"]
+                firstname = players["player"]["firstName"]
+                lastname = players["player"]["lastName"]
+                player_id = players["player"]["id"]
+                team_id = players["player"]["currentTeam"]["id"]
+                position = players["player"]["primaryPosition"]
 
             except KeyError:
                 continue
