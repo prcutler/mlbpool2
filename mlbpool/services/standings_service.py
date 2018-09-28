@@ -18,7 +18,7 @@ def get_seasons():
 def get_update_players_date(season):
     session = DbSessionFactory.create_session()
     qry = session.query(func.max(WeeklyMLBPlayerStats.update_date).label("max"))
-    res=qry.one()
+    res = qry.one()
     latest_date = res.max
     session.close()
     return latest_date
@@ -43,7 +43,7 @@ class StandingsService:
         sqlstr += "AND p.season = " + str(season) + " "
         sqlstr += "AND p.user_id = '" + player_id +"'"
 
-        print(sqlstr)
+        # print(sqlstr)
 
         session = DbSessionFactory.create_session()
         standings = session.execute(sqlstr)
@@ -67,7 +67,7 @@ class StandingsService:
         sqlstr += "GROUP BY p.user_id "
         sqlstr += "ORDER BY total_points DESC"
 
-        print(sqlstr)
+        # print(sqlstr)
 
         session = DbSessionFactory.create_session()
         standings = session.execute(sqlstr)
@@ -213,7 +213,7 @@ class StandingsService:
                 session.execute(sqlstr)
                 session.commit()
 
-                print(sqlstr)
+                # print(sqlstr)
 
             # increment counters
             if i == 8:
