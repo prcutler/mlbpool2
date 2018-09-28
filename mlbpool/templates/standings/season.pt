@@ -10,8 +10,7 @@
                     <h1>${season} Standings</h1>
                     <h2 align="center">Standings through ${date_updated}</h2>
 
-                    <div class="alert alert-warning" role="alert" align="center">Wild Card picks will be finalized
-                        at the end of the season.</div>
+                    <div class="alert alert-warning" role="alert" align="center">Wild Card points are now accurate!</div>
 
                       <table class="table table-striped">
                           <thead>
