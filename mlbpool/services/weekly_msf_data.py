@@ -88,7 +88,7 @@ class WeeklyStatsService:
 
         response = requests.get('https://api.mysportsfeeds.com/v2.0/pull/mlb/' + str(season) +
                                 '-regular/player_stats_totals.json?position=P',
-                                auth=HTTPBasicAuth(config.msf_username, config.msf_pw))
+                                auth=HTTPBasicAuth(config.msf_api, config.msf_v2pw))
 
         player_json = response.json()
         player_data = player_json["playerStatsTotals"]
@@ -139,7 +139,7 @@ class WeeklyStatsService:
             team_id = standings_data[x]["team"]["id"]
             division_rank = standings_data[x]["divisionRank"]["rank"]
             playoff_rank = standings_data[x]["playoffRank"]["rank"]
-            team_wins = standings_data[x]["standings"]["wins"]
+            team_wins = standings_data[x]["stats"]["standings"]["wins"]
             games_played = standings_data[x]["stats"]["gamesPlayed"]
             update_date = get_update_date()
 
@@ -171,7 +171,7 @@ class WeeklyStatsService:
         team_data = team_json["teams"]
 
         for teams in team_data:
-            twins_wins = teams["standings"]["wins"]
+            twins_wins = teams["stats"]["standings"]["wins"]
 
             session.query(WeeklyTeamStats).filter(WeeklyTeamStats.team_id == 120)\
                 .filter(update_date == update_date).filter(season == season) \
