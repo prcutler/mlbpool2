@@ -11,7 +11,7 @@ from mlbpool.services.time_service import TimeService
 def get_seasons():
     """Get the current active season from the database"""
     session = DbSessionFactory.create_session()
-    season_row = session.query(SeasonInfo).filter(SeasonInfo.id == '1').first()
+    season_row = session.query(SeasonInfo).filter(SeasonInfo.id == "1").first()
     current_season = season_row.current_season
 
     session.close()
@@ -32,18 +32,22 @@ class WeeklyStatsService:
     """Open a connection to the database to get the current season year from the SeasonInfo table
     Get weekly stats for each player for hitting (batting average, home runs and RBIs) and pitching (ERA and
     wins by pitcher)"""
+
     @staticmethod
     def get_hitter_stats():
         """Get stats for hitters (home runs, batting average and ERA) from MySportsFeeds and insert into the database"""
 
         session = DbSessionFactory.create_session()
 
-        season_row = session.query(SeasonInfo).filter(SeasonInfo.id == '1').first()
+        season_row = session.query(SeasonInfo).filter(SeasonInfo.id == "1").first()
         season = season_row.current_season
 
-        response = requests.get('https://api.mysportsfeeds.com/v2.0/pull/mlb/' + str(season) +
-                                '-regular/player_stats_totals.json?position=C,1B,2B,SS,3B,OF,RF,CF,LF,DH',
-                                auth=HTTPBasicAuth(config.msf_api, config.msf_v2pw))
+        response = requests.get(
+            "https://api.mysportsfeeds.com/v2.0/pull/mlb/"
+            + str(season)
+            + "-regular/player_stats_totals.json?position=C,1B,2B,SS,3B,OF,RF,CF,LF,DH",
+            auth=HTTPBasicAuth(config.msf_api, config.msf_v2pw),
+        )
 
         player_json = response.json()
         player_data = player_json["playerStatsTotals"]
@@ -64,12 +68,18 @@ class WeeklyStatsService:
 
             update_date = get_update_date()
 
-            weekly_player_stats = WeeklyMLBPlayerStats(player_id=player_id, season=season, home_runs=home_runs,
-                                                       RBI=RBI, batting_average=batting_average,
-                                                       at_bats=at_bats, hits=hits,
-                                                       plate_appearances=plate_appearances,
-                                                       player_games_played=player_games_played,
-                                                       update_date=update_date)
+            weekly_player_stats = WeeklyMLBPlayerStats(
+                player_id=player_id,
+                season=season,
+                home_runs=home_runs,
+                RBI=RBI,
+                batting_average=batting_average,
+                at_bats=at_bats,
+                hits=hits,
+                plate_appearances=plate_appearances,
+                player_games_played=player_games_played,
+                update_date=update_date,
+            )
 
             session.add(weekly_player_stats)
 
@@ -83,12 +93,15 @@ class WeeklyStatsService:
 
         session = DbSessionFactory.create_session()
 
-        season_row = session.query(SeasonInfo).filter(SeasonInfo.id == '1').first()
+        season_row = session.query(SeasonInfo).filter(SeasonInfo.id == "1").first()
         season = season_row.current_season
 
-        response = requests.get('https://api.mysportsfeeds.com/v2.0/pull/mlb/' + str(season) +
-                                '-regular/player_stats_totals.json?position=P',
-                                auth=HTTPBasicAuth(config.msf_api, config.msf_v2pw))
+        response = requests.get(
+            "https://api.mysportsfeeds.com/v2.0/pull/mlb/"
+            + str(season)
+            + "-regular/player_stats_totals.json?position=P",
+            auth=HTTPBasicAuth(config.msf_api, config.msf_v2pw),
+        )
 
         player_json = response.json()
         player_data = player_json["playerStatsTotals"]
@@ -106,11 +119,15 @@ class WeeklyStatsService:
 
             update_date = get_update_date()
 
-            weekly_player_stats = WeeklyMLBPlayerStats(player_id=player_id, season=season,
-                                                       ERA=ERA, pitcher_wins=pitcher_wins,
-                                                       earned_runs=earned_runs,
-                                                       innings_pitched=innings_pitched,
-                                                       update_date=update_date)
+            weekly_player_stats = WeeklyMLBPlayerStats(
+                player_id=player_id,
+                season=season,
+                ERA=ERA,
+                pitcher_wins=pitcher_wins,
+                earned_runs=earned_runs,
+                innings_pitched=innings_pitched,
+                update_date=update_date,
+            )
 
             session.add(weekly_player_stats)
 
@@ -123,12 +140,15 @@ class WeeklyStatsService:
     def get_team_rankings():
         session = DbSessionFactory.create_session()
 
-        season_row = session.query(SeasonInfo).filter(SeasonInfo.id == '1').first()
+        season_row = session.query(SeasonInfo).filter(SeasonInfo.id == "1").first()
         season = season_row.current_season
 
-        response = requests.get('https://api.mysportsfeeds.com/v2.0/pull/mlb/' + str(season) +
-                                '-regular/standings.json',
-                                auth=HTTPBasicAuth(config.msf_api, config.msf_v2pw))
+        response = requests.get(
+            "https://api.mysportsfeeds.com/v2.0/pull/mlb/"
+            + str(season)
+            + "-regular/standings.json",
+            auth=HTTPBasicAuth(config.msf_api, config.msf_v2pw),
+        )
 
         standings_json = response.json()
         standings_data = standings_json["teams"]
@@ -143,9 +163,15 @@ class WeeklyStatsService:
             games_played = standings_data[x]["stats"]["gamesPlayed"]
             update_date = get_update_date()
 
-            weekly_team_stats = WeeklyTeamStats(team_id=team_id, season=season, team_wins=team_wins,
-                                                division_rank=division_rank, league_rank=playoff_rank,
-                                                team_games_played=games_played, update_date=update_date)
+            weekly_team_stats = WeeklyTeamStats(
+                team_id=team_id,
+                season=season,
+                team_wins=team_wins,
+                division_rank=division_rank,
+                league_rank=playoff_rank,
+                team_games_played=games_played,
+                update_date=update_date,
+            )
 
             x += 1
 
@@ -158,14 +184,17 @@ class WeeklyStatsService:
     def get_tiebreaker():
         session = DbSessionFactory.create_session()
 
-        season_row = session.query(SeasonInfo).filter(SeasonInfo.id == '1').first()
+        season_row = session.query(SeasonInfo).filter(SeasonInfo.id == "1").first()
         season = season_row.current_season
 
         update_date = get_update_date()
 
-        response = requests.get('https://api.mysportsfeeds.com/v2.0/pull/mlb/' + str(season) +
-                                '-regular/standings.json?team=120',
-                                auth=HTTPBasicAuth(config.msf_api, config.msf_v2pw))
+        response = requests.get(
+            "https://api.mysportsfeeds.com/v2.0/pull/mlb/"
+            + str(season)
+            + "-regular/standings.json?team=120",
+            auth=HTTPBasicAuth(config.msf_api, config.msf_v2pw),
+        )
 
         team_json = response.json()
         team_data = team_json["teams"]
@@ -173,9 +202,11 @@ class WeeklyStatsService:
         for teams in team_data:
             twins_wins = teams["stats"]["standings"]["wins"]
 
-            session.query(WeeklyTeamStats).filter(WeeklyTeamStats.team_id == 120)\
-                .filter(update_date == update_date).filter(season == season) \
-                .update({"tiebreaker_twin_wins": twins_wins})
+            session.query(WeeklyTeamStats).filter(
+                WeeklyTeamStats.team_id == 120
+            ).filter(update_date == update_date).filter(season == season).update(
+                {"tiebreaker_twin_wins": twins_wins}
+            )
 
             session.commit()
 
@@ -199,7 +230,7 @@ class WeeklyStatsService:
         sqlstr += "AND w.season=" + str(season)
         session.execute(sqlstr)
         session.commit()
-        #print(sqlstr)
+        # print(sqlstr)
 
         # update batting average
         sqlstr = "UPDATE WeeklyMLBPlayerStats w "
@@ -210,7 +241,7 @@ class WeeklyStatsService:
         sqlstr += "AND w.season=" + str(season)
         session.execute(sqlstr)
         session.commit()
-        #print(sqlstr)
+        # print(sqlstr)
 
         # pitchers
         sqlstr = "UPDATE WeeklyMLBPlayerStats w "
@@ -223,7 +254,7 @@ class WeeklyStatsService:
         sqlstr += "AND w.season=" + str(season)
         session.execute(sqlstr)
         session.commit()
-        #print(sqlstr)
+        # print(sqlstr)
 
         # pitchers update ERA
         sqlstr = "UPDATE WeeklyMLBPlayerStats w "

@@ -5,10 +5,11 @@ from mlbpool.data.modelbase import SqlAlchemyBase
 
 
 class Account(SqlAlchemyBase):
-    __tablename__ = 'Account'
+    __tablename__ = "Account"
 
-    id = Column(String(32), primary_key=True,
-                default=lambda: str(uuid.uuid4()).replace('-', ''))
+    id = Column(
+        String(32), primary_key=True, default=lambda: str(uuid.uuid4()).replace("-", "")
+    )
 
     email = Column(String(32), index=True, unique=True, nullable=False)
     first_name = Column(String(16), nullable=False)

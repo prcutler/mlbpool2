@@ -7,7 +7,7 @@ from mlbpool.data.seasoninfo import SeasonInfo
 
 def get_seasons():
     session = DbSessionFactory.create_session()
-    season_row = session.query(SeasonInfo).filter(SeasonInfo.id == '1').first()
+    season_row = session.query(SeasonInfo).filter(SeasonInfo.id == "1").first()
     current_season = season_row.current_season
 
     session.close()
@@ -33,7 +33,11 @@ class StandingsService:
         sqlstr += "c.league, d.division, ap.firstname, ap.lastname "
         sqlstr += "FROM (PlayerPicks p, Account a) "
         sqlstr += "LEFT JOIN WeeklyPlayerResults w on p.pick_id = w.pick_id "
-        sqlstr += "AND w.update_date = (SELECT MAX(update_date) from WeeklyPlayerResults WHERE season=" + str(season) + ") "
+        sqlstr += (
+            "AND w.update_date = (SELECT MAX(update_date) from WeeklyPlayerResults WHERE season="
+            + str(season)
+            + ") "
+        )
         sqlstr += "LEFT JOIN  DivisionInfo d on p.division_id=d.division_id "
         sqlstr += "LEFT JOIN LeagueInfo c ON p.league_id= c.league_id "
         sqlstr += "LEFT JOIN TeamInfo t ON p.team_id = t.team_id "
@@ -41,7 +45,7 @@ class StandingsService:
         sqlstr += "WHERE "
         sqlstr += "p.user_id = a.id "
         sqlstr += "AND p.season = " + str(season) + " "
-        sqlstr += "AND p.user_id = '" + player_id +"'"
+        sqlstr += "AND p.user_id = '" + player_id + "'"
 
         # print(sqlstr)
 
@@ -63,7 +67,11 @@ class StandingsService:
         sqlstr = "SELECT SUM(w.points_earned) as total_points, a.first_name, a.last_name, a.id from WeeklyPlayerResults w, PlayerPicks p, Account a "
         sqlstr += "WHERE w.pick_id = p.pick_id AND p.user_id = a.id "
         sqlstr += "AND w.season = " + str(season) + " "
-        sqlstr += "AND w.update_date = (SELECT MAX(update_date) from WeeklyPlayerResults WHERE season = " + str(season) + ") "
+        sqlstr += (
+            "AND w.update_date = (SELECT MAX(update_date) from WeeklyPlayerResults WHERE season = "
+            + str(season)
+            + ") "
+        )
         sqlstr += "GROUP BY p.user_id "
         sqlstr += "ORDER BY total_points DESC"
 
@@ -102,15 +110,15 @@ class StandingsService:
             if i == 4:
                 cattype = "home_runs"
             elif i == 5:
-                cattype ="batting_average"
+                cattype = "batting_average"
             elif i == 6:
-                cattype ="RBI"
+                cattype = "RBI"
             elif i == 7:
-                cattype ="pitcher_wins"
+                cattype = "pitcher_wins"
             elif i == 8:
                 cattype = "ERA"
 
-            if i == 4 or i == 6 or i ==7:
+            if i == 4 or i == 6 or i == 7:
                 sqlstr = "INSERT INTO WeeklyPlayerResults (pick_id, season, update_date, points_earned) "
                 sqlstr += "SELECT t1.pick_id as pick_id, t1.season as season, t1.update_date as update_date, (pts.points*t1.multiplier*t1.changed) as points_earned "
                 sqlstr += "FROM "
@@ -239,7 +247,11 @@ class StandingsService:
         sqlstr += "LEFT JOIN PickTypePoints p on pp.pick_type = p.pick_type_id "
         sqlstr += "WHERE pp.pick_type = 1 "
         sqlstr += "AND w.season = " + str(season) + " "
-        sqlstr += "AND w.update_date = (SELECT MAX(update_date) from WeeklyTeamStats WHERE season = " + str(season) + ") "
+        sqlstr += (
+            "AND w.update_date = (SELECT MAX(update_date) from WeeklyTeamStats WHERE season = "
+            + str(season)
+            + ") "
+        )
         sqlstr += "AND pp.league_id = t.league_id "
         sqlstr += "AND pp.division_id = t.division_id "
         sqlstr += "AND p.rank = w.division_rank "
@@ -251,12 +263,17 @@ class StandingsService:
         # type 2 team loss points:
         sqlstr = "INSERT INTO WeeklyPlayerResults(pick_id, season, update_date, points_earned) "
         sqlstr += "SELECT pp.pick_id, w.season, w.update_date, p.points * pp.multiplier * (IF(pp.changed=1, 0.5, 1)) as points_earned "
-        sqlstr += "FROM PlayerPicks pp LEFT JOIN WeeklyTeamStats w on pp.team_id = w.team_id "
+        sqlstr += (
+            "FROM PlayerPicks pp LEFT JOIN WeeklyTeamStats w on pp.team_id = w.team_id "
+        )
         sqlstr += "LEFT JOIN PickTypePoints p on pp.pick_type = p.pick_type_id "
         sqlstr += "WHERE pp.pick_type = 2 "
         sqlstr += "AND w.season = " + str(season) + " "
-        sqlstr += "AND w.update_date = (SELECT MAX(update_date) from WeeklyTeamStats WHERE season = " + str(
-            season) + ") "
+        sqlstr += (
+            "AND w.update_date = (SELECT MAX(update_date) from WeeklyTeamStats WHERE season = "
+            + str(season)
+            + ") "
+        )
         sqlstr += "AND w.league_rank = 15"
 
         session.execute(sqlstr)
@@ -265,11 +282,17 @@ class StandingsService:
         # type 3 team wins points:
         sqlstr = "INSERT INTO WeeklyPlayerResults(pick_id, season, update_date, points_earned) "
         sqlstr += "SELECT pp.pick_id, w.season, w.update_date, p.points * pp.multiplier * (IF(pp.changed=1, 0.5, 1)) as points_earned "
-        sqlstr += "FROM PlayerPicks pp LEFT JOIN WeeklyTeamStats w on pp.team_id = w.team_id "
+        sqlstr += (
+            "FROM PlayerPicks pp LEFT JOIN WeeklyTeamStats w on pp.team_id = w.team_id "
+        )
         sqlstr += "LEFT JOIN PickTypePoints p on pp.pick_type = p.pick_type_id "
         sqlstr += "WHERE pp.pick_type = 3 "
         sqlstr += "AND w.season = " + str(season) + " "
-        sqlstr += "AND w.update_date = (SELECT MAX(update_date) from WeeklyTeamStats WHERE season = " + str(season) + ") "
+        sqlstr += (
+            "AND w.update_date = (SELECT MAX(update_date) from WeeklyTeamStats WHERE season = "
+            + str(season)
+            + ") "
+        )
         sqlstr += "AND w.league_rank = 1"
 
         session.execute(sqlstr)
@@ -284,7 +307,11 @@ class StandingsService:
         sqlstr += "AND w.team_id = p.team_id "
         sqlstr += "AND pts.rank = p.rank "
         sqlstr += "AND w.season = " + str(season) + " "
-        sqlstr += "AND w.update_date = (SELECT MAX(update_date) from WeeklyMLBPlayerStats WHERE season = " + str(season) + ") "
+        sqlstr += (
+            "AND w.update_date = (SELECT MAX(update_date) from WeeklyMLBPlayerStats WHERE season = "
+            + str(season)
+            + ") "
+        )
 
         session.execute(sqlstr)
         session.commit()

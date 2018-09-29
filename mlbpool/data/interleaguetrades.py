@@ -4,8 +4,10 @@ import sqlalchemy
 
 # Store pre interleague trade individual MLB Player stats in this table
 class InterleagueTrades(SqlAlchemyBase):
-    __tablename__ = 'InterleagueTrades'
-    primary_key = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)
+    __tablename__ = "InterleagueTrades"
+    primary_key = sqlalchemy.Column(
+        sqlalchemy.Integer, primary_key=True, autoincrement=True
+    )
     season = sqlalchemy.Column(sqlalchemy.Integer, index=True)
     update_date = sqlalchemy.Column(sqlalchemy.DATETIME, index=True)
     player_id = sqlalchemy.Column(sqlalchemy.Integer)

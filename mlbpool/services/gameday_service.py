@@ -5,7 +5,7 @@ from mlbpool.services.time_service import TimeService
 
 
 # Set the timezone we will be working with
-timezone = pendulum.timezone('America/New_York')
+timezone = pendulum.timezone("America/New_York")
 
 # Change now_time for testing
 # Use this one for production:
@@ -81,14 +81,14 @@ class GameDayService:
 
     @staticmethod
     def timezone():
-        tz = pendulum.timezone('America/New_York')
+        tz = pendulum.timezone("America/New_York")
 
         return tz
 
     @staticmethod
     def time_due():
         season_start_date = season_opener()
-        time_due = season_start_date.format('h:m A')
+        time_due = season_start_date.format("h:m A")
         # print("Season start date", season_start_date, "time_due", time_due)
 
         return time_due
@@ -142,8 +142,8 @@ class GameDayService:
         session = DbSessionFactory.create_session()
         all_star_game_query = session.query(SeasonInfo.all_star_game_date).first()
         all_star_game_date = str(all_star_game_query[0])
-        start_time = (all_star_game_date + " 19:00")
-        all_star_game = pendulum.from_format(start_time, '%Y-%m-%d %H:%M', tz=timezone)
+        start_time = all_star_game_date + " 19:00"
+        all_star_game = pendulum.from_format(start_time, "%Y-%m-%d %H:%M", tz=timezone)
 
         season_start_date = season_opener()
 
@@ -152,7 +152,7 @@ class GameDayService:
 
         all_star_game_break_start = all_star_game.subtract(hours=48)
         print("Break starts at", all_star_game_break_start)
-        all_star_break_end = (all_star_game.add(hours=48))
+        all_star_break_end = all_star_game.add(hours=48)
         print("Break ends at", all_star_break_end)
 
         session.close()

@@ -7,13 +7,17 @@ def admin_check():
     the admin pages.  Make sure mlbpool/data/config.py has an email assigned that matches the user during
     registration"""
     session = DbSessionFactory.create_session()
-    su__query = session.query(Account.id).filter(Account.is_super_user == 1) \
-        .filter(Account.id == self.logged_in_user_id).first()
+    su__query = (
+        session.query(Account.id)
+        .filter(Account.is_super_user == 1)
+        .filter(Account.id == self.logged_in_user_id)
+        .first()
+    )
     print(su__query)
 
     if not su__query[0] == self.logged_in_user_id:
         print("You must be an administrator to view this page")
-        self.redirect('/home')
+        self.redirect("/home")
 
     session.close()
 
@@ -34,7 +38,9 @@ class AccountService:
         session = DbSessionFactory.create_session()
 
         for player in session.query(Account.id).filter(Account.id == user_id):
-            session.query(Account.id).filter(Account.id == user_id).update({"is_super_user": 1})
+            session.query(Account.id).filter(Account.id == user_id).update(
+                {"is_super_user": 1}
+            )
 
         session.commit()
         session.close()
@@ -60,4 +66,3 @@ class AccountService:
 
         session.commit()
         session.close()
-

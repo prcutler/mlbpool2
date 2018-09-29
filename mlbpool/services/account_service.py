@@ -26,8 +26,8 @@ class AccountService:
         if secret.su_email == account.email:
             account.is_super_user = True
 
-        if twitter != "" and twitter[0] != '@':
-            twitter = '@' + twitter
+        if twitter != "" and twitter[0] != "@":
+            twitter = "@" + twitter
 
         account.twitter = twitter
 
@@ -46,9 +46,7 @@ class AccountService:
 
         session = DbSessionFactory.create_session()
 
-        account = session.query(Account) \
-            .filter(Account.email == email) \
-            .first()
+        account = session.query(Account).filter(Account.email == email).first()
 
         return account
 
@@ -77,9 +75,7 @@ class AccountService:
 
         session = DbSessionFactory.create_session()
 
-        account = session.query(Account) \
-            .filter(Account.id == user_id) \
-            .first()
+        account = session.query(Account).filter(Account.id == user_id).first()
 
         return account
 
@@ -93,7 +89,7 @@ class AccountService:
         session = DbSessionFactory.create_session()
 
         reset = PasswordReset()
-        reset.used_ip_address = '1.2.3.4'  # set for real
+        reset.used_ip_address = "1.2.3.4"  # set for real
         reset.user_id = account.id
 
         session.add(reset)
@@ -108,9 +104,7 @@ class AccountService:
             return None
 
         session = DbSessionFactory.create_session()
-        reset = session.query(PasswordReset).\
-            filter(PasswordReset.id == code).\
-            first()
+        reset = session.query(PasswordReset).filter(PasswordReset.id == code).first()
 
         return reset
 
@@ -118,9 +112,9 @@ class AccountService:
     def use_reset_code(cls, reset_code, user_ip):
         session = DbSessionFactory.create_session()
 
-        reset = session.query(PasswordReset). \
-            filter(PasswordReset.id == reset_code). \
-            first()
+        reset = (
+            session.query(PasswordReset).filter(PasswordReset.id == reset_code).first()
+        )
 
         if not reset:
             return
@@ -133,12 +127,10 @@ class AccountService:
 
     @classmethod
     def set_password(cls, plain_text_password, account_id):
-        print('Resetting password for user {}'.format(account_id))
+        print("Resetting password for user {}".format(account_id))
         session = DbSessionFactory.create_session()
 
-        account = session.query(Account). \
-            filter(Account.id == account_id). \
-            first()
+        account = session.query(Account).filter(Account.id == account_id).first()
 
         if not account:
             print("Warning: Cannot reset password, no account found.")
@@ -173,10 +165,12 @@ class AccountService:
     def seasons_played(cls, user_id):
         session = DbSessionFactory.create_session()
 
-        seasons_played = session.query(PlayerPicks.season).distinct(PlayerPicks.season).filter(Account.id == user_id)
+        seasons_played = (
+            session.query(PlayerPicks.season)
+            .distinct(PlayerPicks.season)
+            .filter(Account.id == user_id)
+        )
 
         session.close()
 
         return seasons_played
-
-

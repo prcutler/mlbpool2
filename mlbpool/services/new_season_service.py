@@ -33,9 +33,12 @@ class NewSeasonService:
         if season_row.count() == 0:
             print("New install, adding a season")
 
-            response = requests.get('https://api.mysportsfeeds.com/v2.0/pull/mlb/' + str(season) +
-                                    '-regular/games.json',
-                                    auth=HTTPBasicAuth(config.msf_api, config.msf_v2pw))
+            response = requests.get(
+                "https://api.mysportsfeeds.com/v2.0/pull/mlb/"
+                + str(season)
+                + "-regular/games.json",
+                auth=HTTPBasicAuth(config.msf_api, config.msf_v2pw),
+            )
 
             gameday_json = response.json()
             gameday_data = gameday_json["games"][0]
@@ -43,19 +46,25 @@ class NewSeasonService:
 
             first_game_date = gameday_data["schedule"]["startTime"]
 
-            season_start_utc = pendulum.parse(first_game_date, tz='UTC')
-            season_start_date = season_start_utc.in_tz('America/New_York')
+            season_start_utc = pendulum.parse(first_game_date, tz="UTC")
+            season_start_date = season_start_utc.in_tz("America/New_York")
             first_game_time = season_start_date.to_time_string()
 
             away_team = gameday_data["schedule"]["awayTeam"]["abbreviation"]
             home_team = gameday_data["schedule"]["homeTeam"]["abbreviation"]
             last_game_date = last_game_data["schedule"]["startTime"]
-            last_game_utc = pendulum.parse(last_game_date, tz='UTC')
-            last_game_datetime = last_game_utc.in_tz('America/New_York')
+            last_game_utc = pendulum.parse(last_game_date, tz="UTC")
+            last_game_datetime = last_game_utc.in_tz("America/New_York")
 
-            new_season = SeasonInfo(season_start_date=season_start_date, season_start_time=first_game_time,
-                                    home_team=home_team, away_team=away_team, current_season=season,
-                                    all_star_game_date=all_star_game_datetime, season_end_date=last_game_datetime)
+            new_season = SeasonInfo(
+                season_start_date=season_start_date,
+                season_start_time=first_game_time,
+                home_team=home_team,
+                away_team=away_team,
+                current_season=season,
+                all_star_game_date=all_star_game_datetime,
+                season_end_date=last_game_datetime,
+            )
 
             # TODO Add log for new_season
 
@@ -66,9 +75,12 @@ class NewSeasonService:
         else:
             print("Existing season found, updating to new year")
 
-            response = requests.get('https://api.mysportsfeeds.com/v2.0/pull/mlb/' + str(season) +
-                                    '-regular/games.json',
-                                    auth=HTTPBasicAuth(config.msf_api, config.msf_v2pw))
+            response = requests.get(
+                "https://api.mysportsfeeds.com/v2.0/pull/mlb/"
+                + str(season)
+                + "-regular/games.json",
+                auth=HTTPBasicAuth(config.msf_api, config.msf_v2pw),
+            )
 
             gameday_json = response.json()
             gameday_data = gameday_json["games"][0]
@@ -76,17 +88,17 @@ class NewSeasonService:
 
             first_game_date = gameday_data["schedule"]["startTime"]
 
-            season_start_utc = pendulum.parse(first_game_date, tz='UTC')
-            season_start_date = season_start_utc.in_tz('America/New_York')
+            season_start_utc = pendulum.parse(first_game_date, tz="UTC")
+            season_start_date = season_start_utc.in_tz("America/New_York")
             first_game_time = season_start_date.to_time_string()
 
             away_team = gameday_data["schedule"]["awayTeam"]["abbreviation"]
             home_team = gameday_data["schedule"]["homeTeam"]["abbreviation"]
             last_game_date = last_game_data["schedule"]["startTime"]
-            last_game_utc = pendulum.parse(last_game_date, tz='UTC')
-            last_game_datetime = last_game_utc.in_tz('America/New_York')
+            last_game_utc = pendulum.parse(last_game_date, tz="UTC")
+            last_game_datetime = last_game_utc.in_tz("America/New_York")
 
-            update_row = session.query(SeasonInfo).filter(SeasonInfo.id == '1').first()
+            update_row = session.query(SeasonInfo).filter(SeasonInfo.id == "1").first()
             update_row.current_season = season
             update_row.season_start_date = season_start_date
             update_row.all_star_game_date = all_star_game_date

@@ -11,7 +11,6 @@ from mlbpool.data.seasoninfo import SeasonInfo
 
 
 class NewInstallService:
-
     @staticmethod
     def get_install():
         return []
@@ -29,8 +28,11 @@ class NewInstallService:
         x = 0
 
         response = requests.get(
-            'https://api.mysportsfeeds.com/v2.0/pull/mlb/' + str(season) + '-regular/standings.json',
-            auth=HTTPBasicAuth(config.msf_api, config.msf_v2pw))
+            "https://api.mysportsfeeds.com/v2.0/pull/mlb/"
+            + str(season)
+            + "-regular/standings.json",
+            auth=HTTPBasicAuth(config.msf_api, config.msf_v2pw),
+        )
 
         data = response.json()
 
@@ -46,22 +48,28 @@ class NewInstallService:
             conference_name = teamlist[x]["conferenceRank"]["conferenceName"]
             division_name = teamlist[x]["divisionRank"]["divisionName"]
 
-            if division_name == 'East':
+            if division_name == "East":
                 division_id = 1
-            elif division_name == 'Central':
+            elif division_name == "Central":
                 division_id = 2
             else:
                 division_id = 3
 
-            if conference_name == 'American League':
+            if conference_name == "American League":
                 league_id = 0
             else:
                 league_id = 1
 
             x += 1
 
-            team_info = TeamInfo(city=team_city, team_id=team_id, team_abbr=team_abbr,
-                                 name=team_name, league_id=league_id, division_id=division_id)
+            team_info = TeamInfo(
+                city=team_city,
+                team_id=team_id,
+                team_abbr=team_abbr,
+                name=team_name,
+                league_id=league_id,
+                division_id=division_id,
+            )
 
             session.add(team_info)
 
@@ -75,11 +83,11 @@ class NewInstallService:
         for x in range(1, 4):
             division_id = x
             if x == 1:
-                division = 'East'
+                division = "East"
             elif x == 2:
-                division = 'Central'
+                division = "Central"
             else:
-                division = 'West'
+                division = "West"
 
             session = DbSessionFactory.create_session()
 
@@ -96,10 +104,10 @@ class NewInstallService:
         for x in range(1, 3):
             if x == 1:
                 league_id = 0
-                league = 'AL'
+                league = "AL"
             else:
                 league_id = 1
-                league = 'NL'
+                league = "NL"
 
             session = DbSessionFactory.create_session()
 
@@ -117,11 +125,11 @@ class NewInstallService:
             (home runs, batting average, pitcher wins, etc.)"""
         for x in range(1, 11):
             if x == 1:
-                name = 'team'
+                name = "team"
             elif x == 2:
-                name = 'team_losses'
+                name = "team_losses"
             elif x == 3:
-                name = 'team_wins'
+                name = "team_wins"
             elif x == 4:
                 name = "home_runs"
             elif x == 5:
@@ -135,7 +143,7 @@ class NewInstallService:
             elif x == 9:
                 name = "wildcard"
             else:
-                name = 'tiebreaker'
+                name = "tiebreaker"
 
             session = DbSessionFactory.create_session()
 
@@ -167,7 +175,9 @@ class NewInstallService:
 
                     if points != 0:
                         session = DbSessionFactory.create_session()
-                        pick_type_points = PickTypePoints(pick_type_id=pick_type_id, rank=rank, points=points)
+                        pick_type_points = PickTypePoints(
+                            pick_type_id=pick_type_id, rank=rank, points=points
+                        )
                         session.add(pick_type_points)
 
                         session.commit()
@@ -180,7 +190,9 @@ class NewInstallService:
                 rank = 15
                 points = 20
 
-                pick_type_points = PickTypePoints(pick_type_id=pick_type_id, rank=rank, points=points)
+                pick_type_points = PickTypePoints(
+                    pick_type_id=pick_type_id, rank=rank, points=points
+                )
                 session.add(pick_type_points)
 
                 session.commit()
@@ -193,7 +205,9 @@ class NewInstallService:
                 rank = 1
                 points = 20
 
-                pick_type_points = PickTypePoints(pick_type_id=pick_type_id, rank=rank, points=points)
+                pick_type_points = PickTypePoints(
+                    pick_type_id=pick_type_id, rank=rank, points=points
+                )
                 session.add(pick_type_points)
 
                 session.commit()
@@ -213,7 +227,9 @@ class NewInstallService:
 
                     session = DbSessionFactory.create_session()
 
-                    pick_type_points = PickTypePoints(pick_type_id=pick_type_id, rank=rank, points=points)
+                    pick_type_points = PickTypePoints(
+                        pick_type_id=pick_type_id, rank=rank, points=points
+                    )
                     session.add(pick_type_points)
 
                     session.commit()
@@ -227,7 +243,9 @@ class NewInstallService:
 
                     session = DbSessionFactory.create_session()
 
-                    pick_type_points = PickTypePoints(pick_type_id=pick_type_id, rank=rank, points=points)
+                    pick_type_points = PickTypePoints(
+                        pick_type_id=pick_type_id, rank=rank, points=points
+                    )
                     session.add(pick_type_points)
 
                     session.commit()
@@ -239,9 +257,10 @@ class NewInstallService:
                 points = 1000
                 session = DbSessionFactory.create_session()
 
-                pick_type_points = PickTypePoints(pick_type_id=pick_type_id, rank=rank, points=points)
+                pick_type_points = PickTypePoints(
+                    pick_type_id=pick_type_id, rank=rank, points=points
+                )
                 session.add(pick_type_points)
 
                 session.commit()
                 session.close()
-
