@@ -8,7 +8,7 @@
 
 
                     <h1>${season} Standings</h1>
-                    <h2 align="center">Standings through ${date_updated}</h2>
+                    <h2 align="center">${date_updated}</h2>
 
                     <div class="alert alert-warning" role="alert" align="center">Wild Card points are now accurate!</div>
 

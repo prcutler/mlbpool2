@@ -73,11 +73,11 @@ class GameDayService:
         last_game_date = session.query(SeasonInfo.season_end_date).first()
         last_game_info = str(last_game_date[0])
         last_game = pendulum.parse(last_game_info, tz=timezone)
-        print(last_game)
+        final_date = last_game.add(days=2)
 
         session.close()
 
-        return last_game
+        return final_date
 
     @staticmethod
     def timezone():
@@ -147,13 +147,13 @@ class GameDayService:
 
         season_start_date = season_opener()
 
-        print("Converted:", all_star_game)
-        print("Now time:", all_star_break_date)
+        # print("Converted:", all_star_game)
+        # print("Now time:", all_star_break_date)
 
         all_star_game_break_start = all_star_game.subtract(hours=48)
-        print("Break starts at", all_star_game_break_start)
+        # print("Break starts at", all_star_game_break_start)
         all_star_break_end = all_star_game.add(hours=48)
-        print("Break ends at", all_star_break_end)
+        # print("Break ends at", all_star_break_end)
 
         session.close()
 
@@ -174,5 +174,5 @@ class GameDayService:
             return False
 
         else:
-            print(False)
+            # print(False)
             return False

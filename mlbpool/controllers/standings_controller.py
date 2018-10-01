@@ -51,7 +51,11 @@ class StandingsController(BaseController):
                 date_updated = "Final Standings"
 
             else:
-                date_updated = date_query[0]
+                date = str(date_query[0])
+                date_convert = pendulum.from_format(date, "YYYY-MM-DD")
+                string_date = date_convert.format("MMMM Do YYYY")
+
+                date_updated = "Standings through " + string_date
 
             return {
                 "current_standings": current_standings,
