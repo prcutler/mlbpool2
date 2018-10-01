@@ -922,7 +922,9 @@ class PlayerPicksService:
             ):
                 session.query(PlayerPicks).filter(
                     PlayerPicks.user_id == user_id
-                ).filter(PlayerPicks.pick_type == 1).filter(
+                ).filter(PlayerPicks.season == season).filter(
+                    PlayerPicks.pick_type == 1
+                ).filter(
                     PlayerPicks.rank == 2
                 ).filter(
                     PlayerPicks.league_id == 0
@@ -1246,7 +1248,9 @@ class PlayerPicksService:
             ):
                 session.query(PlayerPicks).filter(
                     PlayerPicks.user_id == user_id
-                ).filter(PlayerPicks.pick_type == 2).filter(
+                ).filter(PlayerPicks.season == season).filter(
+                    PlayerPicks.pick_type == 2
+                ).filter(
                     PlayerPicks.league_id == 0
                 ).update(
                     {
@@ -1267,7 +1271,9 @@ class PlayerPicksService:
             ):
                 session.query(PlayerPicks).filter(
                     PlayerPicks.user_id == user_id
-                ).filter(PlayerPicks.pick_type == 2).filter(
+                ).filter(PlayerPicks.season == season).filter(
+                    PlayerPicks.pick_type == 2
+                ).filter(
                     PlayerPicks.league_id == 1
                 ).update(
                     {
@@ -1289,7 +1295,9 @@ class PlayerPicksService:
             ):
                 session.query(PlayerPicks).filter(
                     PlayerPicks.user_id == user_id
-                ).filter(PlayerPicks.pick_type == 3).filter(
+                ).filter(PlayerPicks.season == season).filter(
+                    PlayerPicks.pick_type == 3
+                ).filter(
                     PlayerPicks.league_id == 0
                 ).update(
                     {
@@ -1310,7 +1318,9 @@ class PlayerPicksService:
             ):
                 session.query(PlayerPicks).filter(
                     PlayerPicks.user_id == user_id
-                ).filter(PlayerPicks.pick_type == 3).filter(
+                ).filter(PlayerPicks.season == season).filter(
+                    PlayerPicks.pick_type == 3
+                ).filter(
                     PlayerPicks.league_id == 1
                 ).update(
                     {
@@ -1332,7 +1342,9 @@ class PlayerPicksService:
             ):
                 session.query(PlayerPicks).filter(
                     PlayerPicks.user_id == user_id
-                ).filter(PlayerPicks.pick_type == 4).filter(
+                ).filter(PlayerPicks.season == season).filter(
+                    PlayerPicks.pick_type == 4
+                ).filter(
                     PlayerPicks.league_id == 0
                 ).update(
                     {
@@ -1353,7 +1365,11 @@ class PlayerPicksService:
             ):
                 session.query(PlayerPicks).filter(
                     PlayerPicks.user_id == user_id
-                ).filter(PlayerPicks.pick_type == 4).filter(
+                ).filter(PlayerPicks.season == season).filter(
+                    PlayerPicks.season == season
+                ).filter(
+                    PlayerPicks.pick_type == 4
+                ).filter(
                     PlayerPicks.league_id == 1
                 ).update(
                     {
@@ -1375,7 +1391,11 @@ class PlayerPicksService:
             ):
                 session.query(PlayerPicks).filter(
                     PlayerPicks.user_id == user_id
-                ).filter(PlayerPicks.pick_type == 5).filter(
+                ).filter(PlayerPicks.season == season).filter(
+                    PlayerPicks.season == season
+                ).filter(
+                    PlayerPicks.pick_type == 5
+                ).filter(
                     PlayerPicks.league_id == 0
                 ).update(
                     {
@@ -1396,7 +1416,9 @@ class PlayerPicksService:
             ):
                 session.query(PlayerPicks).filter(
                     PlayerPicks.user_id == user_id
-                ).filter(PlayerPicks.pick_type == 5).filter(
+                ).filter(PlayerPicks.season == season).filter(
+                    PlayerPicks.pick_type == 5
+                ).filter(
                     PlayerPicks.league_id == 1
                 ).update(
                     {
@@ -1418,7 +1440,9 @@ class PlayerPicksService:
             ):
                 session.query(PlayerPicks).filter(
                     PlayerPicks.user_id == user_id
-                ).filter(PlayerPicks.pick_type == 6).filter(
+                ).filter(PlayerPicks.season == season).filter(
+                    PlayerPicks.pick_type == 6
+                ).filter(
                     PlayerPicks.league_id == 0
                 ).update(
                     {
@@ -1439,7 +1463,9 @@ class PlayerPicksService:
             ):
                 session.query(PlayerPicks).filter(
                     PlayerPicks.user_id == user_id
-                ).filter(PlayerPicks.pick_type == 6).filter(
+                ).filter(PlayerPicks.season == season).filter(
+                    PlayerPicks.pick_type == 6
+                ).filter(
                     PlayerPicks.league_id == 1
                 ).update(
                     {
@@ -1453,6 +1479,8 @@ class PlayerPicksService:
             if al_p_wins_pick != session.query(PlayerPicks).filter(
                 PlayerPicks.user_id == user_id
             ).filter(PlayerPicks.season == season).filter(
+                PlayerPicks.season == season
+            ).filter(
                 PlayerPicks.pick_type == 7
             ).filter(
                 PlayerPicks.league_id == 0
@@ -1482,7 +1510,9 @@ class PlayerPicksService:
             ):
                 session.query(PlayerPicks).filter(
                     PlayerPicks.user_id == user_id
-                ).filter(PlayerPicks.pick_type == 7).filter(
+                ).filter(PlayerPicks.season == season).filter(
+                    PlayerPicks.pick_type == 7
+                ).filter(
                     PlayerPicks.league_id == 1
                 ).update(
                     {
@@ -1504,7 +1534,9 @@ class PlayerPicksService:
             ):
                 session.query(PlayerPicks).filter(
                     PlayerPicks.user_id == user_id
-                ).filter(PlayerPicks.pick_type == 8).filter(
+                ).filter(PlayerPicks.season == season).filter(
+                    PlayerPicks.pick_type == 8
+                ).filter(
                     PlayerPicks.league_id == 0
                 ).update(
                     {
@@ -1525,7 +1557,9 @@ class PlayerPicksService:
             ):
                 session.query(PlayerPicks).filter(
                     PlayerPicks.user_id == user_id
-                ).filter(PlayerPicks.pick_type == 8).filter(
+                ).filter(PlayerPicks.season == season).filter(
+                    PlayerPicks.pick_type == 8
+                ).filter(
                     PlayerPicks.league_id == 1
                 ).update(
                     {
@@ -1549,7 +1583,9 @@ class PlayerPicksService:
             ):
                 session.query(PlayerPicks).filter(
                     PlayerPicks.user_id == user_id
-                ).filter(PlayerPicks.pick_type == 9).filter(
+                ).filter(PlayerPicks.season == season).filter(
+                    PlayerPicks.pick_type == 9
+                ).filter(
                     PlayerPicks.league_id == 0
                 ).filter(
                     PlayerPicks.rank == 1
@@ -1574,7 +1610,9 @@ class PlayerPicksService:
             ):
                 session.query(PlayerPicks).filter(
                     PlayerPicks.user_id == user_id
-                ).filter(PlayerPicks.pick_type == 9).filter(
+                ).filter(PlayerPicks.season == season).filter(
+                    PlayerPicks.pick_type == 9
+                ).filter(
                     PlayerPicks.league_id == 0
                 ).filter(
                     PlayerPicks.rank == 2
@@ -1599,7 +1637,9 @@ class PlayerPicksService:
             ):
                 session.query(PlayerPicks).filter(
                     PlayerPicks.user_id == user_id
-                ).filter(PlayerPicks.pick_type == 9).filter(
+                ).filter(PlayerPicks.season == season).filter(
+                    PlayerPicks.pick_type == 9
+                ).filter(
                     PlayerPicks.league_id == 1
                 ).filter(
                     PlayerPicks.rank == 1
@@ -1624,7 +1664,9 @@ class PlayerPicksService:
             ):
                 session.query(PlayerPicks).filter(
                     PlayerPicks.user_id == user_id
-                ).filter(PlayerPicks.pick_type == 9).filter(
+                ).filter(PlayerPicks.season == season).filter(
+                    PlayerPicks.pick_type == 9
+                ).filter(
                     PlayerPicks.league_id == 1
                 ).filter(
                     PlayerPicks.rank == 2
@@ -1655,7 +1697,9 @@ class PlayerPicksService:
                 if pick != int(al_east_winner_pick):
                     session.query(PlayerPicks).filter(
                         PlayerPicks.user_id == user_id
-                    ).filter(PlayerPicks.pick_type == 1).filter(
+                    ).filter(PlayerPicks.season == season).filter(
+                        PlayerPicks.pick_type == 1
+                    ).filter(
                         PlayerPicks.rank == 1
                     ).filter(
                         PlayerPicks.league_id == 0
@@ -1687,7 +1731,9 @@ class PlayerPicksService:
                 if pick != int(al_east_second_pick):
                     session.query(PlayerPicks).filter(
                         PlayerPicks.user_id == user_id
-                    ).filter(PlayerPicks.pick_type == 1).filter(
+                    ).filter(PlayerPicks.season == season).filter(
+                        PlayerPicks.pick_type == 1
+                    ).filter(
                         PlayerPicks.rank == 2
                     ).filter(
                         PlayerPicks.league_id == 0
@@ -1725,7 +1771,9 @@ class PlayerPicksService:
                 if pick != int(al_east_last_pick):
                     session.query(PlayerPicks).filter(
                         PlayerPicks.user_id == user_id
-                    ).filter(PlayerPicks.pick_type == 1).filter(
+                    ).filter(PlayerPicks.season == season).filter(
+                        PlayerPicks.pick_type == 1
+                    ).filter(
                         PlayerPicks.rank == 5
                     ).filter(
                         PlayerPicks.league_id == 0
@@ -1757,7 +1805,9 @@ class PlayerPicksService:
                 if pick != int(al_central_winner_pick):
                     session.query(PlayerPicks).filter(
                         PlayerPicks.user_id == user_id
-                    ).filter(PlayerPicks.pick_type == 1).filter(
+                    ).filter(PlayerPicks.season == season).filter(
+                        PlayerPicks.pick_type == 1
+                    ).filter(
                         PlayerPicks.rank == 1
                     ).filter(
                         PlayerPicks.league_id == 0
@@ -1789,7 +1839,9 @@ class PlayerPicksService:
                 if pick != int(al_central_second_pick):
                     session.query(PlayerPicks).filter(
                         PlayerPicks.user_id == user_id
-                    ).filter(PlayerPicks.pick_type == 1).filter(
+                    ).filter(PlayerPicks.season == season).filter(
+                        PlayerPicks.pick_type == 1
+                    ).filter(
                         PlayerPicks.rank == 2
                     ).filter(
                         PlayerPicks.league_id == 0
@@ -1821,7 +1873,9 @@ class PlayerPicksService:
                 if pick != int(al_central_last_pick):
                     session.query(PlayerPicks).filter(
                         PlayerPicks.user_id == user_id
-                    ).filter(PlayerPicks.pick_type == 1).filter(
+                    ).filter(PlayerPicks.season == season).filter(
+                        PlayerPicks.pick_type == 1
+                    ).filter(
                         PlayerPicks.rank == 5
                     ).filter(
                         PlayerPicks.league_id == 0
@@ -1853,7 +1907,9 @@ class PlayerPicksService:
                 if pick != int(al_west_winner_pick):
                     session.query(PlayerPicks).filter(
                         PlayerPicks.user_id == user_id
-                    ).filter(PlayerPicks.pick_type == 1).filter(
+                    ).filter(PlayerPicks.season == season).filter(
+                        PlayerPicks.pick_type == 1
+                    ).filter(
                         PlayerPicks.rank == 1
                     ).filter(
                         PlayerPicks.league_id == 0
@@ -1885,7 +1941,9 @@ class PlayerPicksService:
                 if pick != int(al_west_second_pick):
                     session.query(PlayerPicks).filter(
                         PlayerPicks.user_id == user_id
-                    ).filter(PlayerPicks.pick_type == 1).filter(
+                    ).filter(PlayerPicks.season == season).filter(
+                        PlayerPicks.pick_type == 1
+                    ).filter(
                         PlayerPicks.rank == 2
                     ).filter(
                         PlayerPicks.league_id == 0
@@ -1917,7 +1975,9 @@ class PlayerPicksService:
                 if pick != int(al_west_last_pick):
                     session.query(PlayerPicks).filter(
                         PlayerPicks.user_id == user_id
-                    ).filter(PlayerPicks.pick_type == 1).filter(
+                    ).filter(PlayerPicks.season == season).filter(
+                        PlayerPicks.pick_type == 1
+                    ).filter(
                         PlayerPicks.rank == 5
                     ).filter(
                         PlayerPicks.league_id == 0
@@ -1949,7 +2009,9 @@ class PlayerPicksService:
                 if pick != int(nl_east_winner_pick):
                     session.query(PlayerPicks).filter(
                         PlayerPicks.user_id == user_id
-                    ).filter(PlayerPicks.pick_type == 1).filter(
+                    ).filter(PlayerPicks.season == season).filter(
+                        PlayerPicks.pick_type == 1
+                    ).filter(
                         PlayerPicks.rank == 1
                     ).filter(
                         PlayerPicks.league_id == 1
@@ -1981,7 +2043,9 @@ class PlayerPicksService:
                 if pick != int(nl_east_second_pick):
                     session.query(PlayerPicks).filter(
                         PlayerPicks.user_id == user_id
-                    ).filter(PlayerPicks.pick_type == 1).filter(
+                    ).filter(PlayerPicks.season == season).filter(
+                        PlayerPicks.pick_type == 1
+                    ).filter(
                         PlayerPicks.rank == 2
                     ).filter(
                         PlayerPicks.league_id == 1
@@ -2013,7 +2077,9 @@ class PlayerPicksService:
                 if pick != int(nl_east_last_pick):
                     session.query(PlayerPicks).filter(
                         PlayerPicks.user_id == user_id
-                    ).filter(PlayerPicks.pick_type == 1).filter(
+                    ).filter(PlayerPicks.season == season).filter(
+                        PlayerPicks.pick_type == 1
+                    ).filter(
                         PlayerPicks.rank == 5
                     ).filter(
                         PlayerPicks.league_id == 1
@@ -2045,7 +2111,9 @@ class PlayerPicksService:
                 if pick != int(nl_central_winner_pick):
                     session.query(PlayerPicks).filter(
                         PlayerPicks.user_id == user_id
-                    ).filter(PlayerPicks.pick_type == 1).filter(
+                    ).filter(PlayerPicks.season == season).filter(
+                        PlayerPicks.pick_type == 1
+                    ).filter(
                         PlayerPicks.rank == 1
                     ).filter(
                         PlayerPicks.league_id == 1
@@ -2077,7 +2145,9 @@ class PlayerPicksService:
                 if pick != int(nl_central_second_pick):
                     session.query(PlayerPicks).filter(
                         PlayerPicks.user_id == user_id
-                    ).filter(PlayerPicks.pick_type == 1).filter(
+                    ).filter(PlayerPicks.season == season).filter(
+                        PlayerPicks.pick_type == 1
+                    ).filter(
                         PlayerPicks.rank == 2
                     ).filter(
                         PlayerPicks.league_id == 1
@@ -2115,7 +2185,9 @@ class PlayerPicksService:
                 if pick != int(nl_central_last_pick):
                     session.query(PlayerPicks).filter(
                         PlayerPicks.user_id == user_id
-                    ).filter(PlayerPicks.pick_type == 1).filter(
+                    ).filter(PlayerPicks.season == season).filter(
+                        PlayerPicks.pick_type == 1
+                    ).filter(
                         PlayerPicks.rank == 5
                     ).filter(
                         PlayerPicks.league_id == 1
@@ -2147,7 +2219,9 @@ class PlayerPicksService:
                 if pick != int(nl_west_winner_pick):
                     session.query(PlayerPicks).filter(
                         PlayerPicks.user_id == user_id
-                    ).filter(PlayerPicks.pick_type == 1).filter(
+                    ).filter(PlayerPicks.season == season).filter(
+                        PlayerPicks.pick_type == 1
+                    ).filter(
                         PlayerPicks.rank == 1
                     ).filter(
                         PlayerPicks.league_id == 1
@@ -2179,7 +2253,9 @@ class PlayerPicksService:
                 if pick != int(nl_west_second_pick):
                     session.query(PlayerPicks).filter(
                         PlayerPicks.user_id == user_id
-                    ).filter(PlayerPicks.pick_type == 1).filter(
+                    ).filter(PlayerPicks.season == season).filter(
+                        PlayerPicks.pick_type == 1
+                    ).filter(
                         PlayerPicks.rank == 2
                     ).filter(
                         PlayerPicks.league_id == 1
@@ -2211,7 +2287,9 @@ class PlayerPicksService:
                 if pick != int(nl_west_last_pick):
                     session.query(PlayerPicks).filter(
                         PlayerPicks.user_id == user_id
-                    ).filter(PlayerPicks.pick_type == 1).filter(
+                    ).filter(PlayerPicks.season == season).filter(
+                        PlayerPicks.pick_type == 1
+                    ).filter(
                         PlayerPicks.rank == 5
                     ).filter(
                         PlayerPicks.league_id == 1
@@ -2242,7 +2320,9 @@ class PlayerPicksService:
                 if pick != int(al_losses_pick):
                     session.query(PlayerPicks).filter(
                         PlayerPicks.user_id == user_id
-                    ).filter(PlayerPicks.pick_type == 2).filter(
+                    ).filter(PlayerPicks.season == season).filter(
+                        PlayerPicks.pick_type == 2
+                    ).filter(
                         PlayerPicks.league_id == 0
                     ).update(
                         {
@@ -2266,7 +2346,9 @@ class PlayerPicksService:
                 if pick != int(nl_losses_pick):
                     session.query(PlayerPicks).filter(
                         PlayerPicks.user_id == user_id
-                    ).filter(PlayerPicks.pick_type == 2).filter(
+                    ).filter(PlayerPicks.season == season).filter(
+                        PlayerPicks.pick_type == 2
+                    ).filter(
                         PlayerPicks.league_id == 1
                     ).update(
                         {
@@ -2291,7 +2373,9 @@ class PlayerPicksService:
                 if pick != int(al_wins_pick):
                     session.query(PlayerPicks).filter(
                         PlayerPicks.user_id == user_id
-                    ).filter(PlayerPicks.pick_type == 3).filter(
+                    ).filter(PlayerPicks.season == season).filter(
+                        PlayerPicks.pick_type == 3
+                    ).filter(
                         PlayerPicks.league_id == 0
                     ).update(
                         {
@@ -2315,7 +2399,9 @@ class PlayerPicksService:
                 if pick != int(nl_wins_pick):
                     session.query(PlayerPicks).filter(
                         PlayerPicks.user_id == user_id
-                    ).filter(PlayerPicks.pick_type == 3).filter(
+                    ).filter(PlayerPicks.season == season).filter(
+                        PlayerPicks.pick_type == 3
+                    ).filter(
                         PlayerPicks.league_id == 1
                     ).update(
                         {
@@ -2339,7 +2425,9 @@ class PlayerPicksService:
                 if pick != int(al_hr_pick):
                     session.query(PlayerPicks).filter(
                         PlayerPicks.user_id == user_id
-                    ).filter(PlayerPicks.player_id).filter(
+                    ).filter(PlayerPicks.season == season).filter(
+                        PlayerPicks.player_id
+                    ).filter(
                         PlayerPicks.pick_type == 4
                     ).filter(
                         PlayerPicks.league_id == 0
@@ -2365,7 +2453,9 @@ class PlayerPicksService:
                 if pick != int(nl_hr_pick):
                     session.query(PlayerPicks).filter(
                         PlayerPicks.user_id == user_id
-                    ).filter(PlayerPicks.player_id).filter(
+                    ).filter(PlayerPicks.season == season).filter(
+                        PlayerPicks.player_id
+                    ).filter(
                         PlayerPicks.pick_type == 4
                     ).filter(
                         PlayerPicks.league_id == 1
@@ -2391,7 +2481,9 @@ class PlayerPicksService:
                 if pick != int(al_ba_pick):
                     session.query(PlayerPicks).filter(
                         PlayerPicks.user_id == user_id
-                    ).filter(PlayerPicks.player_id).filter(
+                    ).filter(PlayerPicks.season == season).filter(
+                        PlayerPicks.player_id
+                    ).filter(
                         PlayerPicks.pick_type == 5
                     ).filter(
                         PlayerPicks.league_id == 0
@@ -2417,7 +2509,9 @@ class PlayerPicksService:
                 if pick != int(nl_ba_pick):
                     session.query(PlayerPicks).filter(
                         PlayerPicks.user_id == user_id
-                    ).filter(PlayerPicks.player_id).filter(
+                    ).filter(PlayerPicks.season == season).filter(
+                        PlayerPicks.player_id
+                    ).filter(
                         PlayerPicks.pick_type == 5
                     ).filter(
                         PlayerPicks.league_id == 1
@@ -2443,7 +2537,9 @@ class PlayerPicksService:
                 if pick != int(al_rbi_pick):
                     session.query(PlayerPicks).filter(
                         PlayerPicks.user_id == user_id
-                    ).filter(PlayerPicks.player_id).filter(
+                    ).filter(PlayerPicks.season == season).filter(
+                        PlayerPicks.player_id
+                    ).filter(
                         PlayerPicks.pick_type == 6
                     ).filter(
                         PlayerPicks.league_id == 0
@@ -2469,7 +2565,9 @@ class PlayerPicksService:
                 if pick != int(nl_rbi_pick):
                     session.query(PlayerPicks).filter(
                         PlayerPicks.user_id == user_id
-                    ).filter(PlayerPicks.player_id).filter(
+                    ).filter(PlayerPicks.season == season).filter(
+                        PlayerPicks.player_id
+                    ).filter(
                         PlayerPicks.pick_type == 6
                     ).filter(
                         PlayerPicks.league_id == 1
@@ -2495,7 +2593,9 @@ class PlayerPicksService:
                 if pick != int(al_p_wins_pick):
                     session.query(PlayerPicks).filter(
                         PlayerPicks.user_id == user_id
-                    ).filter(PlayerPicks.player_id).filter(
+                    ).filter(PlayerPicks.season == season).filter(
+                        PlayerPicks.player_id
+                    ).filter(
                         PlayerPicks.pick_type == 7
                     ).filter(
                         PlayerPicks.league_id == 0
@@ -2521,7 +2621,9 @@ class PlayerPicksService:
                 if pick != int(nl_p_wins_pick):
                     session.query(PlayerPicks).filter(
                         PlayerPicks.user_id == user_id
-                    ).filter(PlayerPicks.player_id).filter(
+                    ).filter(PlayerPicks.season == season).filter(
+                        PlayerPicks.player_id
+                    ).filter(
                         PlayerPicks.pick_type == 7
                     ).filter(
                         PlayerPicks.league_id == 1
@@ -2547,7 +2649,9 @@ class PlayerPicksService:
                 if pick != int(al_era_pick):
                     session.query(PlayerPicks).filter(
                         PlayerPicks.user_id == user_id
-                    ).filter(PlayerPicks.player_id).filter(
+                    ).filter(PlayerPicks.season == season).filter(
+                        PlayerPicks.player_id
+                    ).filter(
                         PlayerPicks.pick_type == 8
                     ).filter(
                         PlayerPicks.league_id == 0
@@ -2573,7 +2677,9 @@ class PlayerPicksService:
                 if pick != int(nl_era_pick):
                     session.query(PlayerPicks).filter(
                         PlayerPicks.user_id == user_id
-                    ).filter(PlayerPicks.player_id).filter(
+                    ).filter(PlayerPicks.season == season).filter(
+                        PlayerPicks.player_id
+                    ).filter(
                         PlayerPicks.pick_type == 8
                     ).filter(
                         PlayerPicks.league_id == 1
@@ -2600,7 +2706,9 @@ class PlayerPicksService:
                 if pick != int(al_wildcard1_pick):
                     session.query(PlayerPicks).filter(
                         PlayerPicks.user_id == user_id
-                    ).filter(PlayerPicks.pick_type == 9).filter(
+                    ).filter(PlayerPicks.season == season).filter(
+                        PlayerPicks.pick_type == 9
+                    ).filter(
                         PlayerPicks.rank == 1
                     ).filter(
                         PlayerPicks.league_id == 0
@@ -2626,7 +2734,9 @@ class PlayerPicksService:
                 if pick != int(al_wildcard2_pick):
                     session.query(PlayerPicks).filter(
                         PlayerPicks.user_id == user_id
-                    ).filter(PlayerPicks.pick_type == 9).filter(
+                    ).filter(PlayerPicks.season == season).filter(
+                        PlayerPicks.pick_type == 9
+                    ).filter(
                         PlayerPicks.rank == 2
                     ).filter(
                         PlayerPicks.league_id == 0
@@ -2652,7 +2762,9 @@ class PlayerPicksService:
                 if pick != int(nl_wildcard1_pick):
                     session.query(PlayerPicks).filter(
                         PlayerPicks.user_id == user_id
-                    ).filter(PlayerPicks.pick_type == 9).filter(
+                    ).filter(PlayerPicks.season == season).filter(
+                        PlayerPicks.pick_type == 9
+                    ).filter(
                         PlayerPicks.rank == 1
                     ).filter(
                         PlayerPicks.league_id == 1
@@ -2678,7 +2790,9 @@ class PlayerPicksService:
                 if pick != int(nl_wildcard2_pick):
                     session.query(PlayerPicks).filter(
                         PlayerPicks.user_id == user_id
-                    ).filter(PlayerPicks.pick_type == 9).filter(
+                    ).filter(PlayerPicks.season == season).filter(
+                        PlayerPicks.pick_type == 9
+                    ).filter(
                         PlayerPicks.rank == 2
                     ).filter(
                         PlayerPicks.league_id == 1
