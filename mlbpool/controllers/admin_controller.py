@@ -611,3 +611,23 @@ class AdminController(BaseController):
 
         # redirect
         self.redirect("/admin/")
+
+    @pyramid_handlers.action(
+        renderer="templates/admin/stats_already_ran.pt",
+        request_method="GET",
+        name="stats_already_ran",
+    )
+    def stats_already_ran(self):
+        session = DbSessionFactory.create_session()
+        su__query = (
+            session.query(Account.id)
+            .filter(Account.is_super_user == 1)
+            .filter(Account.id == self.logged_in_user_id)
+            .first()
+        )
+
+        if su__query is None:
+            print("You must be an administrator to view this page")
+            self.redirect("/home")
+
+        return {}
