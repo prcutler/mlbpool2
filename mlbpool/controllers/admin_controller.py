@@ -278,23 +278,18 @@ class AdminController(BaseController):
         vm = UpdateWeeklyStats()
         vm.from_dict(self.request.POST)
 
-        if GameDayService.last_game_date() > TimeService.get_time():
-            self.redirect("/admin/stats_already_ran/")
+        # Insert weekly team and player stats
+        WeeklyStatsService.get_hitter_stats()
+        WeeklyStatsService.get_pitcher_stats()
+        WeeklyStatsService.get_team_rankings()
+        WeeklyStatsService.get_tiebreaker()
 
-        else:
+        # WeeklyStatsService.trade_adjustments()
+        StandingsService.update_player_pick_points()
+        StandingsService.update_team_pick_points()
 
-            # Insert weekly team and player stats
-            WeeklyStatsService.get_hitter_stats()
-            WeeklyStatsService.get_pitcher_stats()
-            WeeklyStatsService.get_team_rankings()
-            WeeklyStatsService.get_tiebreaker()
-
-            # WeeklyStatsService.trade_adjustments()
-            StandingsService.update_player_pick_points()
-            StandingsService.update_team_pick_points()
-
-            # redirect
-            self.redirect("/admin")
+        # redirect
+        self.redirect("/admin")
 
     @pyramid_handlers.action(
         renderer="templates/admin/update-unique-picks.pt",
