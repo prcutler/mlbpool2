@@ -73,7 +73,7 @@ class GameDayService:
         last_game_date = session.query(SeasonInfo.season_end_date).first()
         last_game_info = str(last_game_date[0])
         last_game = pendulum.parse(last_game_info, tz=timezone)
-        final_date = last_game.add(days=3)
+        final_date = last_game.add(days=7)
 
         session.close()
 
