@@ -74,9 +74,10 @@ class StandingsController(BaseController):
         vm = StandingsViewModel()
         vm.from_dict(self.data_dict)
 
-        player = self.request.matchdict["id"]
+        season = self.request.matchdict["id"]
+        player = self.request.matchdict["element"]
 
-        player_standings = StandingsService.display_player_standings(player)
+        player_standings = StandingsService.display_player_standings(player, season)
 
         first_name = player_standings[0]["first_name"]
         last_name = player_standings[0]["last_name"]
