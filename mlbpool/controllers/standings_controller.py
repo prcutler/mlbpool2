@@ -74,16 +74,21 @@ class StandingsController(BaseController):
         vm = StandingsViewModel()
         vm.from_dict(self.data_dict)
 
-        season = self.request.matchdict["id"]
-        player = self.request.matchdict["element"]
+        try:
 
-        player_standings = StandingsService.display_player_standings(player, season)
+            season = self.request.matchdict["id"]
+            player = self.request.matchdict["element"]
 
-        first_name = player_standings[0]["first_name"]
-        last_name = player_standings[0]["last_name"]
+            player_standings = StandingsService.display_player_standings(player, season)
 
-        return {
-            "first_name": first_name,
-            "last_name": last_name,
-            "player_standings": player_standings,
-        }
+            first_name = player_standings[0]["first_name"]
+            last_name = player_standings[0]["last_name"]
+
+            return {
+                "first_name": first_name,
+                "last_name": last_name,
+                "player_standings": player_standings,
+            }
+
+        except KeyError:
+            self.redirect("/standings")
