@@ -29,7 +29,7 @@ class StandingsService:
         if season is None:
             season = get_seasons()
 
-        sqlstr = "SELECT DISTINCT(w.pick_id), coalesce(w.points_earned,0) as points, a.first_name, a.last_name, p.pick_type, p.rank, p.multiplier, t.name, "
+        sqlstr = "SELECT DISTINCT(w.pick_id), coalesce(w.points_earned,0) as points, a.first_name, a.last_name, p.pick_type, p.rank, p.multiplier, t.name, p.changed, "
         sqlstr += "c.league, d.division, ap.firstname, ap.lastname "
         sqlstr += "FROM (PlayerPicks p, Account a) "
         sqlstr += "LEFT JOIN WeeklyPlayerResults w on p.pick_id = w.pick_id "
