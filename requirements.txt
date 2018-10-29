@@ -32,7 +32,7 @@ pyramid-debugtoolbar==4.5
 pyramid-handlers==0.5
 pyramid-mako==1.0.2
 python-dateutil==2.7.5
-pytz==2018.6
+pytz==2018.7
 pytzdata==2018.7
 PyYAML==3.13
 repoze.lru==0.7
