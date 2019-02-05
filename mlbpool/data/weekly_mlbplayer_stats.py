@@ -22,3 +22,4 @@ class WeeklyMLBPlayerStats(SqlAlchemyBase):
     ERA = sqlalchemy.Column(sqlalchemy.Float)
     earned_runs = sqlalchemy.Column(sqlalchemy.Integer)
     innings_pitched = sqlalchemy.Column(sqlalchemy.Float)
+    saves = sqlalchemy.Column(sqlalchemy.Integer)
