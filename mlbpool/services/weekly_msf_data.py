@@ -113,6 +113,7 @@ class WeeklyStatsService:
                 pitcher_wins = players["stats"]["pitching"]["wins"]
                 earned_runs = players["stats"]["pitching"]["earnedRunsAllowed"]
                 innings_pitched = players["stats"]["pitching"]["inningsPitched"]
+                saves = players["stats"]["pitching"]["saves"]
 
             except KeyError:
                 continue
@@ -126,6 +127,7 @@ class WeeklyStatsService:
                 pitcher_wins=pitcher_wins,
                 earned_runs=earned_runs,
                 innings_pitched=innings_pitched,
+                saves=saves,
                 update_date=update_date,
             )
 
