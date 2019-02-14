@@ -45,7 +45,7 @@ slacker==0.12.0
 snowballstemmer==1.2.1
 Sphinx==1.8.4
 sphinx-autobuild==0.7.1
-sphinx-rtd-theme==0.4.2
+sphinx-rtd-theme==0.4.3
 sphinxcontrib-websupport==1.1.0
 SQLAlchemy==1.2.17
 tornado==5.1.1
