@@ -3,7 +3,7 @@ alembic==1.0.7
 argh==0.26.2
 Babel==2.6.0
 certifi==2018.11.29
-Chameleon==3.5
+Chameleon==3.6
 chardet==3.0.4
 docutils==0.14
 html2text==2018.1.9
