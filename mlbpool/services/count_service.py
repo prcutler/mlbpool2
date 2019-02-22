@@ -70,8 +70,8 @@ class CountService:
         nl_ba_pick,
         al_rbi_pick,
         nl_rbi_pick,
-        al_p_wins_pick,
-        nl_p_wins_pick,
+        al_saves_pick,
+        nl_saves_pick,
         al_era_pick,
         nl_era_pick,
         al_wildcard1_pick,
@@ -597,18 +597,18 @@ class CountService:
                 picks_changed += 1
                 print(picks_changed)
 
-        # Update Pick Type 7 - Pitcher Wins
+        # Update Pick Type 11 - Pitcher Saves (Was Pitcher Wins - type 7)
         for pick in (
             session.query(PlayerPicks.player_id)
             .filter(PlayerPicks.user_id == user_id)
             .filter(PlayerPicks.season == season)
-            .filter(PlayerPicks.pick_type == 7)
+            .filter(PlayerPicks.pick_type == 11)
             .filter(PlayerPicks.league_id == 0)
             .filter(PlayerPicks.player_id)
             .first()
         ):
 
-            if int(al_p_wins_pick) == pick:
+            if int(al_saves_pick) == pick:
                 picks_changed += 0
             else:
                 picks_changed += 1
@@ -618,13 +618,13 @@ class CountService:
             session.query(PlayerPicks.player_id)
             .filter(PlayerPicks.user_id == user_id)
             .filter(PlayerPicks.season == season)
-            .filter(PlayerPicks.pick_type == 7)
+            .filter(PlayerPicks.pick_type == 11)
             .filter(PlayerPicks.league_id == 1)
             .filter(PlayerPicks.player_id)
             .first()
         ):
 
-            if int(nl_p_wins_pick) == pick:
+            if int(nl_saves_pick) == pick:
                 picks_changed += 0
             else:
                 picks_changed += 1
