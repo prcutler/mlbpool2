@@ -494,7 +494,7 @@ class PicksController(BaseController):
                     vm.nl_rbi_pick,
                     vm.al_ba_pick,
                     vm.nl_ba_pick,
-                    vm.al_savess_pick,
+                    vm.al_saves_pick,
                     vm.nl_saves_pick,
                     vm.al_era_pick,
                     vm.nl_era_pick,
