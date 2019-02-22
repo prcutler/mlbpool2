@@ -150,8 +150,8 @@ class PlayerPicksService:
         nl_rbi_pick: int,
         al_ba_pick: int,
         nl_ba_pick: int,
-        al_p_wins_pick: int,
-        nl_p_wins_pick: int,
+        al_saves_pick: int,
+        nl_saves_pick: int,
         al_era_pick: int,
         nl_era_pick: int,
         al_wildcard1_pick: int,
@@ -450,16 +450,16 @@ class PlayerPicksService:
         )
         session.add(al_rbi_db)
 
-        al_p_wins_db = PlayerPicks(
+        al_saves_db = PlayerPicks(
             user_id=user_id,
             season=season,
             date_submitted=now_time,
-            player_id=al_p_wins_pick,
-            pick_type=7,
+            player_id=al_saves_pick,
+            pick_type=11,
             league_id=0,
-            original_pick=al_p_wins_pick,
+            original_pick=al_saves_pick,
         )
-        session.add(al_p_wins_db)
+        session.add(al_saves_db)
 
         al_era_db = PlayerPicks(
             user_id=user_id,
@@ -507,16 +507,16 @@ class PlayerPicksService:
         )
         session.add(nl_rbi_db)
 
-        nl_p_wins_db = PlayerPicks(
+        nl_saves_db = PlayerPicks(
             user_id=user_id,
             season=season,
             date_submitted=now_time,
-            player_id=nl_p_wins_pick,
-            pick_type=7,
+            player_id=nl_saves_pick,
+            pick_type=11,
             league_id=1,
-            original_pick=nl_p_wins_pick,
+            original_pick=nl_saves_pick,
         )
-        session.add(nl_p_wins_db)
+        session.add(nl_saves_db)
 
         nl_era_db = PlayerPicks(
             user_id=user_id,
@@ -664,8 +664,8 @@ class PlayerPicksService:
         nl_rbi_pick: int,
         al_ba_pick: int,
         nl_ba_pick: int,
-        al_p_wins_pick: int,
-        nl_p_wins_pick: int,
+        al_saves_pick: int,
+        nl_saves_pick: int,
         al_era_pick: int,
         nl_era_pick: int,
         al_wildcard1_pick: int,
@@ -1475,13 +1475,13 @@ class PlayerPicksService:
                     }
                 )
 
-            # Update Pick Type 7 - Pitcher Wins
-            if al_p_wins_pick != session.query(PlayerPicks).filter(
+            # Update Pick Type 11 - Pitcher Saves (Was Pitcher wins - type 7)
+            if al_saves_pick != session.query(PlayerPicks).filter(
                 PlayerPicks.user_id == user_id
             ).filter(PlayerPicks.season == season).filter(
                 PlayerPicks.season == season
             ).filter(
-                PlayerPicks.pick_type == 7
+                PlayerPicks.pick_type == 11
             ).filter(
                 PlayerPicks.league_id == 0
             ).filter(
@@ -1489,20 +1489,20 @@ class PlayerPicksService:
             ):
                 session.query(PlayerPicks).filter(
                     PlayerPicks.user_id == user_id
-                ).filter(PlayerPicks.pick_type == 7).filter(
+                ).filter(PlayerPicks.pick_type == 11).filter(
                     PlayerPicks.league_id == 0
                 ).update(
                     {
-                        "player_id": al_p_wins_pick,
+                        "player_id": al_saves_pick,
                         "date_submitted": now_time,
-                        "original_pick": al_p_wins_pick,
+                        "original_pick": al_saves_pick,
                     }
                 )
 
-            if nl_p_wins_pick != session.query(PlayerPicks).filter(
+            if nl_saves_pick != session.query(PlayerPicks).filter(
                 PlayerPicks.user_id == user_id
             ).filter(PlayerPicks.season == season).filter(
-                PlayerPicks.pick_type == 7
+                PlayerPicks.pick_type == 11
             ).filter(
                 PlayerPicks.league_id == 1
             ).filter(
@@ -1511,14 +1511,14 @@ class PlayerPicksService:
                 session.query(PlayerPicks).filter(
                     PlayerPicks.user_id == user_id
                 ).filter(PlayerPicks.season == season).filter(
-                    PlayerPicks.pick_type == 7
+                    PlayerPicks.pick_type == 11
                 ).filter(
                     PlayerPicks.league_id == 1
                 ).update(
                     {
-                        "player_id": nl_p_wins_pick,
+                        "player_id": nl_saves_pick,
                         "date_submitted": now_time,
-                        "original_pick": nl_p_wins_pick,
+                        "original_pick": nl_saves_pick,
                     }
                 )
 
@@ -2580,56 +2580,56 @@ class PlayerPicksService:
                         }
                     )
 
-            # Update Pick Type 7 - Pitcher Wins - AL
+            # Update Pick Type 11 - Pitcher Saves - AL (was Pitcher Wins - type 7)
             for pick in (
                 session.query(PlayerPicks.player_id)
                 .filter(PlayerPicks.user_id == user_id)
                 .filter(PlayerPicks.season == season)
-                .filter(PlayerPicks.pick_type == 7)
+                .filter(PlayerPicks.pick_type == 11)
                 .filter(PlayerPicks.league_id == 0)
                 .first()
             ):
 
-                if pick != int(al_p_wins_pick):
+                if pick != int(al_saves_pick):
                     session.query(PlayerPicks).filter(
                         PlayerPicks.user_id == user_id
                     ).filter(PlayerPicks.season == season).filter(
                         PlayerPicks.player_id
                     ).filter(
-                        PlayerPicks.pick_type == 7
+                        PlayerPicks.pick_type == 11
                     ).filter(
                         PlayerPicks.league_id == 0
                     ).update(
                         {
-                            "player_id": al_p_wins_pick,
+                            "player_id": al_saves_pick,
                             "date_submitted": now_time,
                             "changed": 1,
                             "multiplier": 1,
                         }
                     )
 
-            # Update NL Pitching Wins pick (type 7)
+            # Update NL Pitching Saves pick - type 11 (Was Pitcher Wins Type 7)
             for pick in (
                 session.query(PlayerPicks.player_id)
                 .filter(PlayerPicks.user_id == user_id)
                 .filter(PlayerPicks.season == season)
-                .filter(PlayerPicks.pick_type == 7)
+                .filter(PlayerPicks.pick_type == 11)
                 .filter(PlayerPicks.league_id == 1)
                 .first()
             ):
 
-                if pick != int(nl_p_wins_pick):
+                if pick != int(nl_saves_pick):
                     session.query(PlayerPicks).filter(
                         PlayerPicks.user_id == user_id
                     ).filter(PlayerPicks.season == season).filter(
                         PlayerPicks.player_id
                     ).filter(
-                        PlayerPicks.pick_type == 7
+                        PlayerPicks.pick_type == 11
                     ).filter(
                         PlayerPicks.league_id == 1
                     ).update(
                         {
-                            "player_id": nl_p_wins_pick,
+                            "player_id": nl_saves_pick,
                             "date_submitted": now_time,
                             "changed": 1,
                             "multiplier": 1,
