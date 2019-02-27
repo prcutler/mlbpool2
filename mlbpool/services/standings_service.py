@@ -118,7 +118,7 @@ class StandingsService:
             elif i == 8:
                 cattype = "ERA"
 
-            if i == 4 or i == 6 or i == 7:
+            if i == 4 or i == 6 or i == 11:
                 sqlstr = "INSERT INTO WeeklyPlayerResults (pick_id, season, update_date, points_earned) "
                 sqlstr += "SELECT t1.pick_id as pick_id, t1.season as season, t1.update_date as update_date, (pts.points*t1.multiplier*t1.changed) as points_earned "
                 sqlstr += "FROM "
