@@ -8,6 +8,7 @@ from sqlalchemy import pool
 from alembic import context
 
 from mlbpool.data.modelbase import SqlAlchemyBase
+# noinspection PyUnresolvedReferences
 from mlbpool.data import *
 
 # this is the Alembic Config object, which provides
