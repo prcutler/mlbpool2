@@ -306,7 +306,7 @@
                             </tr>
 
                             <tr tal:case="11">
-                               <td tal:content="string:${p.league} Pitcher Wins"></td>
+                               <td tal:content="string:${p.league} Saves"></td>
                                   <td tal:content="string:${p.firstname} ${p.lastname}"></td>
                                   <td tal:condition="(p.multiplier==1)" tal:content="string:No"></td>
                                   <td tal:condition="(p.multiplier==2)" tal:content="string:Yes"></td>
