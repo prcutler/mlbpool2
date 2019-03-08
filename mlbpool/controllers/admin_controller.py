@@ -171,7 +171,7 @@ class AdminController(BaseController):
             self.redirect("/admin/new_install")
         else:
             session.close()
-            self.redirect("/admin/update_mlbplayers")
+            self.redirect("/admin/add_mlbplayers")
 
         session.close()
 
