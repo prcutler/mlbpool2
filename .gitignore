@@ -181,3 +181,6 @@ production.ini
 
 # Pytest
 .pytest_cache/*
+
+#Alembic - Do not add alembic.ini as database settings are stored
+alembic.ini
