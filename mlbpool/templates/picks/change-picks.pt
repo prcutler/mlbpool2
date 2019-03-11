@@ -305,13 +305,13 @@
                                     </select><br> </td>
                             </tr>
 
-                            <tr tal:case="7">
-                               <td tal:content="string:${p.league} Pitcher Wins"></td>
+                            <tr tal:case="11">
+                               <td tal:content="string:${p.league} Saves"></td>
                                   <td tal:content="string:${p.firstname} ${p.lastname}"></td>
                                   <td tal:condition="(p.multiplier==1)" tal:content="string:No"></td>
                                   <td tal:condition="(p.multiplier==2)" tal:content="string:Yes"></td>
                                   <td tal:condition="(p.league_id == 0)">
-                                      <select class="form-control" name="al_p_wins_pick">
+                                      <select class="form-control" name="al_saves_pick">
                                         <tal:block tal:repeat="a al_pitcher_list">
                                             <option tal:condition="(a.player_id==p.player_id)" value="${a.player_id}" selected>${a.firstname}
                                         ${a.lastname} ${a.position} ${a.team_abbr} </option>
@@ -320,7 +320,7 @@
                                         </tal:block>
                                       </select><br></td>
                                   <td tal:condition="(p.league_id == 1)">
-                                      <select class="form-control" name="nl_p_wins_pick">
+                                      <select class="form-control" name="nl_saves_pick">
                                       <tal:block tal:repeat="a nl_pitcher_list">
                                             <option tal:condition="(a.player_id==p.player_id)" value="${a.player_id}" selected>${a.firstname}
                                         ${a.lastname} ${a.position} ${a.team_abbr} </option>

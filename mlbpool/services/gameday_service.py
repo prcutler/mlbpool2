@@ -141,9 +141,12 @@ class GameDayService:
         # Get the All-Star break info from the database
         session = DbSessionFactory.create_session()
         all_star_game_query = session.query(SeasonInfo.all_star_game_date).first()
-        all_star_game_date = str(all_star_game_query[0])
-        start_time = all_star_game_date + " 19:00"
-        all_star_game = pendulum.from_format(start_time, "%Y-%m-%d %H:%M", tz=timezone)
+        all_star_game_date_string = str(all_star_game_query[0])
+        all_star_game_datetime = pendulum.parse(all_star_game_date_string, tz=timezone)
+
+        converted_date = pendulum.instance(all_star_game_datetime)
+        all_star_game = converted_date.at(19)
+        # print(all_star_game)
 
         season_start_date = season_opener()
 

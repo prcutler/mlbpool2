@@ -134,8 +134,8 @@
                         <option tal:repeat="a al_hitter_list" value="${a.player_id}">${a.firstname} ${a.lastname}
                             ${a.position} ${a.team_abbr}</option>
                         </select><br>
-                        <p>Wins (pitcher)</p>
-                        <select class="form-control" name="al_p_wins_pick">
+                        <p>Saves (pitcher)</p>
+                        <select class="form-control" name="al_saves_pick">
                         <option tal:repeat="a al_pitcher_list" value="${a.player_id}">${a.firstname} ${a.lastname}
                             ${a.position} ${a.team_abbr}</option>
                         </select><br>
@@ -163,8 +163,8 @@
                         <option tal:repeat="a nl_hitter_list" value="${a.player_id}">${a.firstname} ${a.lastname}
                             ${a.position} ${a.team_abbr}</option>
                         </select><br>
-                        <p>Wins (pitcher)</p>
-                        <select class="form-control" name="nl_p_wins_pick">
+                        <p>Saves (pitcher)</p>
+                        <select class="form-control" name="nl_saves_pick">
                         <option tal:repeat="a nl_pitcher_list" value="${a.player_id}">${a.firstname} ${a.lastname}
                             ${a.position} ${a.team_abbr}</option>
                         </select><br>

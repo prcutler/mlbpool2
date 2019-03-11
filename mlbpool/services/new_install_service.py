@@ -123,7 +123,7 @@ class NewInstallService:
         """Create the pick types used for when a user submits picks, displays their picks and for calculating
             player scores.  Type 2 not used at this time, instead player stats have their own type
             (home runs, batting average, pitcher wins, etc.)"""
-        for x in range(1, 11):
+        for x in range(1, 12):
             if x == 1:
                 name = "team"
             elif x == 2:
@@ -142,8 +142,10 @@ class NewInstallService:
                 name = "ERA"
             elif x == 9:
                 name = "wildcard"
-            else:
+            elif x == 10:
                 name = "tiebreaker"
+            else:
+                name = "saves"
 
             session = DbSessionFactory.create_session()
 
@@ -156,7 +158,7 @@ class NewInstallService:
     @staticmethod
     def create_pick_type_points():
         """Assign how many points each different kind of pick is worth"""
-        for x in range(1, 11):
+        for x in range(1, 12):
             """Assign the value of team standings picks"""
             pick_type_id = x
             if x == 1:
@@ -213,7 +215,7 @@ class NewInstallService:
                 session.commit()
                 session.close()
 
-            elif 3 < x < 9:
+            elif 3 < x < 9 or x == 11:
                 """Assign the value of individual MLB player picks such as home runs or pitcher wins"""
 
                 for y in range(1, 4):

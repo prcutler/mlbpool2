@@ -27,8 +27,8 @@ class PlayerPicksViewModel(ViewModelBase):
         self.nl_rbi_pick = None
         self.al_ba_pick = None
         self.nl_ba_pick = None
-        self.al_p_wins_pick = None
-        self.nl_p_wins_pick = None
+        self.al_saves_pick = None
+        self.nl_saves_pick = None
         self.al_era_pick = None
         self.nl_era_pick = None
         self.al_wildcard1_pick = None
@@ -65,8 +65,8 @@ class PlayerPicksViewModel(ViewModelBase):
         self.change_nl_rbi_pick = None
         self.change_al_ba_pick = None
         self.change_nl_ba_pick = None
-        self.change_al_p_wins_pick = None
-        self.change_nl_p_wins_pick = None
+        self.change_al_saves_pick = None
+        self.change_nl_saves_pick = None
         self.change_al_era_pick = None
         self.change_nl_era_pick = None
         self.change_al_wildcard1_pick = None
@@ -103,8 +103,8 @@ class PlayerPicksViewModel(ViewModelBase):
         self.nl_rbi_pick = data_dict.get("nl_rbi_pick")
         self.al_ba_pick = data_dict.get("al_ba_pick")
         self.nl_ba_pick = data_dict.get("nl_ba_pick")
-        self.al_p_wins_pick = data_dict.get("al_p_wins_pick")
-        self.nl_p_wins_pick = data_dict.get("nl_p_wins_pick")
+        self.al_saves_pick = data_dict.get("al_saves_pick")
+        self.nl_saves_pick = data_dict.get("nl_saves_pick")
         self.al_era_pick = data_dict.get("al_era_pick")
         self.nl_era_pick = data_dict.get("nl_era_pick")
         self.al_wildcard1_pick = data_dict.get("al_wildcard1_pick")
@@ -149,8 +149,8 @@ class PlayerPicksViewModel(ViewModelBase):
         self.change_nl_rbi_pick = data_dict.get("change_nl_rbi_pick")
         self.change_al_ba_pick = data_dict.get("change_al_ba_pick")
         self.change_nl_ba_pick = data_dict.get("change_nl_ba_pick")
-        self.change_al_p_wins_pick = data_dict.get("change_al_p_wins_pick")
-        self.change_nl_p_wins_pick = data_dict.get("change_nl_p_wins_pick")
+        self.change_al_saves_pick = data_dict.get("change_al_saves_pick")
+        self.change_nl_saves_pick = data_dict.get("change_nl_saves_pick")
         self.change_al_era_pick = data_dict.get("change_al_era_pick")
         self.change_nl_era_pick = data_dict.get("change_nl_era_pick")
         self.change_al_wildcard1_pick = data_dict.get("change_al_wildcard1_pick")

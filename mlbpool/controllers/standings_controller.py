@@ -50,6 +50,9 @@ class StandingsController(BaseController):
             if TimeService.get_time() > GameDayService.last_game_date():
                 date_updated = "Final Standings"
 
+            elif TimeService.get_time() < GameDayService.season_opener_date():
+                date_updated = "Season Has Not Started"
+
             else:
                 date = str(date_query[0])
                 date_convert = pendulum.from_format(date, "YYYY-MM-DD")
