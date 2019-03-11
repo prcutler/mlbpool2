@@ -68,7 +68,7 @@ the footer in `/templates/shared/_layout.pt`.
 * Deploy your Pyramid app on your web server, including updating production.ini with any API keys needed and config.ini
 in the data directory with your superuser email address, database information, MySportsFeed account
 information, and Slack webhook
-* Run pip to install the dependencies:  `pip install -e setup.py` from the project's root directory
+* Run pip to install the dependencies:  `pip install -e setup.py` from the project's root directory (or pip install -e .)
 * Start the Pyramid app (I personally created a systemd service)
 * Visit the homepage of the MLBPool2 app and register your account, making sure the
 email address matches the superuser email in config.py above
