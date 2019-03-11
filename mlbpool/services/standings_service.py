@@ -113,8 +113,8 @@ class StandingsService:
                 cattype = "batting_average"
             elif i == 6:
                 cattype = "RBI"
-            elif i == 7:
-                cattype = "pitcher_wins"
+            elif i == 11:
+                cattype = "saves"
             elif i == 8:
                 cattype = "ERA"
 
