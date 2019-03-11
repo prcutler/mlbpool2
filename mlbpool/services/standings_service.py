@@ -324,8 +324,11 @@ class StandingsService:
         for players to click through to see the season standings / points scored by player"""
         session = DbSessionFactory.create_session()
 
-        seasons_played = session.query(PlayerPicks.season).distinct(PlayerPicks.season)\
+        seasons_played = (
+            session.query(PlayerPicks.season)
+            .distinct(PlayerPicks.season)
             .order_by(PlayerPicks.season.desc())
+        )
 
         session.close()
 
