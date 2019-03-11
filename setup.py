@@ -35,7 +35,7 @@ tests_require = [
     ]
 
 setup(name='mlbpool',
-      version='1.0',
+      version='1.1',
       description='mlbpool',
       long_description=README + '\n\n' + CHANGES,
       classifiers=[
@@ -46,8 +46,8 @@ setup(name='mlbpool',
       ],
       author='Paul Cutler',
       author_email='paul.r.cutler@gmail.com',
-      url='',
-      keywords='web pyramid pylons',
+      url='https://github.com/prcutler/mlbpool2',
+      keywords='web pyramid pylons baseball MLB fantasy-baseball',
       packages=find_packages(),
       include_package_data=True,
       zip_safe=False,
