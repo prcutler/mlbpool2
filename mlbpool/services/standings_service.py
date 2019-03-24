@@ -67,6 +67,7 @@ class StandingsService:
         sqlstr = "SELECT SUM(w.points_earned) as total_points, a.first_name, a.last_name, a.id from WeeklyPlayerResults w, PlayerPicks p, Account a "
         sqlstr += "WHERE w.pick_id = p.pick_id AND p.user_id = a.id "
         sqlstr += "AND w.season = " + str(season) + " "
+        sqlstr += "AND p.season=w.season "
         sqlstr += (
             "AND w.update_date = (SELECT MAX(update_date) from WeeklyPlayerResults WHERE season = "
             + str(season)
@@ -75,7 +76,7 @@ class StandingsService:
         sqlstr += "GROUP BY p.user_id "
         sqlstr += "ORDER BY total_points DESC"
 
-        # print(sqlstr)
+        #print(sqlstr)
 
         session = DbSessionFactory.create_session()
         standings = session.execute(sqlstr)
