@@ -86,10 +86,13 @@ class UniquePicksService:
 
         season_row = session.query(SeasonInfo).filter(SeasonInfo.id == "1").first()
         current_season = season_row.current_season
+
         all_star_game_query = session.query(SeasonInfo.all_star_game_date).first()
-        all_star_game_date = str(all_star_game_query[0])
-        start_time = all_star_game_date + " 19:00"
-        all_star_game = pendulum.from_format(start_time, "%Y-%m-%d %H:%M")
+        all_star_game_date_string = str(all_star_game_query[0])
+        all_star_game_datetime = pendulum.parse(all_star_game_date_string, tz="America/New_York")
+
+        converted_date = pendulum.instance(all_star_game_datetime)
+        all_star_game = converted_date.at(19)
 
         now_time = TimeService.get_time()
 
