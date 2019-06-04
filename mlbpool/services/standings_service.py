@@ -106,7 +106,7 @@ class StandingsService:
         i = 4
 
         while league < 2:
-            # start with pick type 4 and continue through 8
+            # start with pick type 4 and continue through 11
 
             if i == 4:
                 cattype = "home_runs"
@@ -228,7 +228,7 @@ class StandingsService:
                 # print(sqlstr)
 
             # increment counters
-            if i == 8:
+            if i == 11:
                 league += 1
                 i = 3
 
