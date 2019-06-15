@@ -20,7 +20,7 @@
 # -- Project information -----------------------------------------------------
 
 project = 'MLBPool2'
-copyright = '2018, Paul Cutler'
+copyright = 'CC-BY-SA 4.0'
 author = 'Paul Cutler'
 
 # The short X.Y version
