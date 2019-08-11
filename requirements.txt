@@ -6,7 +6,7 @@ certifi==2019.6.16
 Chameleon==3.6.2
 chardet==3.0.4
 docutils==0.15.2
-html2text==2018.1.9
+html2text==2019.8.11
 hupper==1.8.1
 idna==2.8
 imagesize==1.1.0
