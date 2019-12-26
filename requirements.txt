@@ -27,7 +27,7 @@ port-for==0.3.1
 Pygments==2.5.2
 PyMySQL==0.9.3
 pyramid==1.10.4
-pyparsing==2.4.5
+pyparsing==2.4.6
 pyramid-chameleon==0.3
 pyramid-debugtoolbar==4.5.1
 pyramid-handlers==0.5
