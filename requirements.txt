@@ -54,6 +54,6 @@ venusian==3.0.0
 waitress==1.4.1
 watchdog==0.9.0
 WebOb==1.8.5
-websocket-client==0.56.0
+websocket-client==0.57.0
 zope.deprecation==4.4.0
 zope.interface==4.7.1
