@@ -56,4 +56,4 @@ watchdog==0.10.2
 WebOb==1.8.6
 websocket-client==0.57.0
 zope.deprecation==4.4.0
-zope.interface==5.0.0
+zope.interface==5.0.1
