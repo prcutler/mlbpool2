@@ -5,6 +5,11 @@ http://mlbpool2.readthedocs.io/en/latest/?badge=latest)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 # MLBPool2
 
+## History
+
+MLBPool2 has been archived and is no longer active.  You can learn more about the history
+of MLBPool2 [at paulcutler.org](https://paulcutler.org/project/mlbpool2/).
+
 ## How to Play
 
 MLBPool2 is a fantasy baseball like application originally created by
