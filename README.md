@@ -24,8 +24,6 @@ players do not need to make daily lineup changes - just sit back and
 watch the season unfold!  For more information on how to play, you can read the 
 [user documentation on Read the Docs](http://mlbpool2.readthedocs.io/).
 
-Developer documentation coming soon.
-
 ## MLBPool2 Application
 
 The MLBPool2 application is based on [NFLPool](https://github.com/prcutler/nflpool),
