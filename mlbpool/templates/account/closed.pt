@@ -1,0 +1,23 @@
+<div metal:use-macro="view.layout">
+    <div metal:fill-slot="main_content">
+
+
+        <div class="container account">
+            <div class="row upcoming">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <h1>Registration Closed</h1>
+
+                    <p>Thank you for your interest in MLBPool2.  Registrations have been
+                        closed pending a relaunch of MLBPool2, though there are no plans to
+                        re-open at this time.</p>
+
+                    <br>
+                </div>
+
+
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+    </div>
+</div>

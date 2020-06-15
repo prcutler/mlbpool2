@@ -71,8 +71,18 @@ class AccountController(BaseController):
         cookie_auth.logout(self.request)
         self.redirect("/")
 
+    # Uncomment this section to turn registration back on
+
+#    @pyramid_handlers.action(
+#        renderer="templates/account/register.pt", request_method="GET", name="register"
+#    )
+#    def register_get(self):
+#        vm = RegisterViewModel()
+#        return vm.to_dict()
+
+    # Delete this function to turn registration back on
     @pyramid_handlers.action(
-        renderer="templates/account/register.pt", request_method="GET", name="register"
+        renderer="templates/account/closed.pt", request_method="GET", name="register"
     )
     def register_get(self):
         vm = RegisterViewModel()
