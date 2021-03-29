@@ -24,7 +24,7 @@ pendulum==2.1.0
 plaster==1.0
 plaster-pastedeploy==0.7
 port-for==0.3.1
-Pygments==2.6.1
+Pygments==2.7.4
 PyMySQL==0.9.3
 pyramid==1.10.4
 pyparsing==2.4.6
